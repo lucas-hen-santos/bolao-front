@@ -1,0 +1,263 @@
+<app-navbar></app-navbar>
+
+<div class="min-h-screen bg-racing-black p-4 pb-32 overflow-x-hidden">
+  <div class="max-w-4xl mx-auto">
+    
+    @if (isLoading) {
+      <div class="flex flex-col justify-center items-center h-[80vh]">
+        <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-racing-red mb-6 shadow-[0_0_15px_rgba(220,38,38,0.5)]"></div>
+        <p class="text-gray-400 animate-pulse font-bold tracking-widest uppercase text-sm">Carregando grid...</p>
+      </div>
+    } @else {
+
+      @if (raceInfo) {
+        <div class="mb-8 animate-slide-left relative group">
+          <div class="bg-gradient-to-br from-[#111] to-black border border-gray-800 rounded-2xl shadow-2xl overflow-hidden relative">
+            
+            <div class="absolute inset-0 bg-checkered-pattern z-0 opacity-20 pointer-events-none"></div>
+            <div class="absolute top-0 right-0 w-64 h-64 bg-racing-red/20 rounded-full blur-[100px] -mr-16 -mt-16 opacity-60"></div>
+            
+            <div class="p-8 relative z-10 flex flex-col md:flex-row justify-between items-center gap-6">
+              <div>
+                <span class="inline-block py-1 px-3 rounded-full bg-racing-red/20 border border-racing-red/30 text-racing-red text-[10px] font-bold uppercase tracking-widest mb-2 backdrop-blur-sm">
+                  Grid de Aposta
+                </span>
+                <h1 class="text-3xl md:text-5xl font-black text-white italic uppercase leading-none drop-shadow-lg">
+                  {{ raceInfo.name }}
+                </h1>
+                <div class="flex items-center gap-3 mt-3 text-gray-400 font-bold text-sm uppercase tracking-wide">
+                  <span class="flex items-center gap-1"><span class="text-racing-red">📍</span> {{ raceInfo.country }}</span>
+                  <span class="w-1 h-1 bg-gray-600 rounded-full"></span>
+                  <span class="flex items-center gap-1 text-white font-mono bg-gray-800 px-2 py-0.5 rounded border border-gray-700">
+                    🏁 {{ raceInfo.race_date | date:'dd/MM HH:mm' }}
+                  </span>
+                </div>
+              </div>
+
+              <div class="text-center md:text-right">
+                <p class="text-[10px] text-gray-500 font-bold uppercase tracking-widest mb-1">
+                  @if (isBettingClosed) { TEMPO ESGOTADO } @else { FECHAMENTO EM }
+                </p>
+                <div class="inline-block bg-black/60 border border-racing-red/30 backdrop-blur-md rounded-xl p-3 shadow-inner relative overflow-hidden group-hover:border-racing-red/60 transition-colors">
+                  <span class="font-mono text-3xl md:text-4xl font-black tracking-widest tabular-nums drop-shadow-[0_0_10px_rgba(255,255,255,0.2)]"
+                        [ngClass]="isBettingClosed ? 'text-red-500' : 'text-yellow-400'">
+                    {{ countdownText }}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      }
+
+      @if (isBettingClosed) {
+        <div class="mb-8 bg-red-900/20 border border-red-500 text-red-200 p-4 rounded-xl text-center font-bold animate-pulse">
+          🚫 As apostas para esta corrida foram encerradas.
+        </div>
+      }
+
+      <div class="animate-slide-right mb-8" [class.opacity-50]="isBettingClosed" [class.pointer-events-none]="isBettingClosed">
+        <div class="bg-gray-900/80 backdrop-blur-sm border border-gray-800 rounded-2xl p-6 shadow-lg relative overflow-hidden">
+          <div class="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-racing-red to-transparent"></div>
+
+          <h3 class="text-white font-bold mb-6 uppercase text-sm tracking-widest flex items-center gap-2">
+            <span class="w-2 h-2 bg-racing-red rounded-full animate-pulse"></span>
+            Pontos Extras
+          </h3>
+          
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            
+            <div class="group relative h-16">
+              <label class="block text-gray-500 text-[10px] font-bold uppercase mb-1 group-hover:text-racing-red transition-colors absolute -top-2 left-0 bg-gray-900 px-1 z-20">
+                Pole Position
+              </label>
+              
+              <div class="relative w-full h-full">
+                
+                <select [(ngModel)]="selectedPole" [disabled]="isBettingClosed"
+                        class="w-full h-full bg-black text-white pl-[4.5rem] pr-8 rounded-xl border border-gray-700 focus:border-racing-red focus:ring-1 focus:ring-racing-red outline-none appearance-none cursor-pointer transition-all font-bold hover:bg-gray-800 disabled:opacity-50 z-0">
+                  <option [ngValue]="null">Selecione...</option>
+                  @for (d of allDrivers; track d.id) { 
+                    <option [ngValue]="d.id">#{{ d.number }} - {{ d.name }}</option> 
+                  }
+                </select>
+                
+                <div class="absolute left-2 top-1/2 -translate-y-1/2 w-12 h-12 bg-gray-800 rounded border border-gray-600 flex items-center justify-center overflow-hidden z-10 pointer-events-none shadow-lg">
+                  <ng-container *ngIf="getDriverById(selectedPole) as driver; else noPole">
+                    <img *ngIf="driver.photo_url" [src]="driver.photo_url" class="w-full h-full object-cover">
+                    <span *ngIf="!driver.photo_url" class="text-xs font-mono font-bold text-racing-red">#{{ driver.number }}</span>
+                  </ng-container>
+                  <ng-template #noPole>
+                    <span class="text-2xl grayscale opacity-30">⏱️</span>
+                  </ng-template>
+                </div>
+                
+                <div class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-600 pointer-events-none">▼</div>
+              </div>
+            </div>
+
+            <div class="group relative h-16">
+              <label class="block text-gray-500 text-[10px] font-bold uppercase mb-1 group-hover:text-racing-red transition-colors absolute -top-2 left-0 bg-gray-900 px-1 z-20">
+                Piloto do Dia
+              </label>
+              
+              <div class="relative w-full h-full">
+                <select [(ngModel)]="selectedDotd" [disabled]="isBettingClosed"
+                        class="w-full h-full bg-black text-white pl-[4.5rem] pr-8 rounded-xl border border-gray-700 focus:border-racing-red focus:ring-1 focus:ring-racing-red outline-none appearance-none cursor-pointer transition-all font-bold hover:bg-gray-800 disabled:opacity-50 z-0">
+                  <option [ngValue]="null">Selecione...</option>
+                  @for (d of allDrivers; track d.id) { 
+                    <option [ngValue]="d.id">#{{ d.number }} - {{ d.name }}</option> 
+                  }
+                </select>
+                
+                <div class="absolute left-2 top-1/2 -translate-y-1/2 w-12 h-12 bg-gray-800 rounded border border-gray-600 flex items-center justify-center overflow-hidden z-10 pointer-events-none shadow-lg">
+                  <ng-container *ngIf="getDriverById(selectedDotd) as driver; else noDotd">
+                    <img *ngIf="driver.photo_url" [src]="driver.photo_url" class="w-full h-full object-cover">
+                    <span *ngIf="!driver.photo_url" class="text-xs font-mono font-bold text-racing-red">#{{ driver.number }}</span>
+                  </ng-container>
+                  <ng-template #noDotd>
+                    <span class="text-2xl grayscale opacity-30">🔥</span>
+                  </ng-template>
+                </div>
+                <div class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-600 pointer-events-none">▼</div>
+              </div>
+            </div>
+
+            <div class="group relative h-16">
+              <label class="block text-gray-500 text-[10px] font-bold uppercase mb-1 group-hover:text-racing-red transition-colors absolute -top-2 left-0 bg-gray-900 px-1 z-20">
+                Construtor Vencedor
+              </label>
+              
+              <div class="relative w-full h-full">
+                <select [(ngModel)]="selectedTeamWinner" [disabled]="isBettingClosed"
+                        class="w-full h-full bg-black text-white pl-[4.5rem] pr-8 rounded-xl border border-gray-700 focus:border-racing-red focus:ring-1 focus:ring-racing-red outline-none appearance-none cursor-pointer transition-all font-bold hover:bg-gray-800 disabled:opacity-50 z-0">
+                  <option [ngValue]="null">Selecione...</option>
+                  @for (t of allTeams; track t.id) { 
+                    <option [ngValue]="t.id">{{ t.name }}</option> 
+                  }
+                </select>
+                
+                <div class="absolute left-2 top-1/2 -translate-y-1/2 w-12 h-12 bg-white rounded border border-gray-600 flex items-center justify-center overflow-hidden z-10 pointer-events-none shadow-lg p-1">
+                  <ng-container *ngIf="getTeamById(selectedTeamWinner) as team; else noTeam">
+                    <img *ngIf="team.logo_url" [src]="team.logo_url" class="w-full h-full object-contain">
+                    <span *ngIf="!team.logo_url" class="text-xs font-bold text-black">?</span>
+                  </ng-container>
+                  <ng-template #noTeam>
+                    <span class="text-2xl grayscale opacity-30">🏆</span>
+                  </ng-template>
+                </div>
+                <div class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-600 pointer-events-none">▼</div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="animate-slide-left mb-24" style="animation-delay: 0.1s;" [class.opacity-50]="isBettingClosed" [class.pointer-events-none]="isBettingClosed">
+        <div class="bg-gray-900/80 backdrop-blur-sm rounded-2xl border border-gray-800 shadow-2xl overflow-hidden">
+          
+          <div class="bg-black/50 p-5 border-b border-gray-800 flex justify-between items-center">
+            <h3 class="text-white font-bold uppercase text-sm tracking-widest flex items-center gap-2">
+              <span class="text-xl">🏁</span> Classificação Final
+            </h3>
+            
+            @if (hasDuplicates()) {
+              <div class="animate-bounce bg-red-500/10 border border-red-500 text-red-500 px-3 py-1 rounded-full text-xs font-bold flex items-center gap-2">
+                <span>⚠️</span> Corrija os pilotos repetidos!
+              </div>
+            }
+          </div>
+
+          <div class="divide-y divide-gray-800/50">
+            @for (pos of top10Selections; track $index; let i = $index) {
+              @let duplicateIndex = getDuplicatePosition(top10Selections[i], i);
+              @let isError = duplicateIndex !== -1;
+
+              <div class="group flex flex-col sm:flex-row sm:items-center p-3 transition-all duration-200 relative"
+                   [ngClass]="{'bg-red-900/10 hover:bg-red-900/20': isError, 'hover:bg-white/5': !isError}">
+                
+                <div class="w-16 flex-shrink-0 flex items-center mb-2 sm:mb-0">
+                  <span class="font-black italic text-xl w-10 h-10 flex items-center justify-center rounded-lg border border-white/5 shadow-inner" 
+                    [ngClass]="{
+                      'bg-yellow-500/20 text-yellow-500 border-yellow-500/30': i === 0,
+                      'bg-gray-400/20 text-gray-300 border-gray-400/30': i === 1,
+                      'bg-orange-600/20 text-orange-500 border-orange-600/30': i === 2,
+                      'bg-gray-800 text-gray-600 border-gray-700': i > 2
+                    }">
+                    {{ i + 1 }}
+                  </span>
+                </div>
+
+                <div class="flex-grow w-full relative">
+                  <div class="relative w-full h-14">
+                    
+                    <select [(ngModel)]="top10Selections[i]" [disabled]="isBettingClosed"
+                            class="w-full h-full bg-black text-white pl-[4.5rem] pr-8 rounded-lg border outline-none appearance-none cursor-pointer transition-all font-bold text-sm tracking-wide disabled:opacity-50 z-0"
+                            [ngClass]="{
+                              'border-red-500 ring-1 ring-red-500 bg-red-950/30 text-red-100': isError, 
+                              'border-gray-700 focus:border-racing-red hover:border-gray-500': !isError
+                            }">
+                      <option [ngValue]="null" class="text-gray-500">Escolha o P{{ i + 1 }}...</option>
+                      @for (driver of allDrivers; track driver.id) {
+                        <option [ngValue]="driver.id">{{ driver.name }}</option>
+                      }
+                    </select>
+                    
+                    <div class="absolute left-2 top-1/2 -translate-y-1/2 w-10 h-10 bg-gray-800 rounded border border-gray-600 flex items-center justify-center overflow-hidden z-10 pointer-events-none shadow-lg">
+                      <ng-container *ngIf="getDriverById(top10Selections[i]) as driver; else emptySlot">
+                        <img *ngIf="driver.photo_url" [src]="driver.photo_url" class="w-full h-full object-cover">
+                        <span *ngIf="!driver.photo_url" class="text-racing-red font-black font-mono text-lg italic">#{{ driver.number }}</span>
+                      </ng-container>
+                      <ng-template #emptySlot>
+                        <span class="text-gray-600 font-bold opacity-30 text-lg">#</span>
+                      </ng-template>
+                    </div>
+
+                    <div class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-600 pointer-events-none group-hover:text-white transition-colors">▼</div>
+                  </div>
+
+                  @if (isError) {
+                    <div class="absolute right-10 top-0 h-full flex items-center pointer-events-none animate-pulse">
+                      <span class="text-red-200 text-[10px] font-bold bg-red-600/80 px-2 py-1 rounded shadow-lg border border-red-400 flex items-center gap-1 backdrop-blur-sm">
+                        ⚠️ Duplicado na P{{ duplicateIndex + 1 }}
+                      </span>
+                    </div>
+                  }
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+
+      <div class="fixed bottom-6 left-0 right-0 flex justify-center z-40 px-4 animate-slide-up" style="animation-delay: 0.5s;">
+        <div class="max-w-3xl w-full flex justify-end gap-4">
+          
+          @if (!isBettingClosed) {
+            <button (click)="randomizeBet()" 
+                    class="bg-purple-600/80 hover:bg-purple-600 text-white font-bold py-4 px-6 rounded-full shadow-lg transition-all flex items-center gap-2 border border-purple-400/30 backdrop-blur-md hover:scale-105"
+                    title="Sortear Palpite">
+              <span class="text-2xl">🎲</span>
+              <span class="hidden sm:inline text-sm uppercase tracking-wider">Aleatório</span>
+            </button>
+          }
+
+          <button (click)="submitBet()" [disabled]="!isValid() || isSubmitting"
+                  class="flex-1 group relative overflow-hidden bg-racing-red text-white font-black py-4 px-12 rounded-full shadow-[0_0_20px_rgba(220,38,38,0.4)] transition-all transform hover:scale-105 hover:shadow-[0_0_30px_rgba(220,38,38,0.6)] disabled:bg-gray-800 disabled:text-gray-500 disabled:shadow-none disabled:scale-100 disabled:cursor-not-allowed uppercase tracking-widest flex items-center justify-center gap-3 border border-white/10">
+            <div class="absolute top-0 -left-[100%] w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent transform -skew-x-12 group-hover:left-[100%] transition-all duration-500 ease-in-out"></div>
+            @if (isSubmitting) {
+              <span>Processando...</span>
+            } @else {
+              @if (isBettingClosed) { <span>Apostas Encerradas</span> 🔒 } 
+              @else { <span>Confirmar Grid</span> <span class="text-xl">➔</span> }
+            }
+          </button>
+        </div>
+      </div>
+
+    }
+  </div>
+</div>
+
+<app-footer></app-footer>

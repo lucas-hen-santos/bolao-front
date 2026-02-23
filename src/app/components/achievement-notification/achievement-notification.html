@@ -1,0 +1,40 @@
+@if (currentBadge) {
+  <div class="fixed inset-0 z-[9999] flex items-center justify-center p-4">
+    
+    <div class="absolute inset-0 bg-black/80 backdrop-blur-sm animate-fade-in"></div>
+    
+    <div class="relative bg-gradient-to-b from-gray-900 to-black border border-white/10 rounded-3xl p-8 max-w-sm w-full text-center shadow-[0_0_50px_rgba(0,0,0,0.5)] animate-pop-up overflow-hidden">
+      
+      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] rounded-full blur-[80px] pointer-events-none opacity-30 bg-current-glow"
+           [style.background-color]="getGlowColor(currentBadge.achievement.color)"></div>
+      
+      <div class="relative z-10 mb-6">
+        <div class="text-8xl animate-bounce-custom drop-shadow-2xl filter brightness-110">
+          {{ currentBadge.achievement.icon }}
+        </div>
+      </div>
+
+      <div class="relative z-10 space-y-2">
+        <div class="inline-block px-3 py-1 rounded-full bg-white/10 border border-white/10 text-[10px] font-bold uppercase tracking-widest text-white mb-2 shadow-lg backdrop-blur-md">
+          Conquista Desbloqueada!
+        </div>
+        
+        <h2 class="text-3xl font-black text-white italic uppercase tracking-tighter leading-none">
+          {{ currentBadge.achievement.name }}
+        </h2>
+        
+        <p class="text-gray-400 text-sm font-medium leading-relaxed px-4">
+          {{ currentBadge.achievement.description }}
+        </p>
+      </div>
+
+      <div class="relative z-10 mt-8">
+        <button (click)="next()" 
+                class="bg-white text-black hover:bg-gray-200 font-black py-3 px-10 rounded-full uppercase tracking-widest transition-all transform hover:scale-105 shadow-[0_0_20px_rgba(255,255,255,0.3)] text-xs">
+          {{ queue.length > 0 ? 'Próxima >>' : 'Incrível!' }}
+        </button>
+      </div>
+
+    </div>
+  </div>
+}

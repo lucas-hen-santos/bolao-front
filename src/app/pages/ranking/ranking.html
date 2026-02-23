@@ -1,0 +1,174 @@
+<app-navbar></app-navbar>
+
+<div class="min-h-screen bg-pattern-dark p-4 pb-24 overflow-x-hidden">
+  <div class="max-w-5xl mx-auto">
+    
+    <div class="mb-8 relative group animate-slide-left text-center">
+      <div class="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-96 bg-racing-red/10 rounded-full blur-[100px] -mt-20 z-0 pointer-events-none"></div>
+
+      <div class="relative z-10">
+        <h1 class="text-3xl md:text-6xl font-black text-white italic uppercase tracking-tighter drop-shadow-lg mb-2">
+          Classificação <span class="text-racing-red block md:inline">{{ activeTab === 'drivers' ? 'Pilotos' : 'Construtores' }}</span>
+        </h1>
+        
+        <div class="flex justify-center mt-4">
+          <div class="relative">
+            <select [(ngModel)]="selectedSeasonId" (change)="loadRankings()"
+                    class="appearance-none bg-white/10 backdrop-blur-md text-white pl-4 pr-10 py-2 rounded-full border border-white/10 focus:border-racing-red outline-none cursor-pointer font-bold text-xs uppercase tracking-widest hover:bg-white/20 transition-colors text-center">
+              @for (season of seasons; track season.id) {
+                <option [value]="season.id" class="bg-gray-900 text-white">
+                  Temporada {{ season.year }}
+                </option>
+              }
+            </select>
+            <div class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400 text-xs">▼</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="flex justify-center mb-8 animate-slide-up" style="animation-delay: 0.1s;">
+      <div class="bg-black/60 backdrop-blur-md p-1 rounded-full border border-gray-800 flex shadow-2xl relative w-full md:w-auto">
+        <button (click)="setTab('drivers')" class="flex-1 md:flex-none px-6 py-3 rounded-full text-xs md:text-sm font-bold uppercase tracking-wider transition-all duration-300 relative z-10 flex justify-center items-center gap-2" [ngClass]="activeTab === 'drivers' ? 'text-white bg-racing-red shadow-[0_0_15px_rgba(220,38,38,0.5)]' : 'text-gray-400 hover:text-white hover:bg-white/5'">
+          <span>🏎️</span> <span class="inline">Pilotos</span>
+        </button>
+        <button (click)="setTab('teams')" class="flex-1 md:flex-none px-6 py-3 rounded-full text-xs md:text-sm font-bold uppercase tracking-wider transition-all duration-300 relative z-10 flex justify-center items-center gap-2" [ngClass]="activeTab === 'teams' ? 'text-white bg-racing-red shadow-[0_0_15px_rgba(220,38,38,0.5)]' : 'text-gray-400 hover:text-white hover:bg-white/5'">
+          <span>🔧</span> <span class="inline">Construtores</span>
+        </button>
+      </div>
+    </div>
+
+    @if (isLoading) {
+      <div class="flex flex-col justify-center items-center py-20">
+        <div class="animate-spin rounded-full h-12 w-12 border-t-4 border-b-4 border-racing-red mb-4 shadow-[0_0_20px_rgba(220,38,38,0.4)]"></div>
+        <p class="text-gray-500 animate-pulse font-bold tracking-widest uppercase text-xs">Processando pontos...</p>
+      </div>
+    } @else {
+      
+      @if (activeTab === 'drivers') {
+        <div class="space-y-3">
+          <div class="hidden md:grid grid-cols-12 px-6 py-2 text-[10px] font-bold text-gray-500 uppercase tracking-widest">
+            <div class="col-span-1 text-center">Pos</div>
+            <div class="col-span-9 pl-2">Piloto / Equipe</div>
+            <div class="col-span-2 text-center">Pontos</div>
+          </div>
+
+          @for (driver of driversList; track driver.id; let i = $index) {
+            <div class="group relative bg-gray-900/60 backdrop-blur-sm border border-gray-800 rounded-xl p-4 transition-all hover:bg-gray-800 hover:border-gray-600 overflow-hidden animate-slide-up flex flex-col md:grid md:grid-cols-12 md:items-center gap-4 md:gap-0" [style.animation-delay]="i * 0.05 + 's'">
+              <div class="absolute left-0 top-0 bottom-0 w-1.5 transition-all" [style.background-color]="driver.team_color"></div>
+
+              <div class="flex md:hidden justify-between items-center pl-3">
+                <span class="font-black italic text-xl w-8 h-8 flex items-center justify-center rounded-lg shadow-inner" [ngClass]="{'bg-yellow-500 text-black': i===0, 'bg-gray-400 text-black': i===1, 'bg-orange-700 text-white': i===2, 'text-gray-500 bg-black/30 border border-gray-700': i>2}">{{ i + 1 }}</span>
+                <span class="text-2xl font-black italic text-white">{{ driver.points }} <span class="text-[10px] text-gray-500 not-italic">PTS</span></span>
+              </div>
+
+              <div class="hidden md:flex col-span-1 justify-center relative z-10">
+                <span class="font-black italic text-xl w-10 h-10 flex items-center justify-center rounded-lg shadow-inner" [ngClass]="{'bg-yellow-500 text-black shadow-yellow-500/20': i===0, 'bg-gray-400 text-black shadow-gray-400/20': i===1, 'bg-orange-700 text-white shadow-orange-700/20': i===2, 'text-gray-500 bg-black/30 border border-gray-700': i>2}">{{ i + 1 }}</span>
+              </div>
+
+              <div class="flex items-center gap-4 md:col-span-9 md:pl-4 pl-3 relative z-10">
+                <a [routerLink]="['/u', driver.id]" class="relative w-12 h-12 md:w-12 md:h-12 rounded-full border-2 border-gray-700 overflow-hidden shadow-lg bg-gray-800 shrink-0 hover:border-racing-red transition-colors cursor-pointer">
+                  <img [src]="getPhotoUrl(driver.profile_image_url, driver.name)" class="w-full h-full object-cover">
+                </a>
+
+                <div class="min-w-0">
+                  <a [routerLink]="['/u', driver.id]" class="text-white font-bold text-lg leading-tight truncate hover:text-racing-red transition-colors cursor-pointer hover:underline decoration-2 underline-offset-4">
+                    {{ driver.name }}
+                  </a>
+                  
+                  <div class="flex items-center gap-2 mt-1">
+                    @if (driver.team_logo) { <img [src]="getLogoUrl(driver.team_logo)" class="w-4 h-4 object-contain opacity-80"> }
+                    
+                    @if (driver.team_id) {
+                      <a [routerLink]="['/t', driver.team_id]" class="text-xs text-gray-400 font-bold uppercase tracking-wide truncate hover:text-white transition-colors cursor-pointer">
+                        {{ driver.team_name }}
+                      </a>
+                    } @else {
+                      <span class="text-xs text-gray-500 font-bold uppercase tracking-wide truncate">{{ driver.team_name }}</span>
+                    }
+                  </div>
+                </div>
+              </div>
+
+              <div class="hidden md:block md:col-span-2 text-center relative z-10">
+                <span class="text-3xl font-black italic text-white group-hover:text-yellow-400 transition-colors block leading-none">{{ driver.points }}</span>
+                <span class="text-[10px] text-gray-600 font-bold uppercase tracking-widest">PTS</span>
+              </div>
+            </div>
+          }
+        </div>
+      }
+
+      @if (activeTab === 'teams') {
+        <div class="space-y-4">
+          @for (team of teamsList; track team.id; let i = $index) {
+            <div class="group relative bg-gray-900/80 backdrop-blur-sm border border-gray-800 rounded-2xl overflow-hidden hover:border-gray-600 transition-all animate-slide-up flex flex-col md:grid md:grid-cols-12" [style.animation-delay]="i * 0.1 + 's'">
+              <div class="absolute left-0 top-0 bottom-0 w-1.5 z-0" [style.background]="'linear-gradient(to bottom, ' + (team.primary_color || '#333') + ', ' + (team.secondary_color || '#000') + ')'"></div>
+
+              <div class="flex md:hidden justify-between items-center p-4 pb-0 pl-6">
+                 <span class="font-black italic text-2xl opacity-50" [ngClass]="{'text-yellow-500': i===0, 'text-gray-400': i===1, 'text-orange-700': i===2, 'text-gray-700': i>2}">#{{ i + 1 }}</span>
+                 <span class="text-3xl font-black text-white italic">{{ team.points }} <span class="text-[10px] text-gray-600 not-italic">PTS</span></span>
+              </div>
+
+              <div class="p-6 pl-6 md:col-span-8 flex flex-col sm:flex-row items-center gap-6 text-center sm:text-left relative z-10">
+                <div class="hidden md:flex items-center justify-center w-12 shrink-0">
+                  <span class="font-black italic text-3xl opacity-50" [ngClass]="{'text-yellow-500': i===0, 'text-gray-400': i===1, 'text-orange-700': i===2, 'text-gray-700': i>2}">#{{ i + 1 }}</span>
+                </div>
+
+                <a [routerLink]="['/t', team.id]" class="w-20 h-20 bg-white/5 rounded-xl p-2 flex items-center justify-center border border-white/10 hover:bg-white/10 transition-colors shrink-0 cursor-pointer hover:border-white/30">
+                  <img [src]="getLogoUrl(team.logo_url)" class="w-full h-full object-contain drop-shadow-md">
+                </a>
+                
+                <div class="flex-1 min-w-0">
+                  <a [routerLink]="['/t', team.id]" class="text-2xl md:text-3xl font-black text-white italic uppercase leading-none mb-3 truncate hover:text-racing-red transition-colors cursor-pointer hover:underline decoration-2 underline-offset-4">
+                    {{ team.name }}
+                  </a>
+                  
+                  <div class="flex flex-wrap justify-center sm:justify-start items-center gap-4">
+                    @if (team.captain) {
+                      <a [routerLink]="['/u', team.captain.id]" class="flex items-center gap-2 bg-black/30 px-2 py-1 rounded border border-white/5 hover:border-white/30 transition-all cursor-pointer group/cap" title="Capitão">
+                        <div class="w-6 h-6 rounded-full border border-racing-red overflow-hidden bg-gray-800">
+                           <img [src]="getPhotoUrl(team.captain.photo, team.captain.name)" class="w-full h-full object-cover">
+                        </div>
+                        <div class="flex flex-col text-left">
+                           <span class="text-[8px] text-racing-red font-bold uppercase leading-none">CAP</span>
+                           <span class="text-[10px] text-gray-300 font-bold leading-none truncate max-w-[70px] group-hover/cap:text-white">{{ team.captain.name }}</span>
+                        </div>
+                      </a>
+                    }
+
+                    <span class="text-gray-600 text-xs">&</span>
+
+                    @if (team.partner) {
+                      <a [routerLink]="['/u', team.partner.id]" class="flex items-center gap-2 bg-black/30 px-2 py-1 rounded border border-white/5 hover:border-white/30 transition-all cursor-pointer group/p2" title="2º Piloto">
+                        <div class="w-6 h-6 rounded-full border border-gray-600 overflow-hidden bg-gray-800">
+                           <img [src]="getPhotoUrl(team.partner.photo, team.partner.name)" class="w-full h-full object-cover">
+                        </div>
+                        <div class="flex flex-col text-left">
+                           <span class="text-[8px] text-gray-500 font-bold uppercase leading-none">P2</span>
+                           <span class="text-[10px] text-gray-300 font-bold leading-none truncate max-w-[70px] group-hover/p2:text-white">{{ team.partner.name }}</span>
+                        </div>
+                      </a>
+                    } @else {
+                      <span class="text-[10px] text-gray-600 italic border border-dashed border-gray-700 px-2 py-1 rounded">Vaga Aberta</span>
+                    }
+                  </div>
+                </div>
+              </div>
+
+              <div class="hidden md:flex md:col-span-4 flex-col items-center justify-center border-l border-gray-800">
+                <span class="text-xs text-gray-500 font-bold uppercase tracking-widest mb-1">Total</span>
+                <span class="text-5xl font-black text-white font-mono tracking-tighter group-hover:text-racing-red transition-colors">{{ team.points }}</span>
+              </div>
+
+            </div>
+          }
+        </div>
+      }
+
+    }
+  </div>
+</div>
+
+<app-footer></app-footer>

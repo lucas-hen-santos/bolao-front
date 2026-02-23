@@ -1,0 +1,87 @@
+<app-navbar></app-navbar>
+
+<div class="min-h-screen bg-pattern-dark p-4 pb-24 overflow-x-hidden">
+  <div class="max-w-7xl mx-auto">
+    
+    <div class="mb-12 text-center animate-slide-down relative">
+      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[200px] bg-racing-red/10 rounded-full blur-[100px] pointer-events-none -z-10"></div>
+      
+      <h1 class="text-4xl md:text-6xl font-black text-white italic uppercase tracking-tighter drop-shadow-2xl mb-4">
+        Grid Oficial <span class="text-racing-red">F1</span>
+      </h1>
+      
+      <div class="inline-block relative">
+        <select [(ngModel)]="selectedSeasonId" (change)="loadGrid()"
+                class="appearance-none bg-gray-900/80 text-white pl-6 pr-12 py-3 rounded-full border border-gray-700 focus:border-racing-red outline-none cursor-pointer font-bold uppercase tracking-widest hover:bg-gray-800 transition-colors shadow-lg text-sm">
+          @for (season of seasons; track season.id) {
+            <option [value]="season.id" class="bg-gray-900">Temporada {{ season.year }}</option>
+          }
+        </select>
+        <div class="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-racing-red">▼</div>
+      </div>
+    </div>
+
+    @if (isLoading) {
+      <div class="flex flex-col justify-center items-center py-20">
+        <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-racing-red mb-6 shadow-[0_0_20px_rgba(220,38,38,0.4)]"></div>
+        <p class="text-gray-500 animate-pulse font-bold tracking-widest uppercase text-xs">Alinhando carros...</p>
+      </div>
+    } @else {
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        @for (team of grid; track team.id) {
+          
+          <div class="group relative bg-gray-900/60 backdrop-blur-md border border-gray-800 rounded-2xl overflow-hidden hover:border-gray-600 transition-all duration-500 hover:shadow-2xl animate-slide-up flex flex-col">
+            
+            <div class="p-6 flex items-center justify-between border-b border-gray-800/50 bg-gradient-to-r from-black/40 to-transparent">
+              <div>
+                <h2 class="text-2xl font-black text-white italic uppercase tracking-tighter group-hover:text-racing-red transition-colors">{{ team.name }}</h2>
+                <p class="text-xs text-gray-500 font-bold uppercase tracking-widest">Construtor F1</p>
+              </div>
+              <div class="w-16 h-16 p-2 bg-white/5 rounded-xl border border-white/10 flex items-center justify-center shrink-0">
+                <img [src]="getLogoUrl(team.logo_url)" class="w-full h-full object-contain drop-shadow-md">
+              </div>
+            </div>
+
+            <div class="p-4 grid grid-cols-2 gap-4 flex-1">
+              @for (driver of team.drivers; track driver.id) {
+                <div class="bg-black/40 rounded-xl p-3 border border-gray-800 hover:bg-white/5 transition-colors flex flex-col items-center text-center relative overflow-hidden group/driver">
+                  
+                  <span class="absolute -bottom-4 -right-2 text-6xl font-black text-white/5 group-hover/driver:text-white/10 transition-colors italic select-none">
+                    {{ driver.number }}
+                  </span>
+
+                  <div class="w-20 h-20 rounded-full border-2 border-gray-700 overflow-hidden bg-gray-800 mb-3 shadow-lg relative z-10 group-hover/driver:border-racing-red transition-colors">
+                    <img [src]="getPhotoUrl(driver.photo_url)" class="w-full h-full object-cover">
+                  </div>
+                  
+                  <div class="relative z-10">
+                    <span class="text-racing-red font-black text-xl italic leading-none block">#{{ driver.number }}</span>
+                    <h3 class="text-white font-bold text-sm uppercase tracking-wide mt-1">{{ driver.name }}</h3>
+                  </div>
+                </div>
+              }
+              
+              @if (team.drivers.length === 0) {
+                 <div class="col-span-2 text-center py-8 text-gray-600 text-xs italic">
+                    Pilotos não anunciados.
+                 </div>
+              }
+            </div>
+
+          </div>
+        }
+      </div>
+
+      @if (grid.length === 0) {
+        <div class="text-center py-20 border border-dashed border-gray-800 rounded-xl opacity-50">
+          <p class="text-gray-400 text-lg font-bold">Grid Vazio</p>
+          <p class="text-sm text-gray-600">Nenhuma equipe cadastrada para esta temporada.</p>
+        </div>
+      }
+
+    }
+  </div>
+</div>
+
+<app-footer></app-footer>

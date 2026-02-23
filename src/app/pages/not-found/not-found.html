@@ -1,0 +1,45 @@
+<app-navbar></app-navbar>
+
+<div class="error-container bg-pattern-dark">
+  
+  <div class="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black pointer-events-none z-0"></div>
+  <div class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-racing-red/10 rounded-full blur-[150px] pointer-events-none z-0"></div>
+
+  <div class="big-404">404</div>
+
+  <div class="flex-1 flex items-center justify-center p-4 relative z-10">
+    <div class="glass-error p-10 md:p-16 text-center max-w-2xl w-full animate-slide-up">
+      
+      <div class="inline-flex items-center justify-center w-24 h-24 bg-red-900/20 rounded-full border border-red-500/30 mb-8 relative group">
+        <span class="text-5xl relative z-10">🚩</span>
+        <div class="absolute inset-0 bg-red-500/20 rounded-full blur-xl group-hover:bg-red-500/40 transition-all duration-500"></div>
+      </div>
+
+      <h1 class="text-4xl md:text-6xl font-black text-white italic uppercase tracking-tighter mb-4 drop-shadow-2xl">
+        Bandeira <span class="text-racing-red">Vermelha!</span>
+      </h1>
+      
+      <p class="text-gray-400 text-lg md:text-xl font-medium mb-2">
+        Sessão interrompida.
+      </p>
+      
+      <p class="text-gray-500 text-sm mb-10 leading-relaxed max-w-md mx-auto">
+        Parece que você pegou a curva errada e saiu da pista. Essa página não existe ou está nos boxes para manutenção.
+      </p>
+
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a routerLink="/dashboard" class="btn-return text-white font-black py-4 px-10 rounded-full uppercase tracking-widest flex items-center justify-center gap-3 group cursor-pointer">
+          <span>Voltar ao Grid</span>
+          <span class="group-hover:translate-x-1 transition-transform">🏎️</span>
+        </a>
+        
+        <a routerLink="/how-to-play" class="bg-black/40 hover:bg-black/60 text-gray-300 font-bold py-4 px-10 rounded-full uppercase tracking-widest border border-gray-700 hover:border-gray-500 transition-all cursor-pointer">
+          Manual de Pista
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+  <app-footer></app-footer>
+</div>

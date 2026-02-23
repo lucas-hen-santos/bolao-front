@@ -1,0 +1,190 @@
+<div class="space-y-8 animate-slide-up pb-20">
+  
+  <div class="flex justify-between items-end">
+    <div>
+      <h1 class="text-3xl md:text-4xl font-black text-white uppercase italic tracking-tighter">Dashboard</h1>
+      <p class="text-gray-400 text-sm">Visão geral da temporada {{ stats.active_season }}.</p>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    
+    <div class="glass-panel p-6 flex items-center justify-between group hover:border-blue-500/50 transition-colors">
+      <div>
+        <p class="text-[10px] text-gray-500 font-bold uppercase tracking-widest mb-1">Pilotos Ativos</p>
+        <h2 class="text-4xl font-black text-white group-hover:text-blue-400 transition-colors">{{ stats.total_users }}</h2>
+      </div>
+      <div class="w-12 h-12 rounded-full bg-blue-500/10 flex items-center justify-center text-2xl border border-blue-500/20">👥</div>
+    </div>
+
+    <div class="glass-panel p-6 flex items-center justify-between group hover:border-purple-500/50 transition-colors">
+      <div>
+        <p class="text-[10px] text-gray-500 font-bold uppercase tracking-widest mb-1">Escuderias</p>
+        <h2 class="text-4xl font-black text-white group-hover:text-purple-400 transition-colors">{{ stats.total_teams }}</h2>
+      </div>
+      <div class="w-12 h-12 rounded-full bg-purple-500/10 flex items-center justify-center text-2xl border border-purple-500/20">🛡️</div>
+    </div>
+
+    <div class="glass-panel p-6 flex items-center justify-between group hover:border-green-500/50 transition-colors">
+      <div>
+        <p class="text-[10px] text-gray-500 font-bold uppercase tracking-widest mb-1">Times Completos</p>
+        <h2 class="text-4xl font-black text-white group-hover:text-green-400 transition-colors">{{ stats.team_composition?.full }}</h2>
+      </div>
+      <div class="w-12 h-12 rounded-full bg-green-500/10 flex items-center justify-center text-2xl border border-green-500/20">✅</div>
+    </div>
+
+     <div class="glass-panel p-6 flex items-center justify-between group hover:border-yellow-500/50 transition-colors">
+      <div>
+        <p class="text-[10px] text-gray-500 font-bold uppercase tracking-widest mb-1">Vagas Abertas</p>
+        <h2 class="text-4xl font-black text-white group-hover:text-yellow-400 transition-colors">{{ stats.team_composition?.incomplete }}</h2>
+      </div>
+      <div class="w-12 h-12 rounded-full bg-yellow-500/10 flex items-center justify-center text-2xl border border-yellow-500/20">⚠️</div>
+    </div>
+
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    
+    <div class="lg:col-span-2 space-y-6">
+        
+        <div class="glass-panel p-8 relative overflow-hidden group border-l-4 border-racing-red">
+            <div class="absolute top-0 right-0 w-64 h-64 bg-racing-red/5 rounded-full blur-[80px] -mr-16 -mt-16 transition-opacity group-hover:opacity-100 opacity-50 pointer-events-none"></div>
+            
+            <div class="flex justify-between items-start mb-6 relative z-10">
+                <h3 class="text-white font-bold uppercase italic text-xl flex items-center gap-2">
+                    <span class="text-racing-red">NEXT</span> No Radar
+                </h3>
+                @if (stats.next_race) {
+                    <span class="text-xs font-bold text-white bg-white/10 px-3 py-1 rounded-full border border-white/10">
+                        {{ stats.next_race.date | date:'dd/MM HH:mm' }}
+                    </span>
+                }
+            </div>
+
+            @if (stats.next_race) {
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 relative z-10">
+                    <div>
+                        <h2 class="text-4xl md:text-5xl font-black text-white italic uppercase tracking-tighter mb-1">
+                            {{ stats.next_race.name }}
+                        </h2>
+                        <p class="text-gray-400 text-sm font-bold uppercase flex items-center gap-2">
+                            Status: <span class="text-green-400">{{ stats.next_race.status }}</span>
+                        </p>
+                    </div>
+
+                    <div class="bg-black/40 border border-gray-700 rounded-xl p-4 text-center min-w-[160px] w-full md:w-auto">
+                        <span class="block text-4xl font-black text-white">{{ stats.next_race.bets_placed }}</span>
+                        <span class="text-[10px] text-gray-500 uppercase font-bold">Apostas Confirmadas</span>
+                        <div class="w-full bg-gray-800 h-1.5 rounded-full mt-3 overflow-hidden">
+                            <div class="bg-green-500 h-full transition-all duration-1000" [style.width]="stats.next_race.participation_pct + '%'"></div>
+                        </div>
+                        <span class="text-[9px] text-gray-400 mt-1 block">{{ stats.next_race.participation_pct }}% de adesão</span>
+                    </div>
+                </div>
+            } @else {
+                <p class="text-gray-500 italic py-8 text-center">Nenhuma corrida agendada.</p>
+            }
+        </div>
+
+        <div class="glass-panel p-6">
+            <div class="flex justify-between items-end mb-6">
+                <div>
+                    <h3 class="text-gray-300 text-xs font-bold uppercase tracking-widest">Engajamento da Temporada</h3>
+                    <p class="text-gray-500 text-[10px] mt-0.5">Participação nas últimas 5 corridas</p>
+                </div>
+            </div>
+
+            @if (chartPoints) {
+                <div class="h-40 w-full relative">
+                    <div class="absolute inset-0 border-l border-b border-gray-800/50 grid grid-cols-5 grid-rows-4"></div>
+                    
+                    <svg class="w-full h-full overflow-visible relative z-10" preserveAspectRatio="none" viewBox="0 0 100 100">
+                        <defs>
+                            <linearGradient id="gradEng" x1="0" x2="0" y1="0" y2="1">
+                                <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.3" />
+                                <stop offset="100%" stop-color="#3b82f6" stop-opacity="0" />
+                            </linearGradient>
+                        </defs>
+                        <polygon [attr.points]="chartPoints + ' 100,100 0,100'" fill="url(#gradEng)" />
+                        <polyline [attr.points]="chartPoints" fill="none" stroke="#3b82f6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke" />
+                        
+                        @for (h of stats.engagement_history; track $index) {
+                             }
+                    </svg>
+                </div>
+                <div class="flex justify-between mt-2 text-[9px] font-mono text-gray-500 uppercase">
+                    @for (h of stats.engagement_history; track $index) {
+                        <div class="text-center">
+                            <span class="block text-white font-bold">{{ h.pct }}%</span>
+                            <span class="block truncate w-12">{{ h.race_name.split(' ')[1] || h.race_name.substring(0,3) }}</span>
+                        </div>
+                    }
+                </div>
+            } @else {
+                <div class="h-32 flex items-center justify-center text-gray-600 text-xs border border-dashed border-gray-800 rounded-lg">
+                    Sem dados históricos suficientes.
+                </div>
+            }
+        </div>
+
+    </div>
+
+    <div class="space-y-6">
+        
+        <div class="glass-panel p-0 overflow-hidden">
+            <div class="p-4 border-b border-white/5 bg-white/5">
+                <h3 class="text-white font-bold uppercase text-xs tracking-widest flex items-center gap-2">
+                    <span>🏆</span> Líderes do Paddock
+                </h3>
+            </div>
+            <div class="divide-y divide-white/5">
+                @for (driver of stats.top_drivers; track $index; let i = $index) {
+                    <div class="p-3 flex items-center gap-3 hover:bg-white/5 transition-colors">
+                        <span class="text-lg font-black italic w-6 text-center" [ngClass]="{'text-yellow-500': i===0, 'text-gray-400': i===1, 'text-orange-700': i===2, 'text-gray-700': i>2}">{{ i + 1 }}</span>
+                        <div class="w-8 h-8 rounded-full bg-gray-800 overflow-hidden border border-gray-700">
+                            @if (driver.photo) { <img [src]="getPhotoUrl(driver.photo)" class="w-full h-full object-cover"> }
+                            @else { <div class="w-full h-full flex items-center justify-center text-xs font-bold text-gray-500">{{ getInitials(driver.name) }}</div> }
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <p class="text-white font-bold text-xs truncate">{{ driver.name }}</p>
+                            <p class="text-gray-500 text-[10px] font-mono uppercase">{{ driver.points }} PTS</p>
+                        </div>
+                    </div>
+                }
+                @if (!stats.top_drivers?.length) { <div class="p-4 text-center text-gray-600 text-xs">Ranking vazio.</div> }
+            </div>
+            <div class="p-2 text-center border-t border-white/5">
+                <a routerLink="/admin/users" class="text-[10px] font-bold text-gray-500 hover:text-white uppercase tracking-widest cursor-pointer">Gerenciar Usuários</a>
+            </div>
+        </div>
+
+        <div class="glass-panel p-0 overflow-hidden">
+            <div class="p-4 border-b border-white/5 bg-white/5">
+                <h3 class="text-white font-bold uppercase text-xs tracking-widest flex items-center gap-2">
+                    <span>🛡️</span> Top Escuderias
+                </h3>
+            </div>
+            <div class="divide-y divide-white/5">
+                @for (team of stats.top_teams; track $index; let i = $index) {
+                    <div class="p-3 flex items-center gap-3 hover:bg-white/5 transition-colors">
+                        <span class="text-lg font-black italic w-6 text-center" [ngClass]="{'text-yellow-500': i===0, 'text-gray-700': i>0}">{{ i + 1 }}</span>
+                        <div class="w-8 h-8 rounded bg-gray-800 p-1 border border-gray-700 flex items-center justify-center">
+                             <img [src]="getPhotoUrl(team.logo)" class="w-full h-full object-contain">
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <p class="text-white font-bold text-xs truncate">{{ team.name }}</p>
+                            <p class="text-gray-500 text-[10px] font-mono uppercase">{{ team.points }} PTS</p>
+                        </div>
+                    </div>
+                }
+                @if (!stats.top_teams?.length) { <div class="p-4 text-center text-gray-600 text-xs">Sem equipes pontuadas.</div> }
+            </div>
+            <div class="p-2 text-center border-t border-white/5">
+                <a routerLink="/admin/teams" class="text-[10px] font-bold text-gray-500 hover:text-white uppercase tracking-widest cursor-pointer">Gerenciar Equipes</a>
+            </div>
+        </div>
+
+    </div>
+
+  </div>
+</div>

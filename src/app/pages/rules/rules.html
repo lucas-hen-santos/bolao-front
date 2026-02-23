@@ -1,0 +1,237 @@
+<app-navbar></app-navbar>
+
+<div class="min-h-screen bg-pattern-dark text-white pb-20 relative overflow-hidden pt-20">
+  
+  <div class="fixed top-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-racing-red/10 rounded-full blur-[120px] pointer-events-none z-0"></div>
+  <div class="fixed bottom-0 right-0 w-[400px] h-[400px] bg-blue-600/5 rounded-full blur-[100px] pointer-events-none z-0"></div>
+  
+  <div class="max-w-5xl mx-auto px-4 relative z-10">
+
+    <div class="text-center mb-16 animate-entry">
+      <h1 class="text-4xl md:text-6xl font-black italic uppercase tracking-tighter mb-4 drop-shadow-xl">
+        Regras do <span class="text-transparent bg-clip-text bg-gradient-to-r from-racing-red to-orange-500">Paddock</span>
+      </h1>
+      <p class="text-gray-400 max-w-2xl mx-auto font-medium text-sm md:text-base">
+        A diferença entre o pódio e a brita está nos detalhes. Entenda o regulamento oficial.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+      
+      <div class="glass-panel p-8 animate-entry delay-1">
+        <div class="neon-border-bottom"></div>
+        <h3 class="text-xl font-bold uppercase italic mb-6 flex items-center gap-2 text-white">
+          <span class="text-2xl">🎯</span> Sistema de Pontos
+        </h3>
+
+        <div class="space-y-3 mb-6">
+          <div class="text-xs font-bold text-gray-500 uppercase tracking-widest mb-1">Exemplo Prático</div>
+          
+          <div class="sim-row correct">
+            <div class="w-8 h-8 bg-green-500/20 rounded flex items-center justify-center text-green-500 font-bold text-xs">P1</div>
+            <div class="flex-1 text-sm">
+              <span class="text-gray-400">Aposta:</span> <strong class="text-white">VER</strong> <span class="mx-1 text-gray-600">|</span> 
+              <span class="text-gray-400">Real:</span> <strong class="text-green-400">VER</strong>
+            </div>
+            <div class="text-green-400 font-black text-lg">+1 Pt</div>
+          </div>
+
+          <div class="sim-row wrong">
+            <div class="w-8 h-8 bg-red-500/20 rounded flex items-center justify-center text-red-500 font-bold text-xs">P2</div>
+            <div class="flex-1 text-sm">
+              <span class="text-gray-400">Aposta:</span> <strong class="text-white">HAM</strong> <span class="mx-1 text-gray-600">|</span> 
+              <span class="text-gray-400">Real:</span> <strong class="text-red-400">NOR</strong>
+            </div>
+            <div class="text-gray-600 font-black text-lg">0 Pts</div>
+          </div>
+        </div>
+
+        <ul class="space-y-3 text-sm text-gray-400">
+          <li class="flex items-start gap-3">
+            <span class="text-green-500 mt-0.5">✔</span>
+            <span><strong>Posição Exata:</strong> Você ganha 1 ponto para cada piloto que acertar na posição exata do Top 10.</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="text-red-500 mt-0.5">✖</span>
+            <span><strong>Posição Invertida:</strong> Se o piloto estiver no Top 10 mas na posição errada, não pontua.</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="glass-panel p-8 animate-entry delay-2">
+        <div class="neon-border-bottom"></div>
+        <h3 class="text-xl font-bold uppercase italic mb-6 flex items-center gap-2 text-white">
+          <span class="text-2xl">🚀</span> Bônus Extras
+        </h3>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+          <div class="bg-black/40 p-4 rounded-xl border border-gray-700 text-center hover:border-yellow-500 transition-colors group">
+            <div class="text-2xl mb-2 group-hover:scale-110 transition-transform">⏱️</div>
+            <div class="text-[10px] uppercase font-bold text-gray-500">Pole Position</div>
+            <div class="text-yellow-500 font-black text-xl">+1 Pt</div>
+          </div>
+          <div class="bg-black/40 p-4 rounded-xl border border-gray-700 text-center hover:border-orange-500 transition-colors group">
+            <div class="text-2xl mb-2 group-hover:scale-110 transition-transform">🔥</div>
+            <div class="text-[10px] uppercase font-bold text-gray-500">Driver of Day</div>
+            <div class="text-orange-500 font-black text-xl">+1 Pt</div>
+          </div>
+          <div class="bg-black/40 p-4 rounded-xl border border-gray-700 text-center hover:border-blue-500 transition-colors group">
+            <div class="text-2xl mb-2 group-hover:scale-110 transition-transform">🏆</div>
+            <div class="text-[10px] uppercase font-bold text-gray-500">Vencedor (Eq)</div>
+            <div class="text-blue-500 font-black text-xl">+1 Pt</div>
+          </div>
+        </div>
+
+        <p class="text-xs text-gray-400 leading-relaxed bg-gray-800/50 p-4 rounded-lg border-l-2 border-racing-red">
+          <strong>Máximo por Corrida:</strong> 13 Pontos (10 Grid + 3 Extras).<br>
+          <em>*Não há pontos por volta mais rápida na corrida.</em>
+        </p>
+      </div>
+
+    </div>
+
+    <div class="glass-panel p-8 mb-8 animate-entry delay-3 relative overflow-hidden border-purple-500/30">
+      <div class="absolute top-0 right-0 p-6 opacity-10 text-purple-500">
+        <span class="text-9xl">🏅</span>
+      </div>
+
+      <h3 class="text-2xl font-black text-purple-400 uppercase italic mb-6 flex items-center gap-3">
+        <span>Sistema de Conquistas</span>
+      </h3>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="col-span-2">
+          <p class="text-gray-300 mb-4 text-sm leading-relaxed">
+            Além do ranking de pontos, você pode desbloquear <strong>Medalhas Exclusivas</strong> ao realizar feitos específicos. Elas ficam salvas permanentemente no seu perfil.
+          </p>
+          
+          <div class="space-y-3">
+            <div class="flex items-center gap-4 bg-black/30 p-3 rounded-lg border border-white/5">
+              <span class="text-2xl">🎯</span>
+              <div>
+                <h4 class="text-white font-bold text-sm">Habilidade</h4>
+                <p class="text-xs text-gray-500">Ex: Acertar o Pole Position 3 vezes (Medalha "Sniper").</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-4 bg-black/30 p-3 rounded-lg border border-white/5">
+              <span class="text-2xl">📅</span>
+              <div>
+                <h4 class="text-white font-bold text-sm">Consistência</h4>
+                <p class="text-xs text-gray-500">Ex: Participar de 10 corridas seguidas (Medalha "Veterano").</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-4 bg-black/30 p-3 rounded-lg border border-white/5">
+              <span class="text-2xl">👑</span>
+              <div>
+                <h4 class="text-white font-bold text-sm">Glória Eterna</h4>
+                <p class="text-xs text-gray-500">Títulos de Campeão Mundial de Pilotos ou Construtores (Entregues ao fim da temporada).</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-purple-900/10 rounded-xl p-6 border border-purple-500/20 flex flex-col items-center justify-center text-center">
+          <div class="text-6xl mb-2 animate-bounce-custom">🏆</div>
+          <p class="text-purple-300 font-bold text-sm uppercase tracking-wider">Sua Galeria</p>
+          <p class="text-xs text-gray-500 mt-1">As medalhas aparecem no seu perfil assim que desbloqueadas.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="glass-panel p-8 mb-16 animate-entry delay-3 border-fuchsia-500/30">
+      <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+        <div>
+          <h3 class="text-2xl font-black text-fuchsia-400 uppercase italic mb-3 flex items-center gap-2">
+            <span>⚔️</span> Rivalidade
+          </h3>
+          <p class="text-gray-300 text-sm leading-relaxed max-w-2xl">
+            Desafie qualquer piloto para um duelo 1x1 na próxima corrida. 
+            <strong class="text-fuchsia-300">Quem fizer mais pontos no GP vence o confronto.</strong>
+          </p>
+          <ul class="mt-4 space-y-2 text-xs text-gray-400 font-medium">
+            <li class="flex items-center gap-2"><span class="text-fuchsia-500">●</span> Não afeta sua pontuação no Ranking Geral.</li>
+            <li class="flex items-center gap-2"><span class="text-fuchsia-500">●</span> É puramente social ("Pela Resenha").</li>
+            <li class="flex items-center gap-2"><span class="text-fuchsia-500">●</span> Você pode ter vários duelos na mesma corrida.</li>
+          </ul>
+        </div>
+        <div class="text-6xl opacity-20 grayscale hover:grayscale-0 transition-all duration-500">🥊</div>
+      </div>
+    </div>
+
+    <div class="glass-panel p-8 mb-16 animate-entry delay-3">
+      <h3 class="text-xl font-bold uppercase italic mb-8 text-center text-white">Cronograma de Validade</h3>
+      
+      <div class="max-w-2xl mx-auto relative">
+        
+        <div class="timeline-step">
+          <div class="timeline-dot"></div>
+          <h4 class="text-white font-bold text-base">Luz Verde (TL1)</h4>
+          <p class="text-gray-400 text-xs">
+            As apostas abrem oficialmente no horário de início do <strong>Treino Livre 1</strong>.
+          </p>
+        </div>
+
+        <div class="timeline-step">
+          <div class="timeline-dot bg-yellow-500 border-yellow-500"></div>
+          <h4 class="text-yellow-400 font-bold text-base">Janela de Estratégia</h4>
+          <p class="text-gray-400 text-xs">
+            Período para analisar os treinos. Você pode editar seu palpite quantas vezes quiser até o fechamento.
+          </p>
+        </div>
+
+        <div class="timeline-step">
+          <div class="timeline-dot bg-racing-red border-white animate-pulse"></div>
+          <h4 class="text-racing-red font-bold text-base">Box Fechado (Q1)</h4>
+          <p class="text-gray-400 text-xs">
+            O sistema trava automaticamente no horário oficial de início da <strong>Qualificação (Q1)</strong>.
+          </p>
+          
+          <div class="mt-3 bg-red-900/20 border border-red-500/30 p-3 rounded-lg">
+            <p class="text-[10px] text-red-300 leading-relaxed">
+              <strong>⚠️ Regra Oficial:</strong> Seguimos os horários estabelecidos no site oficial da Fórmula 1.
+              <br>
+              Caso haja mudança de horário sem aviso prévio, <u>o horário inicial programado será mantido</u>.
+            </p>
+          </div>
+        </div>
+
+        <div class="timeline-step">
+          <div class="timeline-dot bg-gray-700 border-gray-500"></div>
+          <h4 class="text-white font-bold text-base">Resultados</h4>
+          <p class="text-gray-400 text-xs">Pontuação e medalhas distribuídas após o fim da corrida.</p>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="max-w-3xl mx-auto animate-entry delay-4">
+      <h3 class="text-center text-gray-500 font-bold uppercase tracking-widest text-sm mb-6">Pit Wall (FAQ)</h3>
+      
+      <div class="space-y-2">
+        @for (item of faqs; track $index) {
+          <div class="faq-item" [class.active]="activeFaqIndex === $index">
+            <button (click)="toggleFaq($index)" class="w-full flex justify-between items-center p-4 text-left hover:bg-white/5 transition-colors rounded-lg focus:outline-none">
+              <span class="font-bold text-gray-200 text-sm">{{ item.q }}</span>
+              <span class="text-racing-red text-xl faq-icon transition-transform transform" [class.rotate-180]="activeFaqIndex === $index">▼</span>
+            </button>
+            <div class="faq-answer px-4" [style.max-height]="activeFaqIndex === $index ? '200px' : '0'" [style.opacity]="activeFaqIndex === $index ? '1' : '0'">
+              <p class="text-gray-400 text-xs py-3 border-t border-gray-800 leading-relaxed">
+                {{ item.a }}
+              </p>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+
+    <div class="text-center mt-16 animate-entry delay-4">
+      <a routerLink="/dashboard" class="inline-flex items-center gap-3 bg-white text-black px-10 py-4 rounded-full font-black uppercase tracking-widest hover:bg-gray-200 transition-all transform hover:scale-105 shadow-[0_0_30px_rgba(255,255,255,0.2)] text-sm">
+        <span>Entendido, bora pro grid</span>
+        <span class="text-lg">🏎️</span>
+      </a>
+    </div>
+
+  </div>
+</div>
+
+<app-footer></app-footer>

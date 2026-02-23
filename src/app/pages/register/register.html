@@ -1,0 +1,113 @@
+<div class="min-h-screen flex items-center justify-center bg-racing-black relative overflow-hidden py-10">
+  
+  <div class="absolute inset-0 bg-pattern-grid opacity-20 pointer-events-none"></div>
+  <div class="absolute bottom-0 right-0 w-[600px] h-[600px] bg-blue-600/5 rounded-full blur-[150px] pointer-events-none"></div>
+  <div class="absolute top-0 left-0 w-[500px] h-[500px] bg-racing-red/5 rounded-full blur-[120px] pointer-events-none"></div>
+
+  <div class="relative z-10 w-full max-w-md p-4">
+    
+    <div class="auth-card bg-gray-900/60 backdrop-blur-xl border border-white/10 rounded-3xl p-8 md:p-10 shadow-2xl animate-slide-up">
+      
+      <div class="text-center mb-8">
+        <h2 class="text-3xl font-black text-white uppercase italic tracking-tighter mb-2">
+          Novo <span class="text-racing-red">Piloto</span>
+        </h2>
+        <p class="text-gray-400 text-sm">Crie sua superlicença para competir.</p>
+      </div>
+
+      <form (ngSubmit)="onRegister()" class="space-y-5">
+        
+        <div class="group">
+          <label class="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-1 ml-1 group-focus-within:text-racing-red transition-colors">Nome Completo</label>
+          <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+              <span class="text-gray-500 text-lg">👤</span>
+            </div>
+            <input 
+              type="text" 
+              [(ngModel)]="fullName" 
+              name="fullName" 
+              required 
+              class="w-full bg-black/40 text-white border border-gray-700 rounded-xl py-3 pl-12 pr-4 focus:border-racing-red focus:ring-1 focus:ring-racing-red outline-none transition-all font-bold placeholder-gray-600"
+              placeholder="Ayrton Senna">
+          </div>
+        </div>
+
+        <div class="group">
+          <label class="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-1 ml-1 group-focus-within:text-racing-red transition-colors">Email</label>
+          <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+              <span class="text-gray-500 text-lg">✉️</span>
+            </div>
+            <input 
+              type="email" 
+              [(ngModel)]="email" 
+              name="email" 
+              required 
+              class="w-full bg-black/40 text-white border border-gray-700 rounded-xl py-3 pl-12 pr-4 focus:border-racing-red focus:ring-1 focus:ring-racing-red outline-none transition-all font-medium placeholder-gray-600"
+              placeholder="seu@email.com">
+          </div>
+        </div>
+
+        <div class="group">
+          <label class="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-1 ml-1 group-focus-within:text-racing-red transition-colors">Senha</label>
+          <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+              <span class="text-gray-500 text-lg">🔒</span>
+            </div>
+            <input 
+              type="password" 
+              [(ngModel)]="password" 
+              name="password" 
+              required 
+              minlength="6"
+              class="w-full bg-black/40 text-white border border-gray-700 rounded-xl py-3 pl-12 pr-4 focus:border-racing-red focus:ring-1 focus:ring-racing-red outline-none transition-all font-bold tracking-widest placeholder-gray-600"
+              placeholder="••••••">
+          </div>
+        </div>
+
+        <div class="group">
+          <label class="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-1 ml-1 group-focus-within:text-racing-red transition-colors">Confirmar Senha</label>
+          <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+              <span class="text-gray-500 text-lg">🔐</span>
+            </div>
+            <input 
+              type="password" 
+              [(ngModel)]="confirmPassword" 
+              name="confirmPassword" 
+              required 
+              class="w-full bg-black/40 text-white border border-gray-700 rounded-xl py-3 pl-12 pr-4 focus:border-racing-red focus:ring-1 focus:ring-racing-red outline-none transition-all font-bold tracking-widest placeholder-gray-600"
+              placeholder="••••••">
+          </div>
+        </div>
+
+        <button 
+          type="submit" 
+          [disabled]="isLoading"
+          class="w-full mt-6 group relative overflow-hidden bg-white text-black font-black py-4 rounded-xl shadow-lg hover:bg-gray-200 transition-all transform hover:-translate-y-1 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0"
+        >
+          <div class="absolute top-0 -left-full w-full h-full bg-black/10 skew-x-12 group-hover:animate-shine"></div>
+          <span class="relative flex items-center justify-center gap-2 uppercase tracking-widest text-sm">
+            @if (isLoading) {
+              <div class="animate-spin rounded-full h-5 w-5 border-2 border-black border-t-transparent"></div>
+            } @else {
+              ASSINAR CONTRATO <span class="text-xl leading-none">✍️</span>
+            }
+          </span>
+        </button>
+
+      </form>
+
+      <div class="mt-8 pt-6 border-t border-white/5 text-center">
+        <p class="text-gray-500 text-sm">
+          Já tem conta? 
+          <a routerLink="/login" class="text-racing-red font-bold hover:text-white transition-colors ml-1 uppercase tracking-wide">
+            Login
+          </a>
+        </p>
+      </div>
+
+    </div>
+  </div>
+</div>

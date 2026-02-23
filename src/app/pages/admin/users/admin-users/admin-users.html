@@ -1,0 +1,111 @@
+<div class="space-y-6 pb-20">
+
+  <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 animate-slide-down">
+    <div>
+      <h1 class="text-3xl md:text-4xl font-black text-white uppercase italic tracking-tighter">
+        Pilotos <span class="text-racing-red">Cadastrados</span>
+      </h1>
+      <p class="text-gray-400 text-sm mt-1">Gerencie o acesso e permissões.</p>
+    </div>
+    
+    <div class="relative w-full sm:w-64">
+      <input type="text" [(ngModel)]="searchTerm" (keyup.enter)="loadUsers()" placeholder="Buscar por nome ou email..." 
+             class="w-full bg-black/40 text-white pl-4 pr-10 py-3 rounded-xl border border-gray-700 focus:border-racing-red outline-none text-sm font-medium">
+      <button (click)="loadUsers()" class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-white">🔍</button>
+    </div>
+  </div>
+
+  @if (isLoading) {
+    <div class="flex justify-center py-12">
+      <div class="animate-spin rounded-full h-10 w-10 border-t-2 border-racing-red"></div>
+    </div>
+  } @else {
+    
+    <div class="hidden md:block glass-panel overflow-hidden animate-slide-up">
+      <table class="w-full text-left border-collapse">
+        <thead>
+          <tr class="border-b border-gray-800 text-[10px] text-gray-500 uppercase tracking-widest bg-black/20">
+            <th class="p-4">Piloto</th>
+            <th class="p-4">Email</th>
+            <th class="p-4">Cargo</th>
+            <th class="p-4">Status</th>
+            <th class="p-4 text-right">Ações</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-800/50">
+          @for (user of users; track user.id) {
+            <tr class="hover:bg-white/5 transition-colors group">
+              <td class="p-4">
+                <div class="flex items-center gap-3">
+                  <div class="w-8 h-8 rounded-full bg-gray-800 overflow-hidden border border-gray-700">
+                    <img *ngIf="user.profile_image_url" [src]="getPhotoUrl(user.profile_image_url)" class="w-full h-full object-cover">
+                    <div *ngIf="!user.profile_image_url" class="w-full h-full flex items-center justify-center text-xs text-gray-500 font-bold">{{ user.full_name.charAt(0) }}</div>
+                  </div>
+                  <span class="text-white font-bold text-sm">{{ user.full_name }}</span>
+                </div>
+              </td>
+              <td class="p-4 text-gray-400 text-sm font-mono">{{ user.email }}</td>
+              <td class="p-4">
+                <span class="px-2 py-1 rounded text-[10px] font-bold uppercase border"
+                      [ngClass]="user.is_admin ? 'bg-yellow-900/20 text-yellow-500 border-yellow-500/30' : 'bg-gray-800 text-gray-500 border-gray-700'">
+                  {{ user.is_admin ? 'Admin' : 'Piloto' }}
+                </span>
+              </td>
+              <td class="p-4">
+                <span class="px-2 py-1 rounded text-[10px] font-bold uppercase border"
+                      [ngClass]="user.is_active ? 'bg-green-900/20 text-green-400 border-green-500/30' : 'bg-red-900/20 text-red-400 border-red-500/30'">
+                  {{ user.is_active ? 'Ativo' : 'Banido' }}
+                </span>
+              </td>
+              <td class="p-4 text-right flex justify-end gap-2 opacity-50 group-hover:opacity-100 transition-opacity">
+                <button (click)="toggleRole(user)" class="p-2 rounded hover:bg-white/10 text-gray-400 hover:text-yellow-400" title="Mudar Cargo">👑</button>
+                <button (click)="toggleStatus(user)" class="p-2 rounded hover:bg-white/10 text-gray-400 hover:text-red-400" title="Banir/Ativar">🚫</button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <div class="md:hidden space-y-4 animate-slide-up">
+      @for (user of users; track user.id) {
+        <div class="glass-panel p-4 relative overflow-hidden">
+          <div class="flex items-start justify-between mb-3">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-full bg-gray-800 overflow-hidden border border-gray-700">
+                 <img *ngIf="user.profile_image_url" [src]="getPhotoUrl(user.profile_image_url)" class="w-full h-full object-cover">
+                 <div *ngIf="!user.profile_image_url" class="w-full h-full flex items-center justify-center text-sm font-bold text-gray-500">{{ user.full_name.charAt(0) }}</div>
+              </div>
+              <div>
+                <h3 class="text-white font-bold text-sm">{{ user.full_name }}</h3>
+                <p class="text-xs text-gray-500 truncate max-w-[150px]">{{ user.email }}</p>
+              </div>
+            </div>
+            <div class="flex flex-col items-end gap-1">
+               <span class="text-[10px] font-bold uppercase" [ngClass]="user.is_admin ? 'text-yellow-500' : 'text-gray-600'">
+                 {{ user.is_admin ? 'Admin' : 'Piloto' }}
+               </span>
+               <span class="w-2 h-2 rounded-full" [ngClass]="user.is_active ? 'bg-green-500' : 'bg-red-500'"></span>
+            </div>
+          </div>
+          
+          <div class="grid grid-cols-2 gap-2 mt-4">
+            <button (click)="toggleRole(user)" class="py-2 rounded bg-gray-800 text-xs font-bold text-gray-300 border border-gray-700 hover:bg-gray-700">
+              {{ user.is_admin ? 'Remover Admin' : 'Tornar Admin' }}
+            </button>
+            <button (click)="toggleStatus(user)" class="py-2 rounded bg-gray-800 text-xs font-bold border border-gray-700 hover:bg-gray-700"
+                    [ngClass]="user.is_active ? 'text-red-400 hover:border-red-500/50' : 'text-green-400 hover:border-green-500/50'">
+              {{ user.is_active ? 'Banir' : 'Ativar' }}
+            </button>
+          </div>
+        </div>
+      }
+    </div>
+
+    <div class="flex justify-center gap-4 mt-8">
+      <button (click)="changePage(-1)" [disabled]="skip === 0" class="px-4 py-2 bg-black/40 rounded-lg text-white disabled:opacity-30 hover:bg-white/10 text-sm font-bold">← Anterior</button>
+      <button (click)="changePage(1)" [disabled]="users.length < limit" class="px-4 py-2 bg-black/40 rounded-lg text-white disabled:opacity-30 hover:bg-white/10 text-sm font-bold">Próximo →</button>
+    </div>
+
+  }
+</div>

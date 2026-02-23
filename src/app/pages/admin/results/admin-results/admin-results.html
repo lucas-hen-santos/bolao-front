@@ -1,0 +1,107 @@
+<div class="space-y-6 pb-20">
+
+  <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 animate-slide-down">
+    <div>
+      <h1 class="text-3xl md:text-4xl font-black text-white uppercase italic tracking-tighter">
+        Lançar <span class="text-racing-red">Resultados</span>
+      </h1>
+      <p class="text-gray-400 text-sm mt-1">Defina o gabarito oficial da corrida.</p>
+    </div>
+  </div>
+
+  @if (isLoading) {
+    <div class="flex justify-center py-12">
+      <div class="animate-spin rounded-full h-10 w-10 border-t-2 border-racing-red"></div>
+    </div>
+  } @else {
+
+    <div class="glass-panel p-6 animate-slide-up">
+      <label class="text-gray-500 text-xs font-bold uppercase mb-2 block">Selecione o Grande Prêmio</label>
+      <select [(ngModel)]="selectedRaceId" (change)="onRaceSelect()" 
+              class="w-full bg-black/50 text-white p-4 rounded-xl border border-gray-700 focus:border-racing-red outline-none appearance-none font-bold text-lg transition-all">
+        <option [ngValue]="null">-- Escolha uma corrida --</option>
+        @for (race of races; track race.id) {
+          <option [value]="race.id">
+            {{ race.name }} ({{ race.race_date | date:'dd/MM' }}) - {{ race.status === 'FINISHED' ? '✅ Finalizada' : '⏳ Pendente' }}
+          </option>
+        }
+      </select>
+    </div>
+
+    @if (selectedRaceId) {
+      <div class="animate-slide-up space-y-8" style="animation-delay: 0.1s;">
+        
+        <div class="bg-yellow-900/10 border border-yellow-500/30 p-4 rounded-xl flex items-start gap-3">
+          <span class="text-2xl">⚠️</span>
+          <div>
+            <p class="text-yellow-500 font-bold text-sm uppercase">Atenção</p>
+            <p class="text-gray-400 text-xs">Ao salvar, o sistema irá recalcular os pontos de <strong>todos os usuários</strong> e atualizar o Ranking. Isso pode levar alguns segundos.</p>
+          </div>
+        </div>
+
+        <div class="glass-panel p-6 relative overflow-hidden border-l-4 border-purple-500">
+          <h3 class="text-white font-bold uppercase italic text-lg mb-6 flex items-center gap-2">
+            <span class="text-purple-400">★</span> Pontos Extras
+          </h3>
+          
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div>
+              <label class="block text-[10px] text-gray-500 font-bold uppercase mb-1">Pole Position</label>
+              <select [(ngModel)]="form.pole_driver_id" class="w-full bg-black/40 text-white p-3 rounded-lg border border-gray-700 focus:border-purple-500 outline-none">
+                <option [ngValue]="null">Selecione...</option>
+                @for (d of drivers; track d.id) { <option [value]="d.id">#{{d.number}} - {{d.name}}</option> }
+              </select>
+            </div>
+            <div>
+              <label class="block text-[10px] text-gray-500 font-bold uppercase mb-1">Driver of The Day</label>
+              <select [(ngModel)]="form.dotd_driver_id" class="w-full bg-black/40 text-white p-3 rounded-lg border border-gray-700 focus:border-purple-500 outline-none">
+                <option [ngValue]="null">Selecione...</option>
+                @for (d of drivers; track d.id) { <option [value]="d.id">#{{d.number}} - {{d.name}}</option> }
+              </select>
+            </div>
+            <div>
+              <label class="block text-[10px] text-gray-500 font-bold uppercase mb-1">Equipe Vencedora</label>
+              <select [(ngModel)]="form.winning_team_id" class="w-full bg-black/40 text-white p-3 rounded-lg border border-gray-700 focus:border-purple-500 outline-none">
+                <option [ngValue]="null">Selecione...</option>
+                @for (t of teams; track t.id) { <option [value]="t.id">{{t.name}}</option> }
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="glass-panel p-6 border-l-4 border-racing-red">
+          <h3 class="text-white font-bold uppercase italic text-lg mb-6 flex items-center gap-2">
+            <span class="text-racing-red">🏁</span> Classificação Top 10
+          </h3>
+
+          <div class="space-y-3">
+            @for (pos of [1,2,3,4,5,6,7,8,9,10]; track pos) {
+              <div class="flex items-center gap-4">
+                <span class="w-8 h-8 flex items-center justify-center rounded bg-gray-800 text-gray-400 font-bold font-mono text-sm border border-gray-700">{{ pos }}</span>
+                <select [(ngModel)]="form['p' + pos + '_driver_id']" 
+                        class="flex-1 bg-black/40 text-white p-3 rounded-lg border border-gray-700 focus:border-racing-red outline-none transition-colors hover:bg-black/60">
+                  <option [ngValue]="null">Selecione o P{{ pos }}...</option>
+                  @for (d of drivers; track d.id) { <option [value]="d.id">#{{d.number}} - {{d.name}}</option> }
+                </select>
+              </div>
+            }
+          </div>
+        </div>
+
+        <div class="flex justify-end pt-4">
+          <button (click)="saveResult()" [disabled]="isSaving" 
+                  class="group relative overflow-hidden bg-green-600 hover:bg-green-500 text-white font-black py-4 px-12 rounded-xl shadow-[0_0_20px_rgba(34,197,94,0.3)] hover:shadow-[0_0_30px_rgba(34,197,94,0.5)] transition-all transform hover:-translate-y-1 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center gap-3 uppercase tracking-widest text-sm w-full md:w-auto justify-center">
+            @if (isSaving) {
+              <div class="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent"></div>
+              <span>Calculando...</span>
+            } @else {
+              <span>Confirmar Resultado</span>
+              <span class="text-xl">💾</span>
+            }
+          </button>
+        </div>
+
+      </div>
+    }
+  }
+</div>

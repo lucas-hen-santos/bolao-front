@@ -1,0 +1,149 @@
+<div class="space-y-6 pb-20">
+
+  <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 animate-slide-down">
+    <div>
+      <h1 class="text-3xl md:text-4xl font-black text-white uppercase italic tracking-tighter">
+        Gestão de <span class="text-racing-red">Equipes</span>
+      </h1>
+      <p class="text-gray-400 text-sm mt-1">Monitore e modere as escuderias dos jogadores.</p>
+    </div>
+    
+    <div class="relative w-full sm:w-64">
+      <input type="text" [(ngModel)]="searchTerm" (keyup.enter)="loadTeams()" placeholder="Buscar equipe..." 
+             class="w-full bg-black/40 text-white pl-4 pr-10 py-3 rounded-xl border border-gray-700 focus:border-racing-red outline-none text-sm font-medium transition-all focus:bg-black/60">
+      <button (click)="loadTeams()" class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-white">🔍</button>
+    </div>
+  </div>
+
+  @if (isLoading) {
+    <div class="flex justify-center py-12">
+      <div class="animate-spin rounded-full h-10 w-10 border-t-2 border-racing-red"></div>
+    </div>
+  } @else {
+
+    <div class="hidden md:block glass-panel overflow-hidden animate-slide-up">
+      <table class="w-full text-left border-collapse">
+        <thead>
+          <tr class="border-b border-gray-800 text-[10px] text-gray-500 uppercase tracking-widest bg-black/20">
+            <th class="p-4">Escuderia</th>
+            <th class="p-4">Capitão</th>
+            <th class="p-4">Parceiro</th>
+            <th class="p-4 text-center">Pontos</th>
+            <th class="p-4 text-right">Ações</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-800/50">
+          @for (team of teams; track team.id) {
+            <tr class="hover:bg-white/5 transition-colors group">
+              <td class="p-4">
+                <div class="flex items-center gap-3">
+                  <div class="w-10 h-10 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center p-1 relative overflow-hidden">
+                    <div class="absolute left-0 top-0 bottom-0 w-1" [style.background]="team.primary_color"></div>
+                    <img [src]="getLogoUrl(team.logo_url)" class="w-full h-full object-contain">
+                  </div>
+                  <div>
+                    <span class="text-white font-bold text-sm block">{{ team.name }}</span>
+                    <span class="text-[10px] text-gray-500 font-mono">ID: {{ team.id }}</span>
+                  </div>
+                </div>
+              </td>
+              <td class="p-4">
+                <span class="text-sm text-gray-300 font-medium">{{ team.captain_name }}</span>
+              </td>
+              <td class="p-4">
+                <span class="text-sm text-gray-400" [class.italic]="team.partner_name === 'Vaga'">{{ team.partner_name }}</span>
+              </td>
+              <td class="p-4 text-center">
+                <span class="font-mono font-bold text-white">{{ team.total_points }}</span>
+              </td>
+              <td class="p-4 text-right">
+                <div class="flex justify-end gap-2 opacity-50 group-hover:opacity-100 transition-opacity">
+                  <button (click)="openModerateModal(team)" class="p-2 rounded hover:bg-blue-500/20 text-gray-400 hover:text-blue-400 transition-colors" title="Editar Nome/Logo">✏️</button>
+                  <button (click)="deleteTeam(team)" class="p-2 rounded hover:bg-red-500/20 text-gray-400 hover:text-red-400 transition-colors" title="Excluir Equipe">🗑️</button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <div class="md:hidden space-y-4 animate-slide-up">
+      @for (team of teams; track team.id) {
+        <div class="glass-panel p-4 relative overflow-hidden border-l-4" [style.border-left-color]="team.primary_color || '#333'">
+          
+          <div class="flex justify-between items-start mb-4">
+            <div class="flex items-center gap-3">
+              <div class="w-12 h-12 bg-white/5 rounded-lg p-2 border border-white/10">
+                <img [src]="getLogoUrl(team.logo_url)" class="w-full h-full object-contain">
+              </div>
+              <div>
+                <h3 class="text-white font-bold text-base">{{ team.name }}</h3>
+                <span class="text-xs text-gray-500 font-mono">ID: {{ team.id }}</span>
+              </div>
+            </div>
+            <div class="text-right">
+              <span class="block text-2xl font-black text-white leading-none">{{ team.total_points }}</span>
+              <span class="text-[9px] text-gray-500 uppercase font-bold">PTS</span>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-2 text-xs border-t border-gray-800 pt-3 mb-4">
+            <div>
+              <span class="text-gray-500 block uppercase text-[9px] font-bold">Capitão</span>
+              <span class="text-gray-300">{{ team.captain_name }}</span>
+            </div>
+            <div>
+              <span class="text-gray-500 block uppercase text-[9px] font-bold">Parceiro</span>
+              <span class="text-gray-300">{{ team.partner_name }}</span>
+            </div>
+          </div>
+
+          <div class="flex gap-2">
+            <button (click)="openModerateModal(team)" class="flex-1 py-2 rounded bg-gray-800 text-gray-300 font-bold text-xs border border-gray-700 hover:bg-gray-700">Editar</button>
+            <button (click)="deleteTeam(team)" class="flex-1 py-2 rounded bg-red-900/20 text-red-400 font-bold text-xs border border-red-900/50 hover:bg-red-900/40">Excluir</button>
+          </div>
+
+        </div>
+      }
+    </div>
+
+    <div class="flex justify-center gap-4 mt-8">
+      <button (click)="changePage(-1)" [disabled]="skip === 0" class="px-4 py-2 bg-black/40 rounded-lg text-white disabled:opacity-30 hover:bg-white/10 text-sm font-bold">← Anterior</button>
+      <button (click)="changePage(1)" [disabled]="teams.length < limit" class="px-4 py-2 bg-black/40 rounded-lg text-white disabled:opacity-30 hover:bg-white/10 text-sm font-bold">Próximo →</button>
+    </div>
+
+  }
+
+</div>
+
+@if (showModal) {
+  <div class="fixed inset-0 z-[100] flex items-center justify-center p-4">
+    <div class="absolute inset-0 bg-black/90 backdrop-blur-sm transition-opacity" (click)="showModal = false"></div>
+    <div class="bg-racing-dark border border-gray-700 rounded-xl w-full max-w-md relative z-10 shadow-2xl animate-slide-up overflow-hidden">
+      
+      <div class="bg-black/50 p-4 border-b border-gray-800 flex justify-between items-center">
+        <h3 class="text-white font-bold uppercase italic">Moderar Equipe</h3>
+        <button (click)="showModal = false" class="text-gray-500 hover:text-white">&times;</button>
+      </div>
+
+      <div class="p-6 space-y-6">
+        <div>
+          <label class="block text-gray-500 text-xs font-bold uppercase mb-1">Nome da Equipe</label>
+          <input type="text" [(ngModel)]="editName" class="w-full bg-black text-white p-3 rounded border border-gray-700 focus:border-racing-red outline-none font-bold">
+        </div>
+
+        <div class="flex items-center gap-3 bg-red-900/10 p-3 rounded border border-red-900/30">
+          <input type="checkbox" [(ngModel)]="removeLogo" id="remLogo" class="rounded border-red-500 text-red-600 focus:ring-0 bg-black">
+          <label for="remLogo" class="text-red-400 text-sm font-bold cursor-pointer select-none">Remover Logo (Conteúdo Impróprio)</label>
+        </div>
+      </div>
+
+      <div class="p-4 border-t border-gray-800 bg-black/30 flex justify-end gap-3">
+        <button (click)="showModal = false" class="px-4 py-2 rounded text-gray-400 hover:text-white font-bold text-sm">Cancelar</button>
+        <button (click)="saveModeration()" class="px-6 py-2 rounded bg-blue-600 text-white font-bold hover:bg-blue-500 text-sm shadow-lg">Salvar</button>
+      </div>
+
+    </div>
+  </div>
+}

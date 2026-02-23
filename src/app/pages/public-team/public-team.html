@@ -1,0 +1,117 @@
+<app-navbar></app-navbar>
+
+<div class="min-h-screen bg-pattern-dark p-4 pb-20 bg-fixed">
+  
+  @if (isLoading) {
+    <div class="flex justify-center items-center h-[80vh]">
+      <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-racing-red"></div>
+    </div>
+  } @else if (team) {
+    
+    <div class="max-w-5xl mx-auto pt-10 space-y-8 animate-slide-up">
+      
+      <div class="relative rounded-3xl overflow-hidden shadow-2xl border border-gray-800">
+        <div class="absolute inset-0 opacity-20" 
+             [style.background]="'linear-gradient(135deg, ' + team.primary_color + ', ' + team.secondary_color + ')'"></div>
+        
+        <div class="relative z-10 p-10 flex flex-col md:flex-row items-center gap-10">
+          <div class="w-48 h-48 bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 p-6 shadow-2xl flex items-center justify-center shrink-0">
+            <img [src]="getLogoUrl(team.logo_url)" class="max-w-full max-h-full object-contain drop-shadow-lg">
+          </div>
+
+          <div class="text-center md:text-left flex-1">
+            <h1 class="text-5xl md:text-7xl font-black text-white italic uppercase tracking-tighter leading-none mb-4">
+              {{ team.name }}
+            </h1>
+            <div class="flex flex-wrap justify-center md:justify-start gap-4">
+              <div class="bg-black/50 px-4 py-2 rounded-lg border border-gray-700 flex items-center gap-2">
+                <span class="text-xs text-gray-400 font-bold uppercase">Ranking</span>
+                <span class="text-white font-mono font-bold text-xl text-yellow-500">{{ team.rank }}</span>
+              </div>
+              <div class="bg-black/50 px-4 py-2 rounded-lg border border-gray-700 flex items-center gap-2">
+                <span class="text-xs text-gray-400 font-bold uppercase">ID</span>
+                <span class="text-white font-mono font-bold">#{{ team.id }}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="text-center">
+            <span class="block text-7xl font-black text-white leading-none tracking-tighter">{{ team.total_points }}</span>
+            <span class="text-xs text-gray-400 font-bold uppercase tracking-widest mt-1">Pontos Totais</span>
+          </div>
+        </div>
+      </div>
+
+      @if (team.history && team.history.length > 0) {
+        <div class="glass-panel p-6">
+          <h3 class="text-gray-400 text-xs font-bold uppercase tracking-widest mb-6 border-l-4 border-blue-500 pl-2">Performance por Etapa</h3>
+          <div class="flex items-end justify-between gap-2 h-32 w-full">
+            @for (race of team.history; track $index) {
+              <div class="flex-1 flex flex-col justify-end group">
+                <div class="w-full rounded-t hover:bg-blue-500 transition-all duration-300 relative"
+                     [style.background-color]="team.primary_color || '#444'"
+                     [style.height]="(race.points * 3) + '%'" 
+                     style="min-height: 4px; max-height: 100%;">
+                   <div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-white text-black text-xs font-bold px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-10">
+                     {{ race.points }} pts
+                   </div>
+                </div>
+                <div class="text-[9px] text-gray-500 text-center mt-2 truncate w-full overflow-hidden">{{ race.race }}</div>
+              </div>
+            }
+          </div>
+        </div>
+      }
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        @if (team.captain) {
+          <a [routerLink]="['/u', team.captain.id]" class="glass-panel p-6 flex items-center gap-6 group hover:border-racing-red/50 transition-colors cursor-pointer">
+            <div class="w-20 h-20 rounded-full border-2 border-racing-red overflow-hidden bg-black shadow-lg">
+              @if (team.captain.photo) {
+                <img [src]="getPhotoUrl(team.captain.photo)" class="w-full h-full object-cover">
+              } @else {
+                <div class="w-full h-full flex items-center justify-center text-xl font-bold text-gray-500">{{ team.captain.name.charAt(0) }}</div>
+              }
+            </div>
+            <div>
+              <span class="text-[10px] text-racing-red font-bold uppercase tracking-widest mb-1 block">Team Principal</span>
+              <h3 class="text-2xl font-black text-white italic uppercase group-hover:text-racing-red transition-colors">{{ team.captain.name }}</h3>
+            </div>
+          </a>
+        }
+
+        @if (team.partner) {
+          <a [routerLink]="['/u', team.partner.id]" class="glass-panel p-6 flex items-center gap-6 group hover:border-gray-500 transition-colors cursor-pointer">
+            <div class="w-20 h-20 rounded-full border-2 border-gray-600 overflow-hidden bg-black shadow-lg">
+              @if (team.partner.photo) {
+                <img [src]="getPhotoUrl(team.partner.photo)" class="w-full h-full object-cover">
+              } @else {
+                <div class="w-full h-full flex items-center justify-center text-xl font-bold text-gray-500">{{ team.partner.name.charAt(0) }}</div>
+              }
+            </div>
+            <div>
+              <span class="text-[10px] text-gray-500 font-bold uppercase tracking-widest mb-1 block">2º Piloto</span>
+              <h3 class="text-2xl font-black text-white italic uppercase group-hover:text-gray-300 transition-colors">{{ team.partner.name }}</h3>
+            </div>
+          </a>
+        } @else {
+          <div class="glass-panel p-6 flex items-center justify-center border-dashed border-gray-700 opacity-50">
+            <p class="text-gray-500 italic">Vaga Disponível</p>
+          </div>
+        }
+      </div>
+
+    </div>
+
+  } @else {
+    <div class="flex justify-center items-center h-[80vh] text-white">
+      <div class="text-center">
+        <h1 class="text-4xl font-bold mb-2">404</h1>
+        <p class="text-gray-500">Equipe não encontrada.</p>
+        <a routerLink="/" class="mt-4 inline-block text-racing-red hover:underline">Voltar ao Paddock</a>
+      </div>
+    </div>
+  }
+</div>
+
+<app-footer></app-footer>

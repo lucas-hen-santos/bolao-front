@@ -1,0 +1,78 @@
+:host {
+    display: block;
+    overflow-x: hidden;
+    background-color: #050505;
+}
+
+.error-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+/* Texto 404 Gigante no Fundo */
+.big-404 {
+    font-size: 15rem;
+    font-weight: 900;
+    line-height: 1;
+    color: transparent;
+    -webkit-text-stroke: 2px rgba(239, 68, 68, 0.1);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) skewX(-10deg);
+    z-index: 0;
+    pointer-events: none;
+    white-space: nowrap;
+    animation: pulseGlitch 3s infinite;
+}
+
+@media (max-width: 768px) {
+    .big-404 { font-size: 8rem; }
+}
+
+/* Animação de Glitch Suave */
+@keyframes pulseGlitch {
+    0%, 100% { opacity: 0.3; transform: translate(-50%, -50%) skewX(-10deg) scale(1); }
+    50% { opacity: 0.5; transform: translate(-50%, -50%) skewX(-10deg) scale(1.02); }
+}
+
+/* Painel de Vidro Central */
+.glass-error {
+    background: rgba(10, 10, 10, 0.6);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    box-shadow: 0 0 50px rgba(239, 68, 68, 0.1);
+    border-radius: 2rem;
+    position: relative;
+    z-index: 10;
+    transition: transform 0.3s ease;
+}
+
+.glass-error:hover {
+    transform: translateY(-5px);
+    border-color: rgba(239, 68, 68, 0.4);
+}
+
+/* Ícone de Pneu/Erro animado */
+@keyframes spinSlow {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.spin-icon {
+    animation: spinSlow 10s linear infinite;
+}
+
+/* Botão de Retorno */
+.btn-return {
+    background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
+    box-shadow: 0 0 20px rgba(239, 68, 68, 0.4);
+    transition: all 0.3s ease;
+}
+
+.btn-return:hover {
+    box-shadow: 0 0 40px rgba(239, 68, 68, 0.6);
+    transform: scale(1.05);
+}

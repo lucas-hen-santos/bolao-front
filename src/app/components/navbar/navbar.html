@@ -1,0 +1,81 @@
+<nav class="bg-racing-dark border-b border-racing-red/30 shadow-lg fixed w-full top-0 z-[100]">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between h-16">
+      
+      <div class="flex items-center">
+        <a routerLink="/dashboard" class="flex-shrink-0 flex items-center cursor-pointer gap-2 group">
+          <span class="text-2xl md:text-3xl group-hover:scale-110 transition-transform">🏎️</span>
+          <span class="text-racing-red font-black text-lg md:text-xl italic tracking-tighter uppercase">
+            <span class="hidden sm:inline">Bolão Tá Potente</span>
+            <span class="sm:hidden">BTP</span>
+          </span>
+        </a>
+      </div>
+
+      <div class="hidden md:flex items-center space-x-6">
+        @if (userService.currentUser()?.is_admin) {
+          <a routerLink="/admin/dashboard" routerLinkActive="text-racing-red" class="text-purple-400 hover:text-white text-xs font-bold uppercase tracking-wide transition flex items-center gap-1 border border-purple-500/30 bg-purple-500/10 px-3 py-1.5 rounded-full hover:bg-purple-500/20">
+            <span>🛡️</span> Admin
+          </a>
+        }
+        <a routerLink="/dashboard" routerLinkActive="text-racing-red" class="text-gray-300 hover:text-white text-xs font-bold uppercase tracking-wide transition">Início</a>
+        <a routerLink="/ranking" routerLinkActive="text-racing-red" class="text-gray-300 hover:text-white text-xs font-bold uppercase tracking-wide transition">Ranking</a>
+        
+        <a routerLink="/grid" routerLinkActive="text-racing-red" class="text-gray-300 hover:text-white text-xs font-bold uppercase tracking-wide transition">Grid F1</a>
+        <a routerLink="/rivals" routerLinkActive="text-racing-red" class="text-gray-300 hover:text-white text-xs font-bold uppercase tracking-wide transition">Rivais</a>
+        <a routerLink="/my-team" routerLinkActive="text-racing-red" class="text-gray-300 hover:text-white text-xs font-bold uppercase tracking-wide transition">Equipe</a>
+        
+        <div class="flex items-center gap-4 ml-4 pl-4 border-l border-gray-700">
+          <a routerLink="/profile" class="flex items-center gap-3 group cursor-pointer">
+            <div class="relative w-8 h-8 rounded-full border border-gray-600 group-hover:border-racing-red transition-colors overflow-hidden bg-gray-800">
+              @if (userService.currentUser()?.profile_image_url) {
+                <img [src]="getPhotoUrl(userService.currentUser()?.profile_image_url)" class="w-full h-full object-cover">
+              } @else {
+                <div class="w-full h-full flex items-center justify-center text-white font-bold text-xs">{{ getInitials(userService.currentUser()?.full_name) }}</div>
+              }
+            </div>
+          </a>
+          <button (click)="logout()" class="text-gray-500 hover:text-white transition" title="Sair">
+            <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="flex items-center md:hidden gap-3">
+        <a routerLink="/profile" class="w-8 h-8 rounded-full border border-gray-600 overflow-hidden bg-gray-800">
+          @if (userService.currentUser()?.profile_image_url) {
+            <img [src]="getPhotoUrl(userService.currentUser()?.profile_image_url)" class="w-full h-full object-cover">
+          } @else {
+            <div class="w-full h-full flex items-center justify-center text-white font-bold text-xs">{{ getInitials(userService.currentUser()?.full_name) }}</div>
+          }
+        </a>
+        <button (click)="toggleMenu()" class="text-gray-300 hover:text-white p-1 focus:outline-none">
+          <svg class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            @if (!isOpen()) { <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /> } 
+            @else { <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /> }
+          </svg>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  @if (isOpen()) {
+    <div class="md:hidden bg-racing-black border-t border-gray-800 animate-slide-down shadow-2xl">
+      <div class="px-2 pt-2 pb-3 space-y-1">
+        @if (userService.currentUser()?.is_admin) {
+          <a routerLink="/admin/dashboard" (click)="closeMenu()" class="text-purple-400 block px-3 py-3 rounded-md text-sm font-bold uppercase tracking-wider border border-purple-900/30 bg-purple-900/10 mb-2">🛡️ Painel Admin</a>
+        }
+        <a routerLink="/dashboard" (click)="closeMenu()" routerLinkActive="bg-racing-red text-white" class="text-gray-300 hover:bg-gray-800 hover:text-white block px-3 py-3 rounded-md text-sm font-bold uppercase tracking-wider">🏠 Início</a>
+        <a routerLink="/ranking" (click)="closeMenu()" routerLinkActive="bg-racing-red text-white" class="text-gray-300 hover:bg-gray-800 hover:text-white block px-3 py-3 rounded-md text-sm font-bold uppercase tracking-wider">🏆 Ranking</a>
+        
+        <a routerLink="/grid" (click)="closeMenu()" routerLinkActive="bg-racing-red text-white" class="text-gray-300 hover:bg-gray-800 hover:text-white block px-3 py-3 rounded-md text-sm font-bold uppercase tracking-wider">🏁 Grid F1</a>
+        <a routerLink="/rivals" (click)="closeMenu()" routerLinkActive="bg-racing-red text-white" class="text-gray-300 hover:bg-gray-800 hover:text-white block px-3 py-3 rounded-md text-sm font-bold uppercase tracking-wider">⚔️ Rivais</a>
+        <a routerLink="/my-team" (click)="closeMenu()" routerLinkActive="bg-racing-red text-white" class="text-gray-300 hover:bg-gray-800 hover:text-white block px-3 py-3 rounded-md text-sm font-bold uppercase tracking-wider">🏎️ Equipe</a>
+        
+        <button (click)="logout()" class="w-full text-left text-red-500 hover:bg-red-900/10 block px-3 py-3 rounded-md text-sm font-bold uppercase tracking-wider mt-4 border-t border-gray-800">🚪 Sair</button>
+      </div>
+    </div>
+  }
+</nav>
+<div class="h-16"></div>
