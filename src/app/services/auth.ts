@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { Observable, tap, switchMap } from 'rxjs';
+import { Observable, tap, switchMap, catchError, throwError } from 'rxjs';
 import { environment } from '../../environments/environment';
 
 @Injectable({
@@ -12,23 +12,35 @@ export class AuthService {
   private router = inject(Router);
   private apiUrl = `${environment.apiUrl}/auth`; // Prefixo /auth
 
- login(email: string, pass: string, rememberMe: boolean = false): Observable<any> {
+  login(email: string, pass: string, rememberMe: boolean = false): Observable<any> {
     const body = new FormData();
     body.append('username', email);
     body.append('password', pass);
     body.append('remember_me', String(rememberMe)); 
 
     return this.http.post<any>(`${this.apiUrl}/login`, body).pipe(
-      tap((res) => {
-        // Guarda o token no navegador
+      // Usamos o switchMap direto para garantir a ordem de execução
+      switchMap((res) => {
+        // 1. Guarda os tokens no navegador imediatamente
         localStorage.setItem('access_token', res.access_token);
-        if (rememberMe) {
+        if (rememberMe && res.refresh_token) {
           localStorage.setItem('refresh_token', res.refresh_token);
         }
+
+        // 2. Busca o perfil para saber se é admin
+        return this.http.get<any>(`${environment.apiUrl}/users/me`).pipe(
+          catchError((err) => {
+            console.error("Erro ao buscar perfil após login:", err);
+            // Se falhar a busca do usuário (ex: interceptor não pegou o token a tempo),
+            // a gente força a entrada no dashboard normal para a tela não travar!
+            this.router.navigate(['/dashboard']);
+            return throwError(() => err);
+          })
+        );
       }),
-      switchMap(() => this.http.get<any>(`${environment.apiUrl}/users/me`)),
       tap((user) => {
-        if (user.is_admin) {
+        // 3. Se buscou o perfil com sucesso, redireciona conforme o cargo
+        if (user && user.is_admin) {
           this.router.navigate(['/admin/dashboard']);
         } else {
           this.router.navigate(['/dashboard']);
