@@ -1,22 +1,19 @@
 import { HttpInterceptorFn } from '@angular/common/http';
-import { environment } from '../../environments/environment';
 
 export const credentialsInterceptor: HttpInterceptorFn = (req, next) => {
-  // Verifica se a requisição é para a nossa API
-  const isApiUrl = req.url.includes(environment.apiUrl) || req.url.includes('localhost:8000');
+  // Busca o token diretamente do navegador
+  const token = localStorage.getItem('access_token');
 
-  if (isApiUrl) {
-    // Tenta buscar o token no localStorage
-    const token = localStorage.getItem('access_token');
-    
-    // Clona a requisição adicionando o cabeçalho Authorization
+  // Se o token existir, clona a requisição e injeta o cabeçalho
+  if (token) {
     const authReq = req.clone({
-      setHeaders: token ? { Authorization: `Bearer ${token}` } : {}
+      setHeaders: {
+        Authorization: `Bearer ${token}`
+      }
     });
-    
     return next(authReq);
   }
 
-  // Se for para fora (ex: via cep), segue normal
+  // Se não houver token (ex: durante o próprio login), segue normalmente
   return next(req);
 };
