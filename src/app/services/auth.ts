@@ -12,15 +12,20 @@ export class AuthService {
   private router = inject(Router);
   private apiUrl = `${environment.apiUrl}/auth`; // Prefixo /auth
 
-  login(email: string, pass: string, rememberMe: boolean = false): Observable<any> {
+ login(email: string, pass: string, rememberMe: boolean = false): Observable<any> {
     const body = new FormData();
     body.append('username', email);
     body.append('password', pass);
     body.append('remember_me', String(rememberMe)); 
 
-    return this.http.post(`${this.apiUrl}/login`, body).pipe(
-      // Nota: O endpoint /users/me fica em outro serviço, mas podemos chamar direto se preciso
-      // ou idealmente usar o UserService. Aqui vou manter a chamada HTTP direta para simplificar
+    return this.http.post<any>(`${this.apiUrl}/login`, body).pipe(
+      tap((res) => {
+        // Guarda o token no navegador
+        localStorage.setItem('access_token', res.access_token);
+        if (rememberMe) {
+          localStorage.setItem('refresh_token', res.refresh_token);
+        }
+      }),
       switchMap(() => this.http.get<any>(`${environment.apiUrl}/users/me`)),
       tap((user) => {
         if (user.is_admin) {
@@ -32,6 +37,17 @@ export class AuthService {
     );
   }
 
+  logout() {
+    // Apaga os tokens do navegador
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('refresh_token');
+    
+    return this.http.post(`${this.apiUrl}/logout`, {}).subscribe({
+      next: () => this.router.navigate(['/login']),
+      error: () => this.router.navigate(['/login'])
+    });
+  }
+
   register(name: string, email: string, pass: string): Observable<any> {
     const body = {
       full_name: name,
@@ -40,12 +56,6 @@ export class AuthService {
     };
     // Ajuste: register é em /users/ (post)
     return this.http.post(`${environment.apiUrl}/users/`, body);
-  }
-
-  logout() {
-    return this.http.post(`${this.apiUrl}/logout`, {}).subscribe(() => {
-      this.router.navigate(['/login']);
-    });
   }
 
   forgotPassword(email: string): Observable<any> {

@@ -6,10 +6,14 @@ export const credentialsInterceptor: HttpInterceptorFn = (req, next) => {
   const isApiUrl = req.url.includes(environment.apiUrl) || req.url.includes('localhost:8000');
 
   if (isApiUrl) {
-    // Clona a requisição e adiciona a flag para enviar Cookies
+    // Tenta buscar o token no localStorage
+    const token = localStorage.getItem('access_token');
+    
+    // Clona a requisição adicionando o cabeçalho Authorization
     const authReq = req.clone({
-      withCredentials: true
+      setHeaders: token ? { Authorization: `Bearer ${token}` } : {}
     });
+    
     return next(authReq);
   }
 
