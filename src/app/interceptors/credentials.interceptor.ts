@@ -17,3 +17,4 @@ export const credentialsInterceptor: HttpInterceptorFn = (req, next) => {
   // Se não houver token (ex: durante o próprio login), segue normalmente
   return next(req);
 };
+
