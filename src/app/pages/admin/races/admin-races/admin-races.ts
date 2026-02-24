@@ -34,7 +34,6 @@ import { ResultViewerComponent } from '../../../../components/result-viewer/resu
     }
     .animate-slide-up { animation: slideUp 0.5s ease-out forwards; }
     @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-    /* Scrollbar Oculta */
     .scrollbar-hide::-webkit-scrollbar { display: none; }
     .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
   `]
@@ -45,16 +44,14 @@ export class AdminRaces implements OnInit {
 
   seasons: any[] = [];
   selectedSeasonId: number | null = null;
-  activeSeason: any = null; // Para controle de botões
+  activeSeason: any = null;
   races: any[] = [];
   isLoading = true;
 
-  // Formulário Corrida
-  showModal = false; // Controla o modal de Criar/Editar
+  showModal = false;
   isEditing = false;
   editingId: number | null = null;
   
-  // Objeto do Form
   form: any = {
     name: '',
     country: '',
@@ -63,7 +60,6 @@ export class AdminRaces implements OnInit {
     bets_close_at: ''
   };
 
-  // Modais Extras
   showSeasonModal = false;
   newSeasonYear: number = new Date().getFullYear() + 1;
   
@@ -75,7 +71,6 @@ export class AdminRaces implements OnInit {
   progressValue = 0;
   freezeStep = '';
 
-  // Modal Resultados
   showResultModal = false;
   selectedRaceForResults: any = null;
 
@@ -121,8 +116,6 @@ export class AdminRaces implements OnInit {
     this.loadRaces();
   }
 
-  // --- ACTIONS ---
-
   openFreezeModal() {
     if (!this.activeSeason) return;
     this.showFreezeModal = true;
@@ -142,7 +135,6 @@ export class AdminRaces implements OnInit {
 
     let currentStep = 0;
     
-    // Simula progresso visual enquanto chama o backend
     this.adminService.closeSeason(this.activeSeason.id).subscribe({
       next: () => {
         const interval = setInterval(() => {
@@ -184,15 +176,12 @@ export class AdminRaces implements OnInit {
     });
   }
 
-  // --- CRUD CORRIDAS ---
-
   openModal(race: any = null) {
     if (race) {
       this.isEditing = true;
       this.editingId = race.id;
-      this.showModal = true; // Usando showModal
+      this.showModal = true; 
       
-      // Preenche form com formatação correta de data
       this.form = {
         name: race.name,
         country: race.country,
@@ -208,10 +197,11 @@ export class AdminRaces implements OnInit {
     }
   }
 
-  private formatDateForInput(isoString: string): string {
-    if (!isoString) return '';
-    // Garante formato YYYY-MM-DDTHH:MM para input datetime-local
-    return new Date(isoString).toISOString().slice(0, 16);
+  // A MÁGICA ESTÁ AQUI: Extração pura do texto, sem instanciar new Date() e evitar somar 3 horas!
+  private formatDateForInput(dateStr: string): string {
+    if (!dateStr) return '';
+    // Troca espaço por 'T' caso venha do banco e pega os primeiros 16 caracteres (YYYY-MM-DDTHH:MM)
+    return dateStr.replace(' ', 'T').substring(0, 16);
   }
 
   saveRace() {
@@ -220,7 +210,6 @@ export class AdminRaces implements OnInit {
       return;
     }
 
-    // Formata datas para ISO completo se necessário
     const payload = {
       ...this.form,
       race_date: this.ensureISO(this.form.race_date),
@@ -243,7 +232,7 @@ export class AdminRaces implements OnInit {
   }
 
   private ensureISO(dateStr: string): string {
-    if (dateStr.length === 16) return dateStr + ':00'; // Adiciona segundos se faltar
+    if (dateStr.length === 16) return dateStr + ':00'; 
     return dateStr;
   }
 
@@ -288,7 +277,6 @@ export class AdminRaces implements OnInit {
     this.showResultModal = true;
   }
 
-  // Helpers de Visualização
   getStatusClass(status: string) {
     switch(status) {
       case 'OPEN': return 'bg-green-900/20 text-green-400 border-green-500/30';
