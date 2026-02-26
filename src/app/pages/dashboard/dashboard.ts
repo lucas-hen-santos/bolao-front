@@ -19,6 +19,8 @@ import { environment } from '../../../environments/environment';
   styleUrl: './dashboard.css'
 })
 export class Dashboard implements OnInit, OnDestroy {
+  currentYear = new Date().getFullYear();
+
   private http = inject(HttpClient);
   private betService = inject(BetService);
   private userService = inject(UserService);
