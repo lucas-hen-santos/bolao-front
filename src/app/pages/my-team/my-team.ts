@@ -108,6 +108,12 @@ export class MyTeam implements OnInit {
     return `${this.API_URL}${url.startsWith('/') ? '' : '/'}${url}`;
   }
 
+  getPhotoUrl(url: string | null): string {
+    if (!url) return '';
+    if (url.startsWith('http')) return url;
+    return `${this.API_URL}${url.startsWith('/') ? '' : '/'}${url}`;
+  }
+
   // ... (Métodos de ação mantidos: openLeaveModal, confirmLeave, openKickModal, etc)
   openLeaveModal() { this.showLeaveModal = true; }
   confirmLeave() {
