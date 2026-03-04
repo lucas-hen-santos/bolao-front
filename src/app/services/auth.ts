@@ -20,7 +20,6 @@ export class AuthService {
 
     return this.http.post<any>(`${this.apiUrl}/login`, body).pipe(
       switchMap((res) => {
-        // 1. Salva os tokens com segurança
         const token = res?.access_token || res?.token;
         if (token) {
           localStorage.setItem('access_token', token);
@@ -33,7 +32,6 @@ export class AuthService {
         return this.http.get<any>(`${environment.apiUrl}/users/me`).pipe(
           catchError((err) => {
             console.error("Erro na busca de perfil pós-login, forçando dashboard:", err);
-            // Retorna um usuário falso comum para não disparar o erro no login.ts
             return of({ is_admin: false }); 
           })
         );

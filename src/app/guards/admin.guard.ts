@@ -3,14 +3,13 @@ import { Router, CanActivateFn } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { catchError, map, of } from 'rxjs';
 import { ToastService } from '../services/toast';
-import { environment } from '../../environments/environment'; // <-- Import necessário
+import { environment } from '../../environments/environment';
 
 export const adminGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
   const http = inject(HttpClient);
   const toast = inject(ToastService);
 
-  // Alterado para usar a variável de ambiente correta
   return http.get<any>(`${environment.apiUrl}/users/me`).pipe(
     map((user) => {
       if (user && user.is_admin) {

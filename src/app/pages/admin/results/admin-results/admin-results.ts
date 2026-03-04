@@ -2,7 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AdminService } from '../../../../services/admin';
-import { BetService } from '../../../../services/bet'; // Para pegar drivers/teams
+import { BetService } from '../../../../services/bet'; 
 import { ToastService } from '../../../../services/toast';
 
 @Component({
@@ -64,7 +64,7 @@ export class AdminResults implements OnInit {
     // Tenta carregar resultado existente
     this.adminService.getRaceResult(this.selectedRaceId).subscribe(res => {
       if (res.result) {
-        this.form = { ...res.result }; // Preenche form
+        this.form = { ...res.result };
         this.toast.show('Gabarito existente carregado.', 'info');
       } else {
         this.resetForm();

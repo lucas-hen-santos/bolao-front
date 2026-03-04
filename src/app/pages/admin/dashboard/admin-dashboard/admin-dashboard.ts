@@ -51,13 +51,13 @@ export class AdminDashboard implements OnInit {
   generateChart(history: any[]) {
     if (!history || history.length < 2) return;
     
-    const maxPct = 100; // Eixo Y é sempre 0-100%
+    const maxPct = 100; 
     const width = 100; 
     const step = width / (history.length - 1);
     
     this.chartPoints = history.map((h, i) => {
       const x = i * step;
-      const y = 100 - h.pct; // Inverte Y (0 é topo)
+      const y = 100 - h.pct;
       return `${x},${y}`;
     }).join(' ');
   }

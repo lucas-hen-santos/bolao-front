@@ -16,7 +16,6 @@ export class TeamService {
     formData.append('primary_color', primaryColor);
     formData.append('secondary_color', secondaryColor);
     if (logo) formData.append('logo', logo);
-    // Note: POST em /teams/
     return this.http.post(`${this.apiUrl}/`, formData);
   }
 

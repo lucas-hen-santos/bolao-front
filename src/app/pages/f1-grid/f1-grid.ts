@@ -5,7 +5,7 @@ import { Navbar } from '../../components/navbar/navbar';
 import { Footer } from '../../components/footer/footer';
 import { BetService } from '../../services/bet';
 import { environment } from '../../../environments/environment';
-// import { environment } from '../../environments/environment'; // <--- Importar
+
 
 @Component({
   selector: 'app-f1-grid',
@@ -16,7 +16,7 @@ import { environment } from '../../../environments/environment';
 })
 export class F1Grid implements OnInit {
   private betService = inject(BetService);
-  private readonly API_URL = environment.imageBaseUrl; // <--- Atualizado
+  private readonly API_URL = environment.imageBaseUrl;
 
   grid: any[] = [];
   seasons: any[] = [];

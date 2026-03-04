@@ -20,7 +20,6 @@ export class AchievementNotification implements OnInit, OnDestroy {
   ngOnInit() {
     this.checkNewAchievements();
 
-    // Escuta o gatilho do Dashboard
     this.sub = this.achievementService.checkTrigger$.subscribe(() => {
       this.checkNewAchievements();
     });
@@ -31,12 +30,10 @@ export class AchievementNotification implements OnInit, OnDestroy {
   }
 
   checkNewAchievements() {
-    // Se já tem algo na tela, não busca de novo para não sobrepor
     if (this.currentBadge) return;
 
     this.achievementService.getNewAchievements().subscribe(badges => {
       if (badges && badges.length > 0) {
-        // Filtra duplicados locais (caso a API retorne o mesmo antes de marcar como visto)
         const newItems = badges.filter(b => !this.queue.find(q => q.id === b.id));
         this.queue.push(...newItems);
         
@@ -58,7 +55,6 @@ export class AchievementNotification implements OnInit, OnDestroy {
   next() {
     if (!this.currentBadge) return;
 
-    // Marca como visto e avança
     this.achievementService.markAsSeen([this.currentBadge.id]).subscribe(() => {
         this.showNext();
     });

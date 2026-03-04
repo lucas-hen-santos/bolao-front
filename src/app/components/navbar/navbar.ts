@@ -17,7 +17,6 @@ export class Navbar implements OnInit {
   private authService = inject(AuthService);
   public userService = inject(UserService);
   
-  // Usa a URL do ambiente
   private readonly API_URL = environment.imageBaseUrl;
 
   isOpen = signal(false);
@@ -41,7 +40,6 @@ export class Navbar implements OnInit {
   getPhotoUrl(url: string | null): string {
     if (!url) return '';
     if (url.startsWith('http')) return url;
-    // Concatena com a URL base do ambiente
     return `${this.API_URL}${url.startsWith('/') ? '' : '/'}${url}`;
   }
 

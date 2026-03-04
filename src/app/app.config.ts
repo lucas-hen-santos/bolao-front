@@ -1,5 +1,5 @@
 import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZoneChangeDetection, isDevMode } from '@angular/core';
-import { provideRouter, TitleStrategy, withInMemoryScrolling } from '@angular/router'; // <--- 1. Importar withInMemoryScrolling
+import { provideRouter, TitleStrategy, withInMemoryScrolling } from '@angular/router'; 
 import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
 import { provideServiceWorker } from '@angular/service-worker';
 
@@ -12,12 +12,11 @@ export const appConfig: ApplicationConfig = {
     provideBrowserGlobalErrorListeners(),
     provideZoneChangeDetection({ eventCoalescing: true }),
     
-    // 2. Configurar o Router com Scroll
     provideRouter(
       routes,
       withInMemoryScrolling({
-        scrollPositionRestoration: 'top', // <--- Força ir para o topo na navegação
-        anchorScrolling: 'enabled'        // <--- Permite links com âncora (ex: #regras) funcionarem
+        scrollPositionRestoration: 'top', 
+        anchorScrolling: 'enabled'      
       })
     ),
     

@@ -104,7 +104,6 @@ export class ResultViewerComponent implements OnInit {
   isLoading = true;
 
   ngOnInit() {
-    // Carrega dados auxiliares (Drivers/Teams) para mapear IDs -> Nomes
     this.betService.getDrivers().subscribe(d => {
       this.drivers = d;
       this.betService.getTeams().subscribe(t => {
@@ -124,7 +123,6 @@ export class ResultViewerComponent implements OnInit {
     });
   }
 
-  // Helpers para mostrar nomes ao invés de IDs
   getDriverName(id: number): string {
     const d = this.drivers.find(x => x.id === id);
     return d ? `#${d.number} ${d.name}` : 'Desc.';
@@ -137,7 +135,6 @@ export class ResultViewerComponent implements OnInit {
 
   getDriverByPos(pos: number): string {
     if (!this.raceData?.result) return '-';
-    // Mapeia P4 -> p4_driver_id
     const key = `p${pos}_driver_id`;
     const id = this.raceData.result[key];
     return this.getDriverName(id);

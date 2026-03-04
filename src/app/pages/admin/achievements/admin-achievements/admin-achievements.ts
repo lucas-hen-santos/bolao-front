@@ -2,7 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AdminService } from '../../../../services/admin';
-import { AchievementService } from '../../../../services/achievement'; // <--- Injetar este
+import { AchievementService } from '../../../../services/achievement'; 
 import { ToastService } from '../../../../services/toast';
 
 @Component({
@@ -38,7 +38,7 @@ import { ToastService } from '../../../../services/toast';
 })
 export class AdminAchievements implements OnInit {
   private adminService = inject(AdminService);
-  private achievementService = inject(AchievementService); // <--- Usar este para listar
+  private achievementService = inject(AchievementService);
   private toast = inject(ToastService);
 
   achievements: any[] = [];

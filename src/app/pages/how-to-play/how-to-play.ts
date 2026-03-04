@@ -9,6 +9,6 @@ import { Footer } from '../../components/footer/footer';
   standalone: true,
   imports: [CommonModule, Navbar, Footer, RouterModule],
   templateUrl: './how-to-play.html',
-  styleUrl: './how-to-play.css' // Vínculo com o novo CSS
+  styleUrl: './how-to-play.css'
 })
 export class HowToPlay {}

@@ -99,7 +99,7 @@ export class AdminTeams implements OnInit {
 
   // Helper
   getLogoUrl(url: string | null): string {
-    if (!url) return 'assets/default-team.png'; // Fallback
+    if (!url) return 'assets/default-team.png'; 
     if (url.startsWith('http')) return url;
     return `${this.API_URL}${url.startsWith('/') ? '' : '/'}${url}`;
   }

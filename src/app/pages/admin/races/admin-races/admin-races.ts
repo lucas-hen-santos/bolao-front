@@ -197,10 +197,8 @@ export class AdminRaces implements OnInit {
     }
   }
 
-  // A MÁGICA ESTÁ AQUI: Extração pura do texto, sem instanciar new Date() e evitar somar 3 horas!
   private formatDateForInput(dateStr: string): string {
     if (!dateStr) return '';
-    // Troca espaço por 'T' caso venha do banco e pega os primeiros 16 caracteres (YYYY-MM-DDTHH:MM)
     return dateStr.replace(' ', 'T').substring(0, 16);
   }
 

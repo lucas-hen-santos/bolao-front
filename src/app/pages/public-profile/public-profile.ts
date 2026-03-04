@@ -8,7 +8,7 @@ import { ToastService } from '../../services/toast';
 import { Navbar } from '../../components/navbar/navbar';
 import { Footer } from '../../components/footer/footer';
 import { environment } from '../../../environments/environment';
-// import { environment } from '../../environments/environment'; // <--- Importar
+
 
 @Component({
   selector: 'app-public-profile',
@@ -24,9 +24,8 @@ export class PublicProfile implements OnInit {
   private rivalryService = inject(RivalryService);
   private toast = inject(ToastService);
   
-  readonly API_URL = environment.imageBaseUrl; // <--- Atualizado
+  readonly API_URL = environment.imageBaseUrl; 
 
-  // ... (Restante do código mantido idêntico ao arquivo anteriormente fornecido, apenas trocando URL fixa pela variável) ...
   user: any = null;
   currentUser: any = null;
   isLoading = true;
@@ -108,7 +107,6 @@ export class PublicProfile implements OnInit {
     return colors[color] || colors['gold'];
   }
   
-  // Helpers de Rivais
   getRivalName(rivalry: any): string { const opponent = rivalry.challenger_id === this.user.id ? rivalry.opponent : rivalry.challenger; return opponent ? opponent.full_name : 'Desconhecido'; }
   getRivalResultClass(rivalry: any): string { if (rivalry.winner_id === this.user.id) return 'text-green-500'; if (rivalry.winner_id === null) return 'text-gray-400'; return 'text-red-500'; }
   getRivalResultLabel(rivalry: any): string { if (rivalry.winner_id === this.user.id) return 'VIT'; if (rivalry.winner_id === null) return 'EMP'; return 'DER'; }

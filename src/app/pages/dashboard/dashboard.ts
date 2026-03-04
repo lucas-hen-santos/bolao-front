@@ -42,7 +42,7 @@ export class Dashboard implements OnInit, OnDestroy {
   userHistory: any[] = [];
   chartPoints: string = '';
   lastRacePoints: number = 0;
-  totalPoints: number = 0; // <--- CORREÇÃO: Variável reintroduzida
+  totalPoints: number = 0;
   
   // Rivais
   activeDuel: any = null;
@@ -64,7 +64,6 @@ export class Dashboard implements OnInit, OnDestroy {
     this.userService.getMe().subscribe(user => {
       this.currentUser = user;
       
-      // Busca perfil completo (com ranking)
       this.userService.getPublicProfile(user.id).subscribe(profile => {
         this.userStats = profile;
       });
@@ -103,7 +102,6 @@ export class Dashboard implements OnInit, OnDestroy {
         this.lastRacePoints = history[0].points;
       }
       
-      // CORREÇÃO: Recalcula o total de pontos baseado no histórico
       this.totalPoints = history.reduce((acc, curr) => acc + curr.points, 0);
 
       this.generateChart(history.slice(0, 6).reverse());

@@ -36,7 +36,7 @@ import { environment } from '../../../../../environments/environment';
 export class AdminGridManager implements OnInit {
   private http = inject(HttpClient);
   private toast = inject(ToastService);
-  private apiUrl = `${environment.apiUrl}/admin/f1`; // Ajuste conforme sua rota de admin para F1
+  private apiUrl = `${environment.apiUrl}/admin/f1`; 
 
   activeTab: 'drivers' | 'teams' = 'drivers';
   drivers: any[] = [];
@@ -58,7 +58,6 @@ export class AdminGridManager implements OnInit {
 
   loadData() {
     this.isLoading = true;
-    // Carrega Equipes primeiro para mapear nomes
     this.http.get<any[]>(`${this.apiUrl}/teams/`).subscribe(teams => {
       this.teams = teams;
       this.http.get<any[]>(`${this.apiUrl}/drivers/`).subscribe(drivers => {

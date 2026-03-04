@@ -66,7 +66,6 @@ export class PushService {
     });
   }
 
-  // --- MÉTODO RESTAURADO ---
   public sendTestNotification() {
     this.http.post(`${this.apiUrl}/test`, {}).subscribe({
       next: () => this.toast.show('Teste enviado! Verifique sua bandeja.', 'info'),

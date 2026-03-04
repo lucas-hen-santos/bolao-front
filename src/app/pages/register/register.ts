@@ -42,7 +42,6 @@ export class Register {
       next: () => {
         this.toastService.show('Conta criada com sucesso! Faça login.', 'success');
         this.isLoading = false;
-        // Redireciona para o login após criar
         this.router.navigate(['/login']);
       },
       error: (err) => {

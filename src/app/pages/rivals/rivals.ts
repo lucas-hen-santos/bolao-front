@@ -8,7 +8,7 @@ import { RivalryService } from '../../services/rivalry';
 import { UserService } from '../../services/user';
 import { ToastService } from '../../services/toast';
 import { environment } from '../../../environments/environment';
-// import { environment } from '../../environments/environment'; // <--- Importar
+
 
 @Component({
   selector: 'app-rivals',
@@ -22,12 +22,11 @@ export class Rivals implements OnInit {
   private userService = inject(UserService);
   private toast = inject(ToastService);
 
-  private readonly API_URL = environment.imageBaseUrl; // <--- Atualizado
+  private readonly API_URL = environment.imageBaseUrl;
 
   currentUser: any = null;
   isLoading = true;
 
-  // ... (Variáveis mantidas: listas, modal, etc)
   pendingReceived: any[] = [];
   pendingSent: any[] = [];
   activeRivalries: any[] = [];
@@ -73,7 +72,6 @@ export class Rivals implements OnInit {
     });
   }
 
-  // ... (Métodos de Ação: accept, decline, modal...)
   accept(id: number) {
     this.rivalryService.acceptChallenge(id).subscribe({
       next: () => { this.toast.show('Desafio aceito! ⚔️', 'success'); this.loadRivals(); },

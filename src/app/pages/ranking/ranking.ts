@@ -7,7 +7,6 @@ import { Navbar } from '../../components/navbar/navbar';
 import { Footer } from '../../components/footer/footer';
 import { BetService } from '../../services/bet';
 import { environment } from '../../../environments/environment';
-// import { environment } from '../../environments/environment'; // <--- Importar
 
 @Component({
   selector: 'app-ranking',
@@ -19,7 +18,7 @@ import { environment } from '../../../environments/environment';
 export class Ranking implements OnInit {
   private http = inject(HttpClient);
   private betService = inject(BetService);
-  private readonly API_URL = environment.imageBaseUrl; // <--- Atualizado
+  private readonly API_URL = environment.imageBaseUrl; 
   
   activeTab: 'drivers' | 'teams' = 'drivers';
   
@@ -50,9 +49,6 @@ export class Ranking implements OnInit {
     this.isLoading = true;
     const params = `?season_id=${this.selectedSeasonId}`;
     
-    // Como essas rotas não estão no BetService, uso o environment.apiUrl se fosse injetado, 
-    // mas aqui o path é relativo (/api/v1/...) e o interceptor não altera a URL base se não for completa.
-    // Idealmente, movemos isso para o Service. Mas como paliativo:
     const apiUrl = environment.apiUrl; 
     
     this.http.get<any[]>(`${apiUrl}/ranking/teams${params}`).subscribe(teams => {

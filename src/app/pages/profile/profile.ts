@@ -12,9 +12,8 @@ import { BetService } from '../../services/bet';
 import { ToastService } from '../../services/toast';
 import { AchievementService } from '../../services/achievement';
 import { RivalryService } from '../../services/rivalry';
-import { PushService } from '../../services/push'; // <--- Importar
+import { PushService } from '../../services/push'; 
 import { environment } from '../../../environments/environment';
-// import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-profile',
@@ -30,7 +29,7 @@ export class Profile implements OnInit {
   private sanitizer = inject(DomSanitizer);
   private achievementService = inject(AchievementService);
   private rivalryService = inject(RivalryService);
-  public pushService = inject(PushService); // <--- Injeção
+  public pushService = inject(PushService); 
   
   private readonly API_URL = environment.imageBaseUrl;
 

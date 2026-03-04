@@ -91,13 +91,10 @@ export class BetMaker implements OnInit, OnDestroy {
   randomizeBet() {
     if (this.isBettingClosed) return;
 
-    // 1. Embaralhar pilotos para o Top 10
     const shuffled = [...this.allDrivers].sort(() => 0.5 - Math.random());
     
-    // Preenche as 10 primeiras posições
     this.top10Selections = shuffled.slice(0, 10).map(d => d.id);
 
-    // 2. Sortear Extras
     this.selectedPole = this.getRandomItem(this.allDrivers).id;
     this.selectedDotd = this.getRandomItem(this.allDrivers).id;
     this.selectedTeamWinner = this.getRandomItem(this.allTeams).id;
@@ -148,7 +145,6 @@ export class BetMaker implements OnInit, OnDestroy {
 
   // --- Validações ---
   
-  // Retorna o índice onde o piloto selecionado já aparece (duplicata), ou -1 se não houver
   getDuplicatePosition(driverId: number | null, currentIndex: number): number {
     if (!driverId) return -1;
     return this.top10Selections.findIndex((id, index) => id === driverId && index !== currentIndex);
@@ -163,7 +159,6 @@ export class BetMaker implements OnInit, OnDestroy {
     const top10Filled = this.top10Selections.every(id => id !== null);
     const extrasFilled = !!this.selectedPole && !!this.selectedDotd && !!this.selectedTeamWinner;
     
-    // Impede o envio se houver duplicatas ou campos vazios
     return top10Filled && extrasFilled && !this.hasDuplicates() && !this.isBettingClosed;
   }
 

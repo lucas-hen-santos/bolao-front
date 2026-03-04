@@ -30,7 +30,7 @@ export class AdminUsers implements OnInit {
   users: any[] = [];
   isLoading = true;
   skip = 0;
-  limit = 20; // Paginação menor para caber melhor em telas
+  limit = 20;
   searchTerm = '';
 
   ngOnInit() {

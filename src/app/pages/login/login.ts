@@ -16,7 +16,7 @@ export class Login {
   
   email = '';
   password = '';
-  rememberMe = false; // <--- Novo estado
+  rememberMe = false; 
   errorMessage = '';
   isLoading = false;
 
@@ -24,7 +24,6 @@ export class Login {
     this.isLoading = true;
     this.errorMessage = '';
 
-    // Passa o rememberMe para o serviço
     this.authService.login(this.email, this.password, this.rememberMe).subscribe({
       next: () => {
         this.isLoading = false;

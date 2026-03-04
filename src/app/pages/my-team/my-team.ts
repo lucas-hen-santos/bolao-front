@@ -9,7 +9,6 @@ import { ImageCropperComponent, ImageCroppedEvent } from 'ngx-image-cropper';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { Footer } from '../../components/footer/footer';
 import { environment } from '../../../environments/environment';
-// import { environment } from '../../environments/environment'; // <--- Importar
 
 @Component({
   selector: 'app-my-team',
@@ -23,7 +22,7 @@ export class MyTeam implements OnInit {
   private toastService = inject(ToastService);
   private http = inject(HttpClient);
   private sanitizer = inject(DomSanitizer);
-  private readonly API_URL = environment.imageBaseUrl; // <--- Atualizado
+  private readonly API_URL = environment.imageBaseUrl; 
 
   myTeam: any = null;
   stats: any = null;
@@ -31,7 +30,6 @@ export class MyTeam implements OnInit {
   isLoading = true;
   contributionPercent = 50;
 
-  // ... (Variáveis de estado mantidas)
   isCreating = false;
   teamName = '';
   primaryColor = '#ef4444';
@@ -62,7 +60,6 @@ export class MyTeam implements OnInit {
   }
 
   loadCurrentUser() {
-    // Usa environment.apiUrl
     this.http.get<any>(`${environment.apiUrl}/users/me`).subscribe({
       next: (user) => {
         this.currentUserId = user.id;
@@ -114,7 +111,6 @@ export class MyTeam implements OnInit {
     return `${this.API_URL}${url.startsWith('/') ? '' : '/'}${url}`;
   }
 
-  // ... (Métodos de ação mantidos: openLeaveModal, confirmLeave, openKickModal, etc)
   openLeaveModal() { this.showLeaveModal = true; }
   confirmLeave() {
     this.showLeaveModal = false;
@@ -132,7 +128,6 @@ export class MyTeam implements OnInit {
     });
   }
   
-  // ... (Métodos de Upload e Cropper mantidos)
   onFileSelected(event: any, isEdit: boolean = false) { this.isEditMode = isEdit; this.imageChangedEvent = event; this.showCropperModal = true; }
   imageCropped(event: ImageCroppedEvent) { if (event.objectUrl && event.blob) { this.croppedImage = this.sanitizer.bypassSecurityTrustUrl(event.objectUrl); this.finalBlob = event.blob; } }
   loadImageFailed() { this.toastService.show('Imagem inválida.', 'error'); this.cancelCrop(); }

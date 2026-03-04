@@ -5,7 +5,6 @@ import { TeamService } from '../../services/team';
 import { Navbar } from '../../components/navbar/navbar';
 import { Footer } from '../../components/footer/footer';
 import { environment } from '../../../environments/environment';
-// import { environment } from '../../environments/environment'; // <--- Importar
 
 @Component({
   selector: 'app-public-team',
@@ -29,7 +28,7 @@ export class PublicTeam implements OnInit {
   
   team: any = null;
   isLoading = true;
-  readonly API_URL = environment.imageBaseUrl; // <--- Atualizado
+  readonly API_URL = environment.imageBaseUrl;
 
   ngOnInit() {
     this.route.params.subscribe(params => {
