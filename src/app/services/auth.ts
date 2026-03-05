@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { Observable, tap, switchMap, catchError, of } from 'rxjs'; // <-- of importado aqui
+import { Observable, tap, switchMap, catchError, of, throwError } from 'rxjs'; // <-- of importado aqui
 import { environment } from '../../environments/environment';
 
 @Injectable({
@@ -71,5 +71,25 @@ export class AuthService {
       token: token, 
       new_password: newPassword 
     });
+  }
+
+  refreshToken(): Observable<any> {
+    const refresh_token = localStorage.getItem('refresh_token');
+    
+    // Se nem tiver token de refresh, desloga imediatamente para não travar
+    if (!refresh_token) {
+      this.logout();
+      return throwError(() => new Error('Refresh token ausente'));
+    }
+
+    // Dispara para a rota da API enviando o payload correto
+    return this.http.post(`${this.apiUrl}/auth/refresh-token`, { refresh_token }).pipe(
+      tap((res: any) => {
+        localStorage.setItem('access_token', res.access_token);
+        if (res.refresh_token) {
+           localStorage.setItem('refresh_token', res.refresh_token);
+        }
+      })
+    );
   }
 }
