@@ -1,0 +1,79 @@
+/* =========================================
+   TEMA PREMIUM F1 - RÁDIO DA DIREÇÃO (ADMIN)
+========================================= */
+
+/* Fundo Translúcido e Blur */
+.glass-panel {
+    background: rgba(10, 10, 12, 0.7);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.8);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
+}
+
+.glass-panel:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.6);
+    border-color: rgba(255, 255, 255, 0.15);
+}
+
+/* Corte Diagonal Clássico da F1 */
+.f1-clip {
+    clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px);
+}
+.f1-clip-button {
+    clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+}
+
+/* Efeito de Varredura de Luz */
+.glass-shimmer::after {
+    content: '';
+    position: absolute;
+    top: 0; left: -200%;
+    width: 50%; height: 100%;
+    background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.04) 50%, rgba(255,255,255,0) 100%);
+    transform: skewX(-20deg);
+    animation: shimmer-sweep 7s infinite linear;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Custom Checkbox Toggle (Estilo Painel F1) */
+.toggle-checkbox:checked {
+    right: 0;
+    border-color: #a855f7; /* purple-500 */
+}
+.toggle-checkbox:checked + .toggle-label {
+    background-color: #a855f7;
+}
+
+/* =========================================
+   ANIMAÇÕES E KEYFRAMES
+========================================= */
+@keyframes shimmer-sweep {
+    0% { left: -100%; }
+    20% { left: 200%; }
+    100% { left: 200%; }
+}
+
+@keyframes slideInUpFade {
+    from { opacity: 0; transform: translateY(40px) scale(0.98); filter: blur(5px); }
+    to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+}
+
+@keyframes neon-pulse-purple {
+    0% { text-shadow: 0 0 10px rgba(168, 85, 247, 0.4), 0 0 20px rgba(168, 85, 247, 0.2); }
+    100% { text-shadow: 0 0 20px rgba(168, 85, 247, 0.8), 0 0 40px rgba(168, 85, 247, 0.5); color: #fff; }
+}
+
+.animate-slide-up {
+    opacity: 0;
+    animation: slideInUpFade 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.neon-text-pulse {
+    animation: neon-pulse-purple 2.5s infinite alternate ease-in-out;
+}

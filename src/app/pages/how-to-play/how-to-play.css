@@ -1,79 +1,65 @@
 /* =========================================
-   ESTRUTURA & FUNDO
+   TEMA PREMIUM F1 - COMO JOGAR
 ========================================= */
 :host {
     display: block;
     overflow-x: hidden;
-    background-color: #050505;
 }
 
-/* Padrão de Fundo (Carbon Fiber) */
-/* .play-container {
-    background-image: 
-        linear-gradient(45deg, #111 25%, transparent 25%, transparent 75%, #111 75%, #111),
-        linear-gradient(45deg, #111 25%, transparent 25%, transparent 75%, #111 75%, #111);
-    background-position: 0 0, 10px 10px;
-    background-size: 20px 20px;
-    background-attachment: fixed;
+/* Painel de Vidro Base */
+.glass-panel {
+    background: rgba(10, 10, 12, 0.7);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.8);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     position: relative;
-    min-height: 100vh;
-} */
+    overflow: hidden;
+}
+
+/* Corte Diagonal Clássico da F1 */
+.f1-clip {
+    clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px);
+}
+.f1-clip-button {
+    clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+}
+
+/* Efeito de Varredura de Luz */
+.glass-shimmer::after {
+    content: '';
+    position: absolute;
+    top: 0; left: -200%;
+    width: 50%; height: 100%;
+    background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.03) 50%, rgba(255,255,255,0) 100%);
+    transform: skewX(-20deg);
+    animation: shimmer-sweep 7s infinite linear;
+    pointer-events: none;
+    z-index: 0;
+}
 
 /* =========================================
    CARDS DE PASSOS (STEP CARDS)
 ========================================= */
-.step-card {
-    background: rgba(20, 20, 20, 0.6);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    border-radius: 2rem;
-    position: relative;
-    overflow: hidden;
-    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-    height: 100%;
-}
-
 .step-card:hover {
-    transform: translateY(-8px);
+    transform: translateY(-8px) scale(1.02);
     border-color: var(--hover-color, rgba(255, 255, 255, 0.2));
-    box-shadow: 0 20px 40px -10px var(--shadow-color, rgba(0,0,0,0.5));
-}
-
-/* Efeito de Brilho "Scan" ao passar o mouse */
-.step-card::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(
-        90deg,
-        transparent,
-        rgba(255, 255, 255, 0.05),
-        transparent
-    );
-    transition: 0.6s;
-    pointer-events: none;
-}
-
-.step-card:hover::after {
-    left: 100%;
+    box-shadow: 0 20px 40px -5px var(--shadow-color, rgba(0,0,0,0.5));
 }
 
 /* Número Gigante no Fundo */
 .step-number {
     position: absolute;
-    top: -10px;
-    right: 20px;
+    top: -15px;
+    right: 15px;
     font-size: 8rem;
     font-weight: 900;
     line-height: 1;
     color: transparent;
     -webkit-text-stroke: 1px rgba(255, 255, 255, 0.05);
     opacity: 0.5;
-    transition: all 0.4s ease;
+    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     z-index: 0;
     pointer-events: none;
     font-family: monospace;
@@ -95,10 +81,10 @@
     justify-content: center;
     font-size: 2rem;
     margin-bottom: 1.5rem;
-    transition: transform 0.4s ease;
+    transition: all 0.4s ease;
     position: relative;
     z-index: 10;
-    background: rgba(255,255,255,0.03);
+    background: rgba(0, 0, 0, 0.5);
     border: 1px solid rgba(255,255,255,0.05);
 }
 
@@ -109,44 +95,48 @@
     border-color: transparent;
 }
 
-/* =========================================
-   TEXTOS E UTILITÁRIOS
-========================================= */
-.text-gradient-red {
-    background: linear-gradient(135deg, #ef4444 0%, #f97316 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-
 .content-z {
     position: relative;
     z-index: 10;
 }
 
 /* =========================================
-   ANIMAÇÕES
+   ANIMAÇÕES E KEYFRAMES
 ========================================= */
-@keyframes slideUpFade {
-    from { opacity: 0; transform: translateY(40px); }
-    to { opacity: 1; transform: translateY(0); }
+@keyframes shimmer-sweep {
+    0% { left: -100%; }
+    20% { left: 200%; }
+    100% { left: 200%; }
+}
+
+@keyframes slideInUpFade {
+    from { opacity: 0; transform: translateY(40px) scale(0.98); filter: blur(5px); }
+    to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+}
+
+@keyframes neon-pulse {
+    0% { text-shadow: 0 0 10px rgba(239, 68, 68, 0.4), 0 0 20px rgba(239, 68, 68, 0.2); }
+    100% { text-shadow: 0 0 20px rgba(239, 68, 68, 0.8), 0 0 40px rgba(239, 68, 68, 0.5); color: #fff; }
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); filter: drop-shadow(0 0 20px rgba(239,68,68,0.2)); }
+    50% { transform: translateY(-10px); filter: drop-shadow(0 0 30px rgba(239,68,68,0.6)); }
 }
 
 .animate-entry {
-    animation: slideUpFade 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
     opacity: 0;
+    animation: slideInUpFade 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.neon-text-pulse {
+    animation: neon-pulse 2.5s infinite alternate ease-in-out;
+}
+.animate-float {
+    animation: float 4s ease-in-out infinite;
 }
 
 .delay-100 { animation-delay: 0.1s; }
 .delay-200 { animation-delay: 0.2s; }
 .delay-300 { animation-delay: 0.3s; }
 .delay-400 { animation-delay: 0.4s; }
-
-/* Flutuação */
-@keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
-}
-
-.float-img {
-    animation: float 6s ease-in-out infinite;
-}
+.delay-500 { animation-delay: 0.5s; }

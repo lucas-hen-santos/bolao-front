@@ -1,70 +1,107 @@
 <app-navbar></app-navbar>
 
-<div class="min-h-screen bg-pattern-dark p-4 pb-24 overflow-x-hidden">
-  <div class="max-w-7xl mx-auto">
+<div class="min-h-screen bg-pattern-dark p-3 md:p-8 pb-24 overflow-x-hidden relative">
+  <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(255,255,255,0.03)_1px,_transparent_1px)] bg-[size:32px_32px] pointer-events-none opacity-60 z-0"></div>
+
+  <div class="max-w-7xl mx-auto relative z-10">
     
-    <div class="mb-12 text-center animate-slide-down relative">
-      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[200px] bg-racing-red/10 rounded-full blur-[100px] pointer-events-none -z-10"></div>
+    <div class="mb-14 text-center animate-slide-down relative">
+      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[300px] bg-racing-red/10 rounded-full blur-[120px] pointer-events-none -z-10"></div>
       
-      <h1 class="text-4xl md:text-6xl font-black text-white italic uppercase tracking-tighter drop-shadow-2xl mb-4">
-        Grid Oficial <span class="text-racing-red">F1</span>
+      <h1 class="text-5xl md:text-7xl font-black text-white italic uppercase tracking-tighter drop-shadow-2xl mb-6">
+        Grid Oficial <span class="text-racing-red neon-text-pulse">F1</span>
       </h1>
       
-      <div class="inline-block relative">
+      <div class="inline-block relative group">
         <select [(ngModel)]="selectedSeasonId" (change)="loadGrid()"
-                class="appearance-none bg-gray-900/80 text-white pl-6 pr-12 py-3 rounded-full border border-gray-700 focus:border-racing-red outline-none cursor-pointer font-bold uppercase tracking-widest hover:bg-gray-800 transition-colors shadow-lg text-sm">
+                class="appearance-none bg-black/60 backdrop-blur-xl border border-white/10 text-white pl-8 pr-16 py-3.5 focus:border-racing-red outline-none cursor-pointer font-black text-xs md:text-sm uppercase tracking-[0.2em] transition-all shadow-[0_10px_30px_rgba(0,0,0,0.5)] hover:shadow-[0_10px_40px_rgba(239,68,68,0.2)] hover:bg-white/5 text-center f1-clip">
           @for (season of seasons; track season.id) {
-            <option [value]="season.id" class="bg-gray-900">Temporada {{ season.year }}</option>
+            <option [value]="season.id" class="bg-gray-900 font-bold">Temporada {{ season.year }}</option>
           }
         </select>
-        <div class="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-racing-red">▼</div>
+        <div class="absolute right-6 top-1/2 -translate-y-1/2 pointer-events-none text-racing-red font-black text-lg transition-transform group-hover:translate-y-1">▼</div>
       </div>
     </div>
 
     @if (isLoading) {
-      <div class="flex flex-col justify-center items-center py-20">
-        <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-racing-red mb-6 shadow-[0_0_20px_rgba(220,38,38,0.4)]"></div>
-        <p class="text-gray-500 animate-pulse font-bold tracking-widest uppercase text-xs">Alinhando carros...</p>
+      <div class="flex flex-col justify-center items-center py-24 animate-slide-up">
+        <div class="relative group">
+          <div class="w-24 h-24 border-[5px] border-gray-800 rounded-full"></div>
+          <div class="w-24 h-24 border-[5px] border-racing-red rounded-full animate-engine border-t-transparent absolute top-0 left-0 shadow-[0_0_30px_rgba(239,68,68,0.4)]"></div>
+          <div class="absolute inset-0 flex items-center justify-center text-3xl animate-pulse">🏎️</div>
+        </div>
+        <p class="text-gray-400 mt-8 font-black tracking-[0.3em] uppercase text-xs neon-text-pulse">Alinhando Carros...</p>
       </div>
     } @else {
       
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        @for (team of grid; track team.id) {
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-10">
+        @for (team of grid; track team.id; let i = $index) {
           
-          <div class="group relative bg-gray-900/60 backdrop-blur-md border border-gray-800 rounded-2xl overflow-hidden hover:border-gray-600 transition-all duration-500 hover:shadow-2xl animate-slide-up flex flex-col">
+          <div class="group glass-panel glass-shimmer animate-slide-up flex flex-col hover:border-white/20 hover:scale-[1.02] f1-clip" [style.animation-delay]="i * 0.1 + 's'">
             
-            <div class="p-6 flex items-center justify-between border-b border-gray-800/50 bg-gradient-to-r from-black/40 to-transparent">
-              <div>
-                <h2 class="text-2xl font-black text-white italic uppercase tracking-tighter group-hover:text-racing-red transition-colors">{{ team.name }}</h2>
-                <p class="text-xs text-gray-500 font-bold uppercase tracking-widest">Construtor F1</p>
+            <div class="h-2 w-full transition-all duration-500" [style.background-color]="team.primary_color || '#ef4444'"></div>
+
+            <div class="absolute top-0 right-0 w-[400px] h-[400px] rounded-full blur-[100px] opacity-10 group-hover:opacity-30 transition-opacity duration-700 pointer-events-none z-0" [style.background-color]="team.primary_color || '#ffffff'"></div>
+
+            <div class="p-6 md:p-8 flex items-center justify-between bg-gradient-to-r from-black/80 to-transparent relative z-10 border-b border-white/5">
+              
+              <div class="relative z-10 w-[65%] sm:w-[75%] pr-4">
+                <h2 class="hidden sm:block text-3xl md:text-4xl font-black text-white italic uppercase tracking-tighter truncate drop-shadow-lg transition-colors group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-gray-400">
+                  {{ team.name }}
+                </h2>
+                
+                <div class="sm:hidden w-full relative mb-1">
+                  @if (team.name?.length > 14) {
+                    <div class="overflow-hidden whitespace-nowrap mask-right">
+                      <div class="inline-flex animate-marquee-fast text-3xl font-black text-white italic uppercase tracking-tighter">
+                        <span class="pr-8">{{ team.name }}</span>
+                        <span class="pr-8" aria-hidden="true">{{ team.name }}</span>
+                      </div>
+                    </div>
+                  } @else {
+                    <h2 class="text-3xl font-black text-white italic uppercase tracking-tighter truncate">
+                      {{ team.name }}
+                    </h2>
+                  }
+                </div>
+
+                <div class="inline-flex items-center gap-2 mt-2 bg-black/60 border border-white/10 px-3 py-1 rounded-md shadow-inner">
+                   <span class="w-2 h-2 rounded-full shadow-[0_0_8px_currentColor]" [style.background-color]="team.primary_color || '#ffffff'" [style.color]="team.primary_color || '#ffffff'"></span>
+                   <p class="text-[9px] md:text-[10px] text-gray-400 font-black uppercase tracking-[0.3em]">Chassi Oficial</p>
+                </div>
               </div>
-              <div class="w-16 h-16 p-2 bg-white/5 rounded-xl border border-white/10 flex items-center justify-center shrink-0">
-                <img [src]="getLogoUrl(team.logo_url)" class="w-full h-full object-contain drop-shadow-md">
+
+              <div class="w-20 h-20 md:w-24 md:h-24 p-2 bg-black/40 rounded-2xl border border-white/10 flex items-center justify-center shrink-0 relative z-10 group-hover:border-white/30 transition-all shadow-[0_10px_20px_rgba(0,0,0,0.5)] group-hover:-translate-y-1">
+                <img [src]="getLogoUrl(team.logo_url)" class="w-full h-full object-contain drop-shadow-2xl filter group-hover:brightness-125 transition-all">
               </div>
             </div>
 
-            <div class="p-4 grid grid-cols-2 gap-4 flex-1">
+            <div class="p-6 md:p-8 grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6 flex-1 relative z-10 bg-black/20">
               @for (driver of team.drivers; track driver.id) {
-                <div class="bg-black/40 rounded-xl p-3 border border-gray-800 hover:bg-white/5 transition-colors flex flex-col items-center text-center relative overflow-hidden group/driver">
+                
+                <div class="bg-gradient-to-br from-gray-900 to-black border border-gray-800 hover:border-gray-500 p-5 flex flex-col items-center text-center relative group/driver overflow-hidden f1-clip-driver shadow-lg transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_15px_30px_rgba(0,0,0,0.6)]">
                   
-                  <span class="absolute -bottom-4 -right-2 text-6xl font-black text-white/5 group-hover/driver:text-white/10 transition-colors italic select-none">
+                  <div class="absolute inset-0 opacity-0 group-hover/driver:opacity-10 bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,0.2)_25%,rgba(255,255,255,0.2)_50%,transparent_50%,transparent_75%,rgba(255,255,255,0.2)_75%,rgba(255,255,255,0.2)_100%)] bg-[length:20px_20px] transition-opacity duration-500"></div>
+
+                  <span class="absolute -right-4 -bottom-6 text-[90px] font-black text-white/5 group-hover/driver:text-white/10 transition-all duration-500 italic select-none leading-none group-hover/driver:scale-110">
                     {{ driver.number }}
                   </span>
 
-                  <div class="w-20 h-20 rounded-full border-2 border-gray-700 overflow-hidden bg-gray-800 mb-3 shadow-lg relative z-10 group-hover/driver:border-racing-red transition-colors">
-                    <img [src]="getPhotoUrl(driver.photo_url)" class="w-full h-full object-cover">
+                  <div class="w-24 h-24 md:w-28 md:h-28 rounded-full border-[3px] border-gray-800 overflow-hidden bg-black mb-4 shadow-[0_10px_20px_rgba(0,0,0,0.6)] relative z-10 transition-all duration-500 group-hover/driver:scale-105" [style.border-color]="team.primary_color || '#ffffff'">
+                    <img [src]="getPhotoUrl(driver.photo_url)" class="w-full h-full object-cover filter group-hover/driver:contrast-125">
                   </div>
                   
-                  <div class="relative z-10">
-                    <span class="text-racing-red font-black text-xl italic leading-none block">#{{ driver.number }}</span>
-                    <h3 class="text-white font-bold text-sm uppercase tracking-wide mt-1">{{ driver.name }}</h3>
+                  <div class="relative z-10 w-full overflow-hidden flex flex-col items-center">
+                    <span class="text-2xl md:text-3xl font-black italic leading-none block drop-shadow-md mb-1 transition-colors" [style.color]="team.primary_color || '#ffffff'">#{{ driver.number }}</span>
+                    <h3 class="text-white font-black text-sm md:text-base uppercase tracking-widest mt-1 truncate w-full group-hover/driver:text-gray-300 transition-colors drop-shadow-sm">{{ driver.name }}</h3>
                   </div>
                 </div>
               }
               
               @if (team.drivers.length === 0) {
-                 <div class="col-span-2 text-center py-8 text-gray-600 text-xs italic">
-                    Pilotos não anunciados.
+                 <div class="sm:col-span-2 text-center py-12 bg-black/40 border border-dashed border-gray-700 f1-clip-driver flex flex-col items-center justify-center">
+                    <span class="text-3xl mb-2 opacity-30 grayscale">👤</span>
+                    <p class="text-gray-500 text-xs font-black uppercase tracking-[0.2em]">Bancos Disponíveis</p>
                  </div>
               }
             </div>
@@ -74,9 +111,10 @@
       </div>
 
       @if (grid.length === 0) {
-        <div class="text-center py-20 border border-dashed border-gray-800 rounded-xl opacity-50">
-          <p class="text-gray-400 text-lg font-bold">Grid Vazio</p>
-          <p class="text-sm text-gray-600">Nenhuma equipe cadastrada para esta temporada.</p>
+        <div class="text-center py-32 bg-black/40 border border-dashed border-gray-700 f1-clip max-w-3xl mx-auto animate-slide-up">
+          <span class="text-6xl md:text-8xl mb-6 grayscale opacity-20 drop-shadow-lg block filter blur-[2px]">🏁</span>
+          <p class="text-white text-2xl md:text-4xl font-black italic uppercase tracking-tighter drop-shadow-lg">Grid Fechado</p>
+          <p class="text-xs md:text-sm text-gray-500 font-bold uppercase tracking-[0.2em] mt-3">A FIA ainda não liberou os carros para esta temporada.</p>
         </div>
       }
 

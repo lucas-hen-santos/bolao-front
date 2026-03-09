@@ -1,100 +1,68 @@
-<div class="min-h-screen bg-pattern-dark flex relative overflow-hidden">
+<div class="h-screen w-full bg-pattern-dark flex overflow-hidden relative">
+  
+  <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(255,255,255,0.03)_1px,_transparent_1px)] bg-[size:32px_32px] pointer-events-none opacity-40 z-0"></div>
 
-  <div *ngIf="isMobileMenuOpen" 
-       (click)="toggleMobileMenu()"
-       class="fixed inset-0 bg-black/80 backdrop-blur-sm z-40 lg:hidden transition-opacity animate-fade-in">
-  </div>
-
-  <aside class="fixed lg:static inset-y-0 left-0 z-50 w-72 bg-racing-dark/95 backdrop-blur-xl border-r border-gray-800 transform transition-transform duration-300 ease-in-out lg:translate-x-0 flex flex-col shadow-2xl"
-         [class.-translate-x-full]="!isMobileMenuOpen">
+  <aside class="hidden md:flex flex-col w-72 admin-sidebar p-6 pt-10 flex-shrink-0 z-20 animate-sidebar relative">
     
-    <div class="p-6 border-b border-gray-800 flex items-center justify-between">
-      <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-lg bg-racing-red flex items-center justify-center text-xl shadow-lg shadow-racing-red/20">⚙️</div>
-        <div>
-          <h1 class="text-white font-black italic text-xl tracking-tighter leading-none">ADMIN</h1>
-          <p class="text-[10px] text-gray-500 uppercase font-bold tracking-widest">Painel de Controle</p>
-        </div>
+    <div class="mb-10 px-2">
+      <div class="flex items-center gap-3 mb-2">
+        <span class="text-2xl drop-shadow-[0_0_10px_rgba(168,85,247,0.5)]">🛡️</span>
+        <h2 class="text-white font-black uppercase italic tracking-tighter text-xl">Race Control</h2>
       </div>
-      <button (click)="toggleMobileMenu()" class="lg:hidden text-gray-400 hover:text-white p-2">✕</button>
+      <div class="h-1 w-16 bg-purple-500 rounded-full shadow-[0_0_10px_#a855f7]"></div>
     </div>
 
-    <nav class="flex-1 overflow-y-auto py-6 px-4 space-y-1 custom-scrollbar">
-      
-      <p class="px-4 text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-2 mt-2">Geral</p>
-      
-      <a routerLink="/admin/dashboard" routerLinkActive="bg-racing-red text-white shadow-lg shadow-racing-red/20" [routerLinkActiveOptions]="{exact: true}" 
-         (click)="closeMobileMenu()"
-         class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-gray-400 hover:bg-white/5 hover:text-white transition-all group">
-         <span class="text-lg group-hover:scale-110 transition-transform">📊</span> Dashboard
+    <nav class="flex-1 space-y-1 overflow-y-auto pr-2 scrollbar-hide">
+      <a routerLink="/admin/dashboard" routerLinkActive="admin-nav-link-active" class="admin-nav-link group">
+        <span class="text-lg opacity-70 group-hover:scale-110 transition-transform">📊</span> Dashboard
       </a>
-
-      <a routerLink="/admin/announcements" routerLinkActive="bg-racing-red text-white shadow-lg shadow-racing-red/20"
-         (click)="closeMobileMenu()"
-         class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-gray-400 hover:bg-white/5 hover:text-white transition-all group">
-         <span class="text-lg group-hover:scale-110 transition-transform">📢</span> Avisos & Push
+      <a routerLink="/admin/races" routerLinkActive="admin-nav-link-active" class="admin-nav-link group">
+        <span class="text-lg opacity-70 group-hover:scale-110 transition-transform">🏁</span> Corridas
       </a>
-
-      <p class="px-4 text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-2 mt-6">Campeonato</p>
-
-      <a routerLink="/admin/races" routerLinkActive="bg-racing-red text-white shadow-lg shadow-racing-red/20"
-         (click)="closeMobileMenu()"
-         class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-gray-400 hover:bg-white/5 hover:text-white transition-all group">
-         <span class="text-lg group-hover:scale-110 transition-transform">🏁</span> Corridas
+      <a routerLink="/admin/results" routerLinkActive="admin-nav-link-active" class="admin-nav-link group">
+        <span class="text-lg opacity-70 group-hover:scale-110 transition-transform">🏆</span> Gabaritos
       </a>
-
-      <a routerLink="/admin/results" routerLinkActive="bg-racing-red text-white shadow-lg shadow-racing-red/20"
-         (click)="closeMobileMenu()"
-         class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-gray-400 hover:bg-white/5 hover:text-white transition-all group">
-         <span class="text-lg group-hover:scale-110 transition-transform">📝</span> Lançar Resultados
+      <a routerLink="/admin/users" routerLinkActive="admin-nav-link-active" class="admin-nav-link group">
+        <span class="text-lg opacity-70 group-hover:scale-110 transition-transform">👤</span> Pilotos
       </a>
-
-      <a routerLink="/admin/grid-manager" routerLinkActive="bg-racing-red text-white shadow-lg shadow-racing-red/20"
-         (click)="closeMobileMenu()"
-         class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-gray-400 hover:bg-white/5 hover:text-white transition-all group">
-         <span class="text-lg group-hover:scale-110 transition-transform">🏎️</span> Grid F1 (Real)
+      <a routerLink="/admin/teams" routerLinkActive="admin-nav-link-active" class="admin-nav-link group">
+        <span class="text-lg opacity-70 group-hover:scale-110 transition-transform">🛡️</span> Escuderias
       </a>
-
-      <a routerLink="/admin/achievements" routerLinkActive="bg-racing-red text-white shadow-lg shadow-racing-red/20"
-         (click)="closeMobileMenu()"
-         class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-gray-400 hover:bg-white/5 hover:text-white transition-all group">
-         <span class="text-lg group-hover:scale-110 transition-transform">🏆</span> Conquistas
+      <a routerLink="/admin/f1-grid" routerLinkActive="admin-nav-link-active" class="admin-nav-link group">
+        <span class="text-lg opacity-70 group-hover:scale-110 transition-transform">🏎️</span> F1 Grid
       </a>
-
-      <p class="px-4 text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-2 mt-6">Comunidade</p>
-
-      <a routerLink="/admin/users" routerLinkActive="bg-racing-red text-white shadow-lg shadow-racing-red/20"
-         (click)="closeMobileMenu()"
-         class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-gray-400 hover:bg-white/5 hover:text-white transition-all group">
-         <span class="text-lg group-hover:scale-110 transition-transform">👥</span> Usuários
+      <a routerLink="/admin/achievements" routerLinkActive="admin-nav-link-active" class="admin-nav-link group">
+        <span class="text-lg opacity-70 group-hover:scale-110 transition-transform">🏅</span> Conquistas
       </a>
-
-      <a routerLink="/admin/teams" routerLinkActive="bg-racing-red text-white shadow-lg shadow-racing-red/20"
-         (click)="closeMobileMenu()"
-         class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-gray-400 hover:bg-white/5 hover:text-white transition-all group">
-         <span class="text-lg group-hover:scale-110 transition-transform">🛡️</span> Equipes
+      <a routerLink="/admin/announcements" routerLinkActive="admin-nav-link-active" class="admin-nav-link group">
+        <span class="text-lg opacity-70 group-hover:scale-110 transition-transform">📢</span> Avisos
       </a>
-
     </nav>
 
-    <div class="p-4 border-t border-gray-800 bg-black/20">
-      <a routerLink="/dashboard" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-gray-400 hover:text-white hover:bg-white/5 transition-colors w-full">
-        <span>⬅️</span> Voltar ao Site
+    <div class="mt-auto pt-6 border-t border-gray-800">
+      <a routerLink="/dashboard" class="flex items-center justify-center gap-3 py-4 px-4 rounded-xl bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition-all text-[10px] font-black uppercase tracking-[0.2em] f1-clip-admin border border-white/5 shadow-inner group/back">
+        <span class="group-hover:-translate-x-1 transition-transform">🔙</span> Voltar ao Paddock
       </a>
     </div>
   </aside>
 
-  <main class="flex-1 h-screen overflow-y-auto overflow-x-hidden relative scroll-smooth">
-    
-    <header class="lg:hidden flex items-center justify-between p-4 border-b border-gray-800 bg-racing-dark/90 backdrop-blur-md sticky top-0 z-30">
-      <button (click)="toggleMobileMenu()" class="p-2 text-white bg-white/5 rounded-lg border border-white/10">
-        ☰ Menu
-      </button>
-      <span class="font-black italic text-white uppercase">Admin</span>
-    </header>
+  <div class="md:hidden fixed top-0 left-0 w-full z-30 bg-black/90 backdrop-blur-xl border-b border-purple-500/30 px-4 py-4 flex flex-col gap-3">
+    <div class="flex justify-between items-center">
+        <span class="text-white font-black italic uppercase tracking-tighter">🛡️ Race Control</span>
+        <a routerLink="/dashboard" class="text-[9px] font-black uppercase text-gray-500 border border-gray-800 px-3 py-1 rounded-lg">Sair</a>
+    </div>
+    <div class="flex gap-3 overflow-x-auto scrollbar-hide pb-1">
+      <a routerLink="/admin/dashboard" routerLinkActive="!bg-purple-600 !text-white !border-purple-500" class="px-4 py-2 rounded-lg bg-gray-900 border border-gray-800 text-[9px] font-black uppercase tracking-widest text-gray-500 whitespace-nowrap">Dashboard</a>
+      <a routerLink="/admin/races" routerLinkActive="!bg-purple-600 !text-white !border-purple-500" class="px-4 py-2 rounded-lg bg-gray-900 border border-gray-800 text-[9px] font-black uppercase tracking-widest text-gray-500 whitespace-nowrap">Corridas</a>
+      <a routerLink="/admin/results" routerLinkActive="!bg-purple-600 !text-white !border-purple-500" class="px-4 py-2 rounded-lg bg-gray-900 border border-gray-800 text-[9px] font-black uppercase tracking-widest text-gray-500 whitespace-nowrap">Gabaritos</a>
+      <a routerLink="/admin/users" routerLinkActive="!bg-purple-600 !text-white !border-purple-500" class="px-4 py-2 rounded-lg bg-gray-900 border border-gray-800 text-[9px] font-black uppercase tracking-widest text-gray-500 whitespace-nowrap">Pilotos</a>
+      <a routerLink="/admin/teams" routerLinkActive="!bg-purple-600 !text-white !border-purple-500" class="px-4 py-2 rounded-lg bg-gray-900 border border-gray-800 text-[9px] font-black uppercase tracking-widest text-gray-500 whitespace-nowrap">Equipes</a>
+    </div>
+  </div>
 
-    <div class="p-4 md:p-8 pb-24 max-w-7xl mx-auto">
-      <router-outlet></router-outlet>
+  <main class="flex-1 main-content p-4 md:p-12 mt-28 md:mt-0 relative z-10">
+    <div class="max-w-7xl mx-auto">
+        <router-outlet></router-outlet>
     </div>
   </main>
 

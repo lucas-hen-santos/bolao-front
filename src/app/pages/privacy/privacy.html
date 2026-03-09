@@ -1,58 +1,109 @@
 <app-navbar></app-navbar>
 
-<div class="min-h-screen bg-pattern-dark text-gray-300 p-6 md:p-12">
-  <div class="max-w-3xl mx-auto bg-racing-dark border border-gray-800 rounded-2xl p-8 md:p-12 shadow-2xl animate-slide-up">
-    
-    <h1 class="text-3xl font-black text-white uppercase italic mb-8 border-b border-gray-700 pb-4">
-      Política de Privacidade
-    </h1>
+<div class="min-h-screen bg-pattern-dark text-white pb-20 relative overflow-hidden pt-20">
+  
+  <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(255,255,255,0.03)_1px,_transparent_1px)] bg-[size:32px_32px] pointer-events-none opacity-60 z-0"></div>
+  <div class="fixed top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-blue-600/10 rounded-full blur-[150px] pointer-events-none z-0"></div>
+  <div class="fixed bottom-0 right-0 w-[500px] h-[500px] bg-racing-red/5 rounded-full blur-[120px] pointer-events-none z-0"></div>
+  
+  <div class="max-w-4xl mx-auto px-4 relative z-10">
 
-    <div class="space-y-6 text-sm leading-relaxed">
+    <div class="text-center mb-16 animate-entry">
+      <div class="inline-block p-4 rounded-full bg-blue-900/30 border border-blue-500/30 mb-6 shadow-[0_0_30px_rgba(59,130,246,0.2)]">
+        <span class="text-5xl">🛡️</span>
+      </div>
       
-      <p>
-        No <strong>Bolão Tá Potente</strong>, levamos a privacidade a sério, mas sem complicações. Esta política descreve como tratamos seus dados no cockpit.
+      <h1 class="text-4xl md:text-6xl font-black italic uppercase tracking-tighter mb-4 drop-shadow-xl">
+        Segurança da <span class="text-blue-500 neon-text-pulse">Telemetria</span>
+      </h1>
+      <p class="text-gray-400 max-w-2xl mx-auto font-bold text-xs md:text-sm uppercase tracking-widest">
+        Sua privacidade é tão importante para nós quanto a integridade do halo no seu chassi.<br>Confira como protegemos seus dados (Política de Privacidade).
       </p>
+    </div>
 
-      <div>
-        <h3 class="text-white font-bold uppercase mb-2">1. Dados Coletados</h3>
-        <p>Coletamos apenas o necessário para o funcionamento do jogo:</p>
-        <ul class="list-disc pl-5 mt-2 space-y-1">
-          <li><strong>Identificação:</strong> Nome completo e Email (para login e recuperação de senha).</li>
-          <li><strong>Mídia:</strong> Foto de perfil e Logotipos de equipe (armazenados em nosso servidor).</li>
-          <li><strong>Logs:</strong> Registros técnicos de acesso para segurança do sistema.</li>
-        </ul>
+    <div class="space-y-6 md:space-y-8">
+      
+      <div class="glass-panel glass-shimmer f1-clip p-6 md:p-10 animate-entry delay-100 group border-l-4 border-l-blue-500">
+        <div class="flex items-start gap-5 md:gap-6">
+          <div class="w-12 h-12 md:w-16 md:h-16 rounded-xl bg-black/50 border border-gray-700 flex items-center justify-center text-2xl md:text-3xl shrink-0 group-hover:scale-110 transition-transform shadow-inner">📡</div>
+          <div>
+            <h2 class="text-xl md:text-2xl font-black uppercase italic mb-3 text-white">1. Telemetria Recolhida (O que coletamos)</h2>
+            <div class="text-gray-400 text-xs md:text-sm leading-relaxed space-y-3 font-medium">
+              <p>Ao assinar sua Superlicença na nossa plataforma, a FIA do Bolão coleta informações estritamente necessárias para te manter no grid:</p>
+              <ul class="space-y-2 pl-2">
+                <li class="flex items-center gap-2"><span class="text-blue-500">●</span> <strong>Identificação de Pista:</strong> Nome, E-mail e Senha (criptografada) para gerenciar sua conta.</li>
+                <li class="flex items-center gap-2"><span class="text-blue-500">●</span> <strong>Personalização:</strong> Sua foto de perfil e os dados de customização da sua Escuderia.</li>
+                <li class="flex items-center gap-2"><span class="text-blue-500">●</span> <strong>Dados Desportivos:</strong> Todo o seu histórico de palpites, duelos, medalhas e pontos.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <div>
-        <h3 class="text-white font-bold uppercase mb-2">2. Uso das Informações</h3>
-        <p>Seus dados são usados exclusivamente para:</p>
-        <ul class="list-disc pl-5 mt-2 space-y-1">
-          <li>Gerenciar sua conta e pontuação no campeonato.</li>
-          <li>Exibir seu perfil nos Rankings públicos.</li>
-          <li>Enviar notificações importantes (abertura de apostas, reset de senha).</li>
-        </ul>
-        <p class="mt-2 text-racing-red font-bold">Nós não vendemos nem compartilhamos seus dados com terceiros.</p>
+      <div class="glass-panel glass-shimmer f1-clip p-6 md:p-10 animate-entry delay-200 group border-l-4 border-l-green-500">
+        <div class="flex items-start gap-5 md:gap-6">
+          <div class="w-12 h-12 md:w-16 md:h-16 rounded-xl bg-black/50 border border-gray-700 flex items-center justify-center text-2xl md:text-3xl shrink-0 group-hover:scale-110 transition-transform shadow-inner">⚙️</div>
+          <div>
+            <h2 class="text-xl md:text-2xl font-black uppercase italic mb-3 text-white">2. Estratégia de Corrida (Como usamos)</h2>
+            <div class="text-gray-400 text-xs md:text-sm leading-relaxed space-y-3 font-medium">
+              <p>Nenhum dado seu fica parado no pit lane. Utilizamos suas informações para:</p>
+              <ul class="space-y-2 pl-2">
+                <li class="flex items-center gap-2"><span class="text-green-500">✔</span> Calcular seus pontos e gerenciar o Ranking Global com precisão.</li>
+                <li class="flex items-center gap-2"><span class="text-green-500">✔</span> Permitir a formação de Equipes e as disputas de Rivalidade (Mata-Mata).</li>
+                <li class="flex items-center gap-2"><span class="text-green-500">✔</span> Enviar notificações importantes via rádio (E-mails ou Web Push) sobre fechamento de box, convites de rivais e resultados.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <div>
-        <h3 class="text-white font-bold uppercase mb-2">3. Cookies & Segurança</h3>
-        <p>
-          Utilizamos <strong>Cookies HttpOnly</strong> para gerenciar sua sessão de forma segura. Isso impede que scripts maliciosos acessem suas credenciais no navegador.
-        </p>
+      <div class="glass-panel glass-shimmer f1-clip p-6 md:p-10 animate-entry delay-300 group border-l-4 border-l-yellow-500">
+        <div class="flex items-start gap-5 md:gap-6">
+          <div class="w-12 h-12 md:w-16 md:h-16 rounded-xl bg-black/50 border border-gray-700 flex items-center justify-center text-2xl md:text-3xl shrink-0 group-hover:scale-110 transition-transform shadow-inner">🤝</div>
+          <div>
+            <h2 class="text-xl md:text-2xl font-black uppercase italic mb-3 text-white">3. Rádio Aberto (O que fica público)</h2>
+            <div class="text-gray-400 text-xs md:text-sm leading-relaxed space-y-3 font-medium">
+              <p>O Bolão é um ambiente competitivo e social. Por isso, <strong>algumas informações do seu painel são públicas</strong> para outros competidores da plataforma:</p>
+              <div class="bg-black/40 border border-gray-700 rounded-lg p-4 shadow-inner">
+                 <p class="text-gray-300">Seu nome de exibição, foto, equipe atual, histórico de pontos da temporada, conquistas desbloqueadas e o cartel de duelos.</p>
+              </div>
+              <p class="text-yellow-500 mt-2 font-bold uppercase tracking-widest text-[10px]">⚠️ Nós nunca venderemos seus dados (E-mail, senhas) para patrocinadores ou terceiros.</p>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <div>
-        <h3 class="text-white font-bold uppercase mb-2">4. Direito de Exclusão</h3>
-        <p>
-          Você pode solicitar a exclusão completa da sua conta e dados a qualquer momento entrando em contato com a administração ou através da opção de excluir conta no perfil (se disponível).
-        </p>
-      </div>
-
-      <div class="pt-6 border-t border-gray-800 text-xs text-gray-500">
-        Última atualização: Dezembro de 2025.
+      <div class="glass-panel glass-shimmer f1-clip p-6 md:p-10 animate-entry delay-300 group border-l-4 border-l-racing-red">
+        <div class="flex items-start gap-5 md:gap-6">
+          <div class="w-12 h-12 md:w-16 md:h-16 rounded-xl bg-black/50 border border-gray-700 flex items-center justify-center text-2xl md:text-3xl shrink-0 group-hover:scale-110 transition-transform shadow-inner">🔒</div>
+          <div>
+            <h2 class="text-xl md:text-2xl font-black uppercase italic mb-3 text-white">4. Seus Direitos (Regulamento LGPD)</h2>
+            <div class="text-gray-400 text-xs md:text-sm leading-relaxed space-y-3 font-medium">
+              <p>Como dono do próprio carro, você tem controle total sobre a sua telemetria. De acordo com a LGPD (Lei Geral de Proteção de Dados), você tem direito a:</p>
+              <ul class="space-y-2 pl-2">
+                <li class="flex items-center gap-2"><span class="text-racing-red font-black">❯</span> Atualizar e corrigir suas informações a qualquer momento no seu Perfil.</li>
+                <li class="flex items-center gap-2"><span class="text-racing-red font-black">❯</span> Solicitar a exclusão completa da sua conta e de todos os seus dados da nossa base.</li>
+                <li class="flex items-center gap-2"><span class="text-racing-red font-black">❯</span> Optar por não receber notificações do rádio da equipe (Push/E-mail).</li>
+              </ul>
+              <p class="mt-4 pt-4 border-t border-gray-800 text-[10px] uppercase font-bold tracking-widest">
+                Para suporte, exclusão de conta ou dúvidas sobre o regulamento, chame a direção de prova através dos canais de comunicação da liga.
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
 
     </div>
+
+    <div class="text-center mt-16 animate-entry delay-300">
+      <a routerLink="/" class="relative inline-flex items-center justify-center gap-3 bg-white text-black px-10 py-4 font-black uppercase tracking-[0.2em] transition-all transform hover:-translate-y-1 shadow-[0_0_30px_rgba(255,255,255,0.2)] hover:shadow-[0_0_50px_rgba(255,255,255,0.4)] text-xs group overflow-hidden rounded-full">
+        <div class="absolute inset-0 w-[200%] h-full bg-gradient-to-r from-transparent via-gray-300 to-transparent -translate-x-full group-hover:animate-[shimmer-sweep_1.5s_infinite_linear]"></div>
+        <span class="relative z-10 group-hover:tracking-[0.25em] transition-all duration-300">Voltar ao Paddock</span>
+        <span class="text-lg relative z-10 group-hover:-translate-x-1 transition-transform">🔙</span>
+      </a>
+    </div>
+
   </div>
 </div>
+
 <app-footer></app-footer>

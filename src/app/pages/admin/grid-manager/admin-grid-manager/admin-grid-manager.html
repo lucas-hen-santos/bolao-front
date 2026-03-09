@@ -1,55 +1,69 @@
-<div class="space-y-6 pb-20">
+<div class="space-y-6 md:space-y-8 pb-20 relative z-10">
 
-  <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 animate-slide-down">
-    <div>
-      <h1 class="text-3xl md:text-4xl font-black text-white uppercase italic tracking-tighter">
-        Grid <span class="text-racing-red">Oficial F1</span>
+  <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 animate-slide-up">
+    <div class="relative">
+      <div class="absolute -top-10 -left-10 w-40 h-40 bg-purple-500/20 rounded-full blur-[50px] pointer-events-none -z-10"></div>
+      <h1 class="text-3xl md:text-5xl font-black text-white uppercase italic tracking-tighter drop-shadow-lg">
+        Database da <span class="text-purple-500 neon-text-pulse">FIA</span>
       </h1>
-      <p class="text-gray-400 text-sm mt-1">Gerencie os pilotos e construtores reais da temporada.</p>
+      <p class="text-gray-400 text-xs md:text-sm font-bold uppercase tracking-widest mt-1 flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-purple-500 animate-pulse shadow-[0_0_8px_#a855f7]"></span>
+        Gerenciamento de pilotos e construtores reais.
+      </p>
     </div>
   </div>
 
-  <div class="flex justify-center mb-4 animate-slide-up">
-    <div class="bg-black/60 backdrop-blur-md p-1 rounded-full border border-gray-800 flex shadow-xl">
-      <button (click)="activeTab = 'drivers'" class="px-6 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all"
-              [ngClass]="activeTab === 'drivers' ? 'bg-racing-red text-white shadow-lg' : 'text-gray-400 hover:text-white'">
-        Pilotos
+  <div class="flex justify-center mb-8 animate-slide-up" style="animation-delay: 0.1s;">
+    <div class="glass-panel !p-1 !rounded-full flex shadow-xl relative w-full sm:w-auto">
+      <button (click)="activeTab = 'drivers'" class="flex-1 sm:flex-none px-8 py-3 rounded-full text-xs font-black uppercase tracking-widest transition-all duration-300 relative z-10 flex items-center justify-center gap-2"
+              [ngClass]="activeTab === 'drivers' ? 'bg-gradient-to-r from-purple-600 to-purple-800 text-white shadow-[0_0_15px_rgba(168,85,247,0.4)]' : 'text-gray-500 hover:text-white hover:bg-white/5'">
+        <span class="text-lg">🏎️</span> Pilotos
       </button>
-      <button (click)="activeTab = 'teams'" class="px-6 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all"
-              [ngClass]="activeTab === 'teams' ? 'bg-racing-red text-white shadow-lg' : 'text-gray-400 hover:text-white'">
-        Equipes
+      <button (click)="activeTab = 'teams'" class="flex-1 sm:flex-none px-8 py-3 rounded-full text-xs font-black uppercase tracking-widest transition-all duration-300 relative z-10 flex items-center justify-center gap-2"
+              [ngClass]="activeTab === 'teams' ? 'bg-gradient-to-r from-purple-600 to-purple-800 text-white shadow-[0_0_15px_rgba(168,85,247,0.4)]' : 'text-gray-500 hover:text-white hover:bg-white/5'">
+        <span class="text-lg">🛡️</span> Equipes
       </button>
     </div>
   </div>
 
   @if (isLoading) {
-    <div class="flex justify-center py-12">
-      <div class="animate-spin rounded-full h-10 w-10 border-t-2 border-racing-red"></div>
+    <div class="flex flex-col justify-center items-center py-32 animate-slide-up">
+      <div class="w-20 h-20 border-[4px] border-gray-800 rounded-full relative">
+         <div class="absolute inset-[-4px] border-[4px] border-purple-500 rounded-full animate-engine border-t-transparent shadow-[0_0_20px_#a855f7]"></div>
+      </div>
+      <p class="text-purple-400 mt-6 font-black tracking-[0.2em] uppercase text-[10px] animate-pulse">Sincronizando Database...</p>
     </div>
   } @else {
 
     @if (activeTab === 'drivers') {
-      <div class="flex justify-end mb-4 animate-slide-up">
-        <button (click)="openDriverModal()" class="bg-white text-black px-4 py-2 rounded-lg font-bold text-xs uppercase hover:bg-gray-200">
-          + Adicionar Piloto
+      <div class="flex justify-end mb-6 animate-slide-up">
+        <button (click)="openDriverModal()" class="bg-black/60 hover:bg-white border border-gray-700 text-white hover:text-black px-5 py-3 rounded-xl font-black text-[10px] md:text-xs uppercase tracking-widest transition-all shadow-lg flex items-center gap-2 f1-clip-button">
+          <span class="text-base">+</span> Registrar Piloto
         </button>
       </div>
 
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 animate-slide-up">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 animate-slide-up" style="animation-delay: 0.1s;">
         @for (driver of drivers; track driver.id) {
-          <div class="glass-panel p-4 flex items-center gap-4 group hover:border-racing-red/50 transition-colors relative overflow-hidden">
-            <div class="w-16 h-16 rounded-full bg-gray-800 overflow-hidden border-2 border-gray-700 group-hover:border-racing-red transition-colors shrink-0">
-              <img *ngIf="driver.photo_url" [src]="driver.photo_url" class="w-full h-full object-cover">
-              <div *ngIf="!driver.photo_url" class="w-full h-full flex items-center justify-center text-gray-500 text-xs font-bold">FOTO</div>
+          <div class="glass-panel glass-shimmer f1-clip p-5 flex items-center gap-4 group hover:border-purple-500/50 transition-all border-l-4 border-l-transparent hover:border-l-purple-500 cursor-default relative overflow-hidden">
+            
+            <div class="absolute -right-2 -bottom-4 text-6xl font-black text-white/5 italic pointer-events-none transition-transform group-hover:scale-110 group-hover:text-purple-500/10">
+               {{ driver.number }}
             </div>
-            <div class="flex-1 min-w-0">
-              <span class="text-racing-red font-black text-xl italic leading-none block">#{{ driver.number }}</span>
-              <h3 class="text-white font-bold text-sm truncate">{{ driver.name }}</h3>
-              <p class="text-gray-500 text-xs truncate">{{ getTeamName(driver.real_team_id) }}</p>
+
+            <div class="w-16 h-16 rounded-full bg-gray-900 overflow-hidden border-2 border-gray-700 shadow-md group-hover:border-purple-400 transition-colors shrink-0 relative z-10">
+              <img *ngIf="driver.photo_url" [src]="driver.photo_url" class="w-full h-full object-cover filter group-hover:brightness-110">
+              <div *ngIf="!driver.photo_url" class="w-full h-full flex items-center justify-center text-gray-600 text-[10px] font-black">FOTO</div>
             </div>
-            <div class="flex flex-col gap-2 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
-              <button (click)="openDriverModal(driver)" class="text-blue-400 hover:text-blue-300 text-xs">Editar</button>
-              <button (click)="deleteDriver(driver)" class="text-red-400 hover:text-red-300 text-xs">Excluir</button>
+            
+            <div class="flex-1 min-w-0 relative z-10">
+              <span class="text-purple-400 font-black text-xl italic leading-none block drop-shadow-md">#{{ driver.number }}</span>
+              <h3 class="text-white font-bold text-sm truncate mt-0.5">{{ driver.name }}</h3>
+              <p class="text-gray-500 text-[10px] font-black uppercase tracking-widest truncate">{{ getTeamName(driver.real_team_id) }}</p>
+            </div>
+            
+            <div class="flex flex-col gap-2 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity relative z-10">
+              <button (click)="openDriverModal(driver)" class="p-2 bg-black/50 rounded hover:bg-purple-900/40 text-gray-400 hover:text-purple-400 transition-colors border border-transparent hover:border-purple-500/30" title="Editar">✏️</button>
+              <button (click)="deleteDriver(driver)" class="p-2 bg-black/50 rounded hover:bg-red-900/40 text-gray-400 hover:text-red-400 transition-colors border border-transparent hover:border-red-500/30" title="Excluir">🗑️</button>
             </div>
           </div>
         }
@@ -57,26 +71,28 @@
     }
 
     @if (activeTab === 'teams') {
-      <div class="flex justify-end mb-4 animate-slide-up">
-        <button (click)="openTeamModal()" class="bg-white text-black px-4 py-2 rounded-lg font-bold text-xs uppercase hover:bg-gray-200">
-          + Adicionar Equipe
+      <div class="flex justify-end mb-6 animate-slide-up">
+        <button (click)="openTeamModal()" class="bg-black/60 hover:bg-white border border-gray-700 text-white hover:text-black px-5 py-3 rounded-xl font-black text-[10px] md:text-xs uppercase tracking-widest transition-all shadow-lg flex items-center gap-2 f1-clip-button">
+          <span class="text-base">+</span> Registrar Escuderia
         </button>
       </div>
 
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 animate-slide-up">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 animate-slide-up" style="animation-delay: 0.1s;">
         @for (team of teams; track team.id) {
-          <div class="glass-panel p-4 flex items-center gap-4 group hover:border-white/30 transition-colors relative">
-            <div class="w-16 h-16 bg-white/5 rounded-lg p-2 flex items-center justify-center border border-white/10 shrink-0">
-              <img *ngIf="team.logo_url" [src]="team.logo_url" class="w-full h-full object-contain">
-              <div *ngIf="!team.logo_url" class="text-gray-500 text-xs font-bold">LOGO</div>
+          <div class="glass-panel glass-shimmer f1-clip p-5 flex items-center gap-5 group hover:border-white/30 transition-colors cursor-default border-l-4 border-l-transparent hover:border-l-white">
+            <div class="w-16 h-16 bg-black/50 rounded-xl p-2 flex items-center justify-center border border-gray-700 shrink-0 shadow-inner group-hover:bg-white/5 transition-colors">
+              <img *ngIf="team.logo_url" [src]="team.logo_url" class="w-full h-full object-contain filter group-hover:brightness-125">
+              <div *ngIf="!team.logo_url" class="text-gray-600 text-[10px] font-black">LOGO</div>
             </div>
-            <div class="flex-1">
-              <h3 class="text-white font-bold text-sm">{{ team.name }}</h3>
-              <span class="text-xs text-gray-500">ID: {{ team.id }}</span>
+            
+            <div class="flex-1 min-w-0">
+              <h3 class="text-white font-black text-sm md:text-base italic uppercase truncate drop-shadow-md">{{ team.name }}</h3>
+              <span class="text-[9px] text-gray-500 font-bold uppercase tracking-widest mt-1 block">Registro ID: {{ team.id }}</span>
             </div>
+
             <div class="flex flex-col gap-2 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
-              <button (click)="openTeamModal(team)" class="text-blue-400 hover:text-blue-300 text-xs">Editar</button>
-              <button (click)="deleteTeam(team)" class="text-red-400 hover:text-red-300 text-xs">Excluir</button>
+              <button (click)="openTeamModal(team)" class="p-2 bg-black/50 rounded hover:bg-purple-900/40 text-gray-400 hover:text-purple-400 transition-colors border border-transparent hover:border-purple-500/30" title="Editar">✏️</button>
+              <button (click)="deleteTeam(team)" class="p-2 bg-black/50 rounded hover:bg-red-900/40 text-gray-400 hover:text-red-400 transition-colors border border-transparent hover:border-red-500/30" title="Excluir">🗑️</button>
             </div>
           </div>
         }
@@ -88,21 +104,47 @@
 
 @if (showDriverModal) {
   <div class="fixed inset-0 z-[100] flex items-center justify-center p-4">
-    <div class="absolute inset-0 bg-black/90 backdrop-blur-sm" (click)="showDriverModal = false"></div>
-    <div class="bg-racing-dark border border-gray-700 rounded-xl w-full max-w-md relative z-10 shadow-2xl animate-slide-up p-6">
-      <h3 class="text-white font-bold mb-4">{{ isEditing ? 'Editar' : 'Novo' }} Piloto</h3>
-      <div class="space-y-4">
-        <input type="text" [(ngModel)]="driverForm.name" placeholder="Nome" class="input-admin">
-        <input type="number" [(ngModel)]="driverForm.number" placeholder="Número (#)" class="input-admin">
-        <input type="text" [(ngModel)]="driverForm.photo_url" placeholder="URL da Foto" class="input-admin">
-        <select [(ngModel)]="driverForm.real_team_id" class="input-admin">
-          <option [ngValue]="null">Selecione Equipe...</option>
-          @for (t of teams; track t.id) { <option [value]="t.id">{{ t.name }}</option> }
-        </select>
-        <div class="flex justify-end gap-2 mt-4">
-          <button (click)="showDriverModal = false" class="px-4 py-2 rounded bg-gray-800 text-white text-xs font-bold">Cancelar</button>
-          <button (click)="saveDriver()" class="px-4 py-2 rounded bg-racing-red text-white text-xs font-bold">Salvar</button>
+    <div class="absolute inset-0 bg-black/90 backdrop-blur-md" (click)="showDriverModal = false"></div>
+    <div class="glass-panel !bg-gray-900/95 border !border-purple-500 rounded-2xl w-full max-w-md relative z-10 shadow-[0_0_50px_rgba(168,85,247,0.2)] animate-slide-up f1-clip p-0 overflow-hidden">
+      
+      <div class="bg-gradient-to-r from-purple-900 to-black p-5 border-b border-purple-500/50 flex justify-between items-center">
+        <div>
+          <h3 class="text-white font-black uppercase italic text-xl">{{ isEditing ? 'Ajustar' : 'Novo' }} Piloto</h3>
+          <p class="text-gray-400 text-[9px] font-bold uppercase tracking-widest mt-0.5">Licença Oficial FIA</p>
         </div>
+        <button (click)="showDriverModal = false" class="text-gray-500 hover:text-white bg-black/50 w-8 h-8 rounded-full flex items-center justify-center transition-colors">&times;</button>
+      </div>
+
+      <div class="p-6 md:p-8 space-y-5">
+        <div>
+           <label class="label-admin">Nome do Piloto</label>
+           <input type="text" [(ngModel)]="driverForm.name" placeholder="Ex: Lewis Hamilton" class="input-admin">
+        </div>
+        <div class="grid grid-cols-3 gap-4">
+           <div class="col-span-1">
+             <label class="label-admin">Nº Oficial</label>
+             <input type="number" [(ngModel)]="driverForm.number" placeholder="44" class="input-admin text-center font-black italic">
+           </div>
+           <div class="col-span-2">
+             <label class="label-admin">Escuderia Atual</label>
+             <div class="relative">
+               <select [(ngModel)]="driverForm.real_team_id" class="input-admin !pr-8">
+                 <option [ngValue]="null" class="text-gray-500">Sem Contrato</option>
+                 @for (t of teams; track t.id) { <option [value]="t.id">{{ t.name }}</option> }
+               </select>
+               <div class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-gray-500 text-xs">▼</div>
+             </div>
+           </div>
+        </div>
+        <div>
+           <label class="label-admin">URL da Foto Oficial</label>
+           <input type="text" [(ngModel)]="driverForm.photo_url" placeholder="https://link-da-imagem.png" class="input-admin text-xs">
+        </div>
+      </div>
+
+      <div class="p-5 border-t border-gray-800 bg-black/50 flex justify-end gap-3">
+        <button (click)="showDriverModal = false" class="px-5 py-3 rounded-xl bg-black border border-gray-700 text-gray-400 hover:text-white hover:border-gray-500 font-black text-[10px] uppercase tracking-widest transition-colors">Cancelar</button>
+        <button (click)="saveDriver()" class="px-6 py-3 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-black text-[10px] uppercase tracking-[0.2em] shadow-[0_0_15px_rgba(168,85,247,0.4)] transition-colors f1-clip-button">Salvar Piloto</button>
       </div>
     </div>
   </div>
@@ -110,16 +152,31 @@
 
 @if (showTeamModal) {
   <div class="fixed inset-0 z-[100] flex items-center justify-center p-4">
-    <div class="absolute inset-0 bg-black/90 backdrop-blur-sm" (click)="showTeamModal = false"></div>
-    <div class="bg-racing-dark border border-gray-700 rounded-xl w-full max-w-md relative z-10 shadow-2xl animate-slide-up p-6">
-      <h3 class="text-white font-bold mb-4">{{ isEditing ? 'Editar' : 'Nova' }} Equipe</h3>
-      <div class="space-y-4">
-        <input type="text" [(ngModel)]="teamForm.name" placeholder="Nome da Equipe" class="input-admin">
-        <input type="text" [(ngModel)]="teamForm.logo_url" placeholder="URL do Logo" class="input-admin">
-        <div class="flex justify-end gap-2 mt-4">
-          <button (click)="showTeamModal = false" class="px-4 py-2 rounded bg-gray-800 text-white text-xs font-bold">Cancelar</button>
-          <button (click)="saveTeam()" class="px-4 py-2 rounded bg-racing-red text-white text-xs font-bold">Salvar</button>
+    <div class="absolute inset-0 bg-black/90 backdrop-blur-md" (click)="showTeamModal = false"></div>
+    <div class="glass-panel !bg-gray-900/95 border !border-purple-500 rounded-2xl w-full max-w-md relative z-10 shadow-[0_0_50px_rgba(168,85,247,0.2)] animate-slide-up f1-clip p-0 overflow-hidden">
+      
+      <div class="bg-gradient-to-r from-purple-900 to-black p-5 border-b border-purple-500/50 flex justify-between items-center">
+        <div>
+          <h3 class="text-white font-black uppercase italic text-xl">{{ isEditing ? 'Ajustar' : 'Nova' }} Escuderia</h3>
+          <p class="text-gray-400 text-[9px] font-bold uppercase tracking-widest mt-0.5">Registro de Construtor</p>
         </div>
+        <button (click)="showTeamModal = false" class="text-gray-500 hover:text-white bg-black/50 w-8 h-8 rounded-full flex items-center justify-center transition-colors">&times;</button>
+      </div>
+
+      <div class="p-6 md:p-8 space-y-5">
+        <div>
+           <label class="label-admin">Nome da Escuderia</label>
+           <input type="text" [(ngModel)]="teamForm.name" placeholder="Ex: Mercedes-AMG" class="input-admin">
+        </div>
+        <div>
+           <label class="label-admin">URL do Logotipo</label>
+           <input type="text" [(ngModel)]="teamForm.logo_url" placeholder="https://link-do-logo.png" class="input-admin text-xs">
+        </div>
+      </div>
+
+      <div class="p-5 border-t border-gray-800 bg-black/50 flex justify-end gap-3">
+        <button (click)="showTeamModal = false" class="px-5 py-3 rounded-xl bg-black border border-gray-700 text-gray-400 hover:text-white hover:border-gray-500 font-black text-[10px] uppercase tracking-widest transition-colors">Cancelar</button>
+        <button (click)="saveTeam()" class="px-6 py-3 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-black text-[10px] uppercase tracking-[0.2em] shadow-[0_0_15px_rgba(168,85,247,0.4)] transition-colors f1-clip-button">Salvar Equipe</button>
       </div>
     </div>
   </div>

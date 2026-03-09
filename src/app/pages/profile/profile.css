@@ -1,35 +1,98 @@
-/* Glassmorphism Panel */
+/* =========================================
+   TEMA PREMIUM F1 - PERFIL DO PILOTO
+========================================= */
+
+/* Fundo Translúcido e Blur */
 .glass-panel {
-    background: rgba(17, 24, 39, 0.7);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 1rem;
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, border-color 0.3s ease;
+    background: rgba(10, 10, 12, 0.7);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.8);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
 }
 
 .glass-panel:hover {
     transform: translateY(-2px);
-    border-color: rgba(220, 38, 38, 0.3); /* Racing Red tint */
+    box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.6);
+    border-color: rgba(255, 255, 255, 0.15);
 }
 
-/* Animações */
-@keyframes slideDown {
-    from { opacity: 0; transform: translateY(-20px); }
+/* Corte Diagonal Clássico da F1 */
+.f1-clip {
+    clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px);
+}
+.f1-clip-button {
+    clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+}
+
+/* Efeito de Varredura de Luz */
+.glass-shimmer::after {
+    content: '';
+    position: absolute;
+    top: 0; left: -200%;
+    width: 50%; height: 100%;
+    background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.03) 50%, rgba(255,255,255,0) 100%);
+    transform: skewX(-20deg);
+    animation: shimmer-sweep 7s infinite linear;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* =========================================
+   ANIMAÇÕES E KEYFRAMES
+========================================= */
+@keyframes shimmer-sweep {
+    0% { left: -100%; }
+    20% { left: 200%; }
+    100% { left: 200%; }
+}
+
+@keyframes slideInUpFade {
+    from { opacity: 0; transform: translateY(40px) scale(0.98); filter: blur(5px); }
+    to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+}
+
+@keyframes slideInDownFade {
+    from { opacity: 0; transform: translateY(-30px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
-@keyframes slideUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+@keyframes engineSpin {
+    0% { transform: rotate(0deg); border-top-color: #dc2626; }
+    50% { transform: rotate(180deg); border-top-color: #ef4444; }
+    100% { transform: rotate(360deg); border-top-color: #dc2626; }
 }
 
-.animate-slide-down {
-    animation: slideDown 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+@keyframes neon-pulse {
+    0% { text-shadow: 0 0 10px rgba(239, 68, 68, 0.4), 0 0 20px rgba(239, 68, 68, 0.2); }
+    100% { text-shadow: 0 0 20px rgba(239, 68, 68, 0.8), 0 0 40px rgba(239, 68, 68, 0.5); color: #fff; }
+}
+
+/* Sino balançando */
+@keyframes swing {
+    20% { transform: rotate(15deg); }
+    40% { transform: rotate(-10deg); }
+    60% { transform: rotate(5deg); }
+    80% { transform: rotate(-5deg); }
+    100% { transform: rotate(0deg); }
 }
 
 .animate-slide-up {
     opacity: 0;
-    animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation: slideInUpFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.animate-slide-down {
+    animation: slideInDownFade 0.8s ease-out forwards;
+}
+.animate-engine {
+    animation: engineSpin 1.2s cubic-bezier(0.6, 0.05, 0.28, 0.91) infinite;
+}
+.neon-text-pulse {
+    animation: neon-pulse 2.5s infinite alternate ease-in-out;
+}
+.animate-swing {
+    animation: swing 1s ease;
 }

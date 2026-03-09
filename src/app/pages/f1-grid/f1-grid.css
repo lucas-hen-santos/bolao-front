@@ -1,20 +1,91 @@
-/* Animação de Entrada */
-@keyframes slideInUp {
-    from { opacity: 0; transform: translateY(30px); }
-    to { opacity: 1; transform: translateY(0); }
+/* =========================================
+   TEMA PREMIUM F1 - TRANSMISSÃO DE TV
+========================================= */
+
+/* Fundo Translúcido e Blur */
+.glass-panel {
+    background: rgba(10, 10, 12, 0.7);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.8);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
 }
 
-@keyframes slideInDown {
+/* Corte Diagonal Clássico da F1 */
+.f1-clip {
+    clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px);
+}
+.f1-clip-driver {
+    clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+}
+
+/* Efeito de Varredura de Luz */
+.glass-shimmer::after {
+    content: '';
+    position: absolute;
+    top: 0; left: -200%;
+    width: 50%; height: 100%;
+    background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.04) 50%, rgba(255,255,255,0) 100%);
+    transform: skewX(-20deg);
+    animation: shimmer-sweep 7s infinite linear;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Letreiro para Mobile */
+.mask-right {
+    mask-image: linear-gradient(to right, black 75%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, black 75%, transparent 100%);
+}
+@keyframes marquee-loop {
+    0%, 15% { transform: translateX(0%); }
+    100% { transform: translateX(-50%); }
+}
+.animate-marquee-fast {
+    animation: marquee-loop 8s linear infinite;
+    will-change: transform;
+}
+
+/* Animações e Keyframes */
+@keyframes shimmer-sweep {
+    0% { left: -100%; }
+    20% { left: 200%; }
+    100% { left: 200%; }
+}
+
+@keyframes slideInUpFade {
+    from { opacity: 0; transform: translateY(40px) scale(0.98); filter: blur(5px); }
+    to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+}
+
+@keyframes slideInDownFade {
     from { opacity: 0; transform: translateY(-30px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
-.animate-slide-up {
-    animation: slideInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    opacity: 0;
-    animation-delay: 0.1s;
+@keyframes engineSpin {
+    0% { transform: rotate(0deg); border-top-color: #dc2626; }
+    50% { transform: rotate(180deg); border-top-color: #ef4444; }
+    100% { transform: rotate(360deg); border-top-color: #dc2626; }
 }
 
+@keyframes neon-pulse {
+    0% { text-shadow: 0 0 10px rgba(239, 68, 68, 0.4), 0 0 20px rgba(239, 68, 68, 0.2); }
+    100% { text-shadow: 0 0 20px rgba(239, 68, 68, 0.8), 0 0 40px rgba(239, 68, 68, 0.5); color: #fff; }
+}
+
+.animate-slide-up {
+    opacity: 0;
+    animation: slideInUpFade 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
 .animate-slide-down {
-    animation: slideInDown 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation: slideInDownFade 0.8s ease-out forwards;
+}
+.animate-engine {
+    animation: engineSpin 1.2s cubic-bezier(0.6, 0.05, 0.28, 0.91) infinite;
+}
+.neon-text-pulse {
+    animation: neon-pulse 2.5s infinite alternate ease-in-out;
 }

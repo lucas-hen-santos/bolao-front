@@ -1,66 +1,95 @@
-<div class="space-y-6 pb-20">
+<div class="space-y-6 md:space-y-8 pb-20 relative z-10">
 
-  <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 animate-slide-down">
-    <div>
-      <h1 class="text-3xl md:text-4xl font-black text-white uppercase italic tracking-tighter">
-        Gestão de <span class="text-racing-red">Equipes</span>
+  <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 animate-slide-up">
+    <div class="relative">
+      <div class="absolute -top-10 -left-10 w-40 h-40 bg-purple-500/20 rounded-full blur-[50px] pointer-events-none -z-10"></div>
+      <h1 class="text-3xl md:text-5xl font-black text-white uppercase italic tracking-tighter drop-shadow-lg">
+        Gestão de <span class="text-purple-500 neon-text-pulse">Equipes</span>
       </h1>
-      <p class="text-gray-400 text-sm mt-1">Monitore e modere as escuderias dos jogadores.</p>
+      <p class="text-gray-400 text-xs md:text-sm font-bold uppercase tracking-widest mt-1 flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-purple-500 animate-pulse shadow-[0_0_8px_#a855f7]"></span>
+        Monitore e modere as escuderias dos jogadores.
+      </p>
     </div>
     
-    <div class="relative w-full sm:w-64">
+    <div class="relative w-full sm:w-80 group/search">
       <input type="text" [(ngModel)]="searchTerm" (keyup.enter)="loadTeams()" placeholder="Buscar equipe..." 
-             class="w-full bg-black/40 text-white pl-4 pr-10 py-3 rounded-xl border border-gray-700 focus:border-racing-red outline-none text-sm font-medium transition-all focus:bg-black/60">
-      <button (click)="loadTeams()" class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-white">🔍</button>
+             class="input-admin !pl-12">
+      <button (click)="loadTeams()" class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within/search:text-purple-500 transition-colors text-lg" title="Pesquisar">🔍</button>
     </div>
   </div>
 
   @if (isLoading) {
-    <div class="flex justify-center py-12">
-      <div class="animate-spin rounded-full h-10 w-10 border-t-2 border-racing-red"></div>
+    <div class="flex flex-col justify-center items-center py-32 animate-slide-up">
+      <div class="w-20 h-20 border-[4px] border-gray-800 rounded-full relative">
+         <div class="absolute inset-[-4px] border-[4px] border-purple-500 rounded-full animate-engine border-t-transparent shadow-[0_0_20px_#a855f7]"></div>
+      </div>
+      <p class="text-purple-400 mt-6 font-black tracking-[0.2em] uppercase text-[10px] animate-pulse">Inspecionando Boxes...</p>
     </div>
   } @else {
-
-    <div class="hidden md:block glass-panel overflow-hidden animate-slide-up">
+    
+    <div class="hidden md:block glass-panel glass-shimmer f1-clip !p-0 overflow-hidden animate-slide-up shadow-[0_15px_40px_rgba(0,0,0,0.6)]" style="animation-delay: 0.1s;">
       <table class="w-full text-left border-collapse">
         <thead>
-          <tr class="border-b border-gray-800 text-[10px] text-gray-500 uppercase tracking-widest bg-black/20">
-            <th class="p-4">Escuderia</th>
-            <th class="p-4">Capitão</th>
-            <th class="p-4">Parceiro</th>
-            <th class="p-4 text-center">Pontos</th>
-            <th class="p-4 text-right">Ações</th>
+          <tr class="border-b border-gray-800 bg-gradient-to-r from-black/80 to-transparent">
+            <th class="p-5 text-[10px] text-gray-400 font-black uppercase tracking-[0.2em]">Escuderia</th>
+            <th class="p-5 text-[10px] text-gray-400 font-black uppercase tracking-[0.2em]">Capitão</th>
+            <th class="p-5 text-[10px] text-gray-400 font-black uppercase tracking-[0.2em]">Parceiro</th>
+            <th class="p-5 text-[10px] text-gray-400 font-black uppercase tracking-[0.2em] text-center">Pontos</th>
+            <th class="p-5 text-[10px] text-gray-400 font-black uppercase tracking-[0.2em] text-right">Ações</th>
           </tr>
         </thead>
-        <tbody class="divide-y divide-gray-800/50">
+        <tbody class="divide-y divide-gray-800/50 bg-black/20">
           @for (team of teams; track team.id) {
             <tr class="hover:bg-white/5 transition-colors group">
-              <td class="p-4">
-                <div class="flex items-center gap-3">
-                  <div class="w-10 h-10 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center p-1 relative overflow-hidden">
-                    <div class="absolute left-0 top-0 bottom-0 w-1" [style.background]="team.primary_color"></div>
-                    <img [src]="getLogoUrl(team.logo_url)" class="w-full h-full object-contain">
+              
+              <td class="p-5">
+                <div class="flex items-center gap-4">
+                  <div class="w-12 h-12 rounded-xl bg-black/60 border border-gray-700 shadow-inner group-hover:border-purple-400 transition-colors p-1.5 flex items-center justify-center shrink-0 relative overflow-hidden">
+                    <div class="absolute left-0 top-0 bottom-0 w-1" [style.background]="team.primary_color || '#ef4444'"></div>
+                    <img [src]="getLogoUrl(team.logo_url)" class="w-full h-full object-contain filter group-hover:brightness-125 transition-all pl-1">
                   </div>
-                  <div>
-                    <span class="text-white font-bold text-sm block">{{ team.name }}</span>
-                    <span class="text-[10px] text-gray-500 font-mono">ID: {{ team.id }}</span>
+                  <div class="min-w-0">
+                    <span class="text-white font-black text-sm uppercase italic tracking-wider drop-shadow-md group-hover:text-purple-400 transition-colors truncate block">{{ team.name }}</span>
+                    <span class="text-gray-500 text-[9px] font-mono mt-1 block">ID: {{ team.id }}</span>
                   </div>
                 </div>
               </td>
-              <td class="p-4">
-                <span class="text-sm text-gray-300 font-medium">{{ team.captain_name }}</span>
+              
+              <td class="p-5">
+                <span class="text-gray-300 text-xs font-bold truncate max-w-[150px] inline-block">{{ team.captain_name }}</span>
               </td>
-              <td class="p-4">
-                <span class="text-sm text-gray-400" [class.italic]="team.partner_name === 'Vaga'">{{ team.partner_name }}</span>
+              
+              <td class="p-5">
+                <span class="text-gray-400 text-xs font-bold truncate max-w-[150px] inline-block" [ngClass]="{'text-yellow-600/80 italic': team.partner_name === 'Vaga'}">
+                  {{ team.partner_name }}
+                </span>
               </td>
-              <td class="p-4 text-center">
-                <span class="font-mono font-bold text-white">{{ team.total_points }}</span>
+              
+              <td class="p-5 text-center">
+                <span class="text-white font-black italic text-xl drop-shadow-md">{{ team.total_points }}</span>
               </td>
-              <td class="p-4 text-right">
-                <div class="flex justify-end gap-2 opacity-50 group-hover:opacity-100 transition-opacity">
-                  <button (click)="openModerateModal(team)" class="p-2 rounded hover:bg-blue-500/20 text-gray-400 hover:text-blue-400 transition-colors" title="Editar Nome/Logo">✏️</button>
-                  <button (click)="deleteTeam(team)" class="p-2 rounded hover:bg-red-500/20 text-gray-400 hover:text-red-400 transition-colors" title="Excluir Equipe">🗑️</button>
-                </div>
+              
+              <td class="p-5 text-right flex justify-end gap-2 opacity-50 group-hover:opacity-100 transition-opacity mt-1">
+                <button (click)="openModerateModal(team)" 
+                        class="p-2.5 rounded-xl border bg-black border-gray-700 hover:border-purple-500 text-gray-400 hover:text-purple-400 hover:bg-purple-900/20 transition-all shadow-md transform hover:-translate-y-0.5" 
+                        title="Editar Nome/Logo">
+                  ✏️
+                </button>
+                <button (click)="deleteTeam(team)" 
+                        class="p-2.5 rounded-xl border bg-red-900/10 border-red-500/20 hover:border-red-500 text-red-600 hover:text-red-400 transition-all shadow-md transform hover:-translate-y-0.5" 
+                        title="Excluir Equipe">
+                  🗑️
+                </button>
+              </td>
+
+            </tr>
+          }
+          @if (teams.length === 0) {
+            <tr>
+              <td colspan="5" class="p-12 text-center">
+                <span class="text-3xl opacity-30 grayscale block mb-2">🛡️</span>
+                <span class="text-gray-500 font-bold uppercase tracking-widest text-[10px]">Nenhuma Escuderia Encontrada.</span>
               </td>
             </tr>
           }
@@ -68,80 +97,103 @@
       </table>
     </div>
 
-    <div class="md:hidden space-y-4 animate-slide-up">
+    <div class="md:hidden space-y-4 animate-slide-up" style="animation-delay: 0.1s;">
       @for (team of teams; track team.id) {
-        <div class="glass-panel p-4 relative overflow-hidden border-l-4" [style.border-left-color]="team.primary_color || '#333'">
+        <div class="glass-panel p-5 relative overflow-hidden border-l-4 f1-clip"
+             [style.border-left-color]="team.primary_color || '#a855f7'">
           
-          <div class="flex justify-between items-start mb-4">
+          <div class="flex items-start justify-between mb-4">
             <div class="flex items-center gap-3">
-              <div class="w-12 h-12 bg-white/5 rounded-lg p-2 border border-white/10">
-                <img [src]="getLogoUrl(team.logo_url)" class="w-full h-full object-contain">
+              <div class="w-12 h-12 bg-black/60 rounded-xl p-1.5 flex items-center justify-center border border-gray-700 shrink-0 shadow-inner">
+                 <img [src]="getLogoUrl(team.logo_url)" class="w-full h-full object-contain">
               </div>
-              <div>
-                <h3 class="text-white font-bold text-base">{{ team.name }}</h3>
-                <span class="text-xs text-gray-500 font-mono">ID: {{ team.id }}</span>
+              <div class="min-w-0 pt-1">
+                <h3 class="text-white font-black text-sm italic uppercase truncate leading-tight drop-shadow-md">{{ team.name }}</h3>
+                <p class="text-gray-500 text-[9px] font-mono mt-1">ID: {{ team.id }}</p>
               </div>
             </div>
-            <div class="text-right">
-              <span class="block text-2xl font-black text-white leading-none">{{ team.total_points }}</span>
-              <span class="text-[9px] text-gray-500 uppercase font-bold">PTS</span>
+            <div class="text-right shrink-0 border-l border-gray-700 pl-3">
+              <span class="text-white font-black italic text-2xl leading-none">{{ team.total_points }}</span>
+              <span class="text-[8px] text-gray-500 uppercase font-black tracking-widest block">PTS</span>
             </div>
           </div>
 
-          <div class="grid grid-cols-2 gap-2 text-xs border-t border-gray-800 pt-3 mb-4">
-            <div>
-              <span class="text-gray-500 block uppercase text-[9px] font-bold">Capitão</span>
-              <span class="text-gray-300">{{ team.captain_name }}</span>
+          <div class="bg-black/50 p-4 rounded-xl border border-gray-800 space-y-2 mb-4 shadow-inner">
+            <div class="flex justify-between items-center text-xs">
+              <span class="text-[9px] text-gray-500 font-black uppercase tracking-widest">Capitão:</span>
+              <span class="text-gray-300 font-bold truncate max-w-[150px] text-right">{{ team.captain_name }}</span>
             </div>
-            <div>
-              <span class="text-gray-500 block uppercase text-[9px] font-bold">Parceiro</span>
-              <span class="text-gray-300">{{ team.partner_name }}</span>
+            <div class="flex justify-between items-center text-xs border-t border-gray-800/50 pt-2">
+              <span class="text-[9px] text-gray-500 font-black uppercase tracking-widest">Parceiro:</span>
+              <span class="font-bold truncate max-w-[150px] text-right" [ngClass]="team.partner_name === 'Vaga' ? 'text-yellow-600/80 italic' : 'text-gray-300'">{{ team.partner_name }}</span>
             </div>
           </div>
-
-          <div class="flex gap-2">
-            <button (click)="openModerateModal(team)" class="flex-1 py-2 rounded bg-gray-800 text-gray-300 font-bold text-xs border border-gray-700 hover:bg-gray-700">Editar</button>
-            <button (click)="deleteTeam(team)" class="flex-1 py-2 rounded bg-red-900/20 text-red-400 font-bold text-xs border border-red-900/50 hover:bg-red-900/40">Excluir</button>
+          
+          <div class="flex gap-3 pt-2">
+            <button (click)="openModerateModal(team)" class="flex-1 py-3 rounded-xl text-[9px] font-black uppercase tracking-widest transition-colors bg-black border border-gray-700 text-gray-400 hover:bg-purple-900/20 hover:text-purple-400 hover:border-purple-500 shadow-sm">Editar</button>
+            <button (click)="deleteTeam(team)" class="flex-1 py-3 rounded-xl text-[9px] font-black uppercase tracking-widest transition-colors bg-red-900/20 border border-red-500/30 text-red-500 hover:bg-red-600 hover:text-white shadow-sm">Excluir</button>
           </div>
-
+        </div>
+      }
+      @if (teams.length === 0) {
+        <div class="text-center py-10 bg-black/20 border border-dashed border-gray-800 rounded-xl">
+           <span class="text-gray-500 font-bold uppercase tracking-widest text-[10px]">Nenhuma Escuderia.</span>
         </div>
       }
     </div>
 
-    <div class="flex justify-center gap-4 mt-8">
-      <button (click)="changePage(-1)" [disabled]="skip === 0" class="px-4 py-2 bg-black/40 rounded-lg text-white disabled:opacity-30 hover:bg-white/10 text-sm font-bold">← Anterior</button>
-      <button (click)="changePage(1)" [disabled]="teams.length < limit" class="px-4 py-2 bg-black/40 rounded-lg text-white disabled:opacity-30 hover:bg-white/10 text-sm font-bold">Próximo →</button>
+    <div class="flex justify-center gap-4 mt-10 animate-slide-up" style="animation-delay: 0.2s;">
+      <button (click)="changePage(-1)" [disabled]="skip === 0" 
+              class="px-6 py-3 bg-black/60 rounded-xl text-gray-300 hover:text-white border border-gray-700 disabled:opacity-30 disabled:grayscale transition-all text-[10px] font-black uppercase tracking-widest f1-clip-button hover:border-purple-500 shadow-lg">
+        ← Pit Lane Anterior
+      </button>
+      <button (click)="changePage(1)" [disabled]="teams.length < limit" 
+              class="px-6 py-3 bg-black/60 rounded-xl text-gray-300 hover:text-white border border-gray-700 disabled:opacity-30 disabled:grayscale transition-all text-[10px] font-black uppercase tracking-widest f1-clip-button hover:border-purple-500 shadow-lg">
+        Próximo Box →
+      </button>
     </div>
 
   }
-
 </div>
 
-@if (showModal) {
-  <div class="fixed inset-0 z-[100] flex items-center justify-center p-4">
-    <div class="absolute inset-0 bg-black/90 backdrop-blur-sm transition-opacity" (click)="showModal = false"></div>
-    <div class="bg-racing-dark border border-gray-700 rounded-xl w-full max-w-md relative z-10 shadow-2xl animate-slide-up overflow-hidden">
+@if (showModal && selectedTeam) {
+  <div class="fixed inset-0 z-[200] flex items-center justify-center p-4">
+    <div class="absolute inset-0 bg-black/90 backdrop-blur-md transition-opacity" (click)="showModal = false"></div>
+    <div class="glass-panel !bg-gray-900/95 border !border-purple-500 rounded-2xl w-full max-w-md relative z-10 shadow-[0_0_50px_rgba(168,85,247,0.2)] animate-slide-up overflow-hidden f1-clip p-0">
       
-      <div class="bg-black/50 p-4 border-b border-gray-800 flex justify-between items-center">
-        <h3 class="text-white font-bold uppercase italic">Moderar Equipe</h3>
-        <button (click)="showModal = false" class="text-gray-500 hover:text-white">&times;</button>
-      </div>
-
-      <div class="p-6 space-y-6">
+      <div class="bg-gradient-to-r from-purple-900 to-black p-5 border-b border-purple-500/50 flex justify-between items-center">
         <div>
-          <label class="block text-gray-500 text-xs font-bold uppercase mb-1">Nome da Equipe</label>
-          <input type="text" [(ngModel)]="editName" class="w-full bg-black text-white p-3 rounded border border-gray-700 focus:border-racing-red outline-none font-bold">
+           <h3 class="text-white font-black uppercase italic tracking-tighter text-xl">Moderar Escuderia</h3>
+           <p class="text-[9px] text-gray-400 font-bold uppercase tracking-widest mt-0.5">ID: {{ selectedTeam.id }}</p>
         </div>
-
-        <div class="flex items-center gap-3 bg-red-900/10 p-3 rounded border border-red-900/30">
-          <input type="checkbox" [(ngModel)]="removeLogo" id="remLogo" class="rounded border-red-500 text-red-600 focus:ring-0 bg-black">
-          <label for="remLogo" class="text-red-400 text-sm font-bold cursor-pointer select-none">Remover Logo (Conteúdo Impróprio)</label>
-        </div>
+        <button (click)="showModal = false" class="text-gray-500 hover:text-white bg-black/50 w-8 h-8 rounded-full flex items-center justify-center transition-colors">&times;</button>
       </div>
 
-      <div class="p-4 border-t border-gray-800 bg-black/30 flex justify-end gap-3">
-        <button (click)="showModal = false" class="px-4 py-2 rounded text-gray-400 hover:text-white font-bold text-sm">Cancelar</button>
-        <button (click)="saveModeration()" class="px-6 py-2 rounded bg-blue-600 text-white font-bold hover:bg-blue-500 text-sm shadow-lg">Salvar</button>
+      <div class="p-6 md:p-8 space-y-6">
+        
+        <div>
+          <label class="block text-gray-500 text-[10px] font-black uppercase tracking-[0.2em] mb-1.5 ml-1">Alterar Nome (Conteúdo Ofensivo)</label>
+          <input type="text" [(ngModel)]="editName" class="input-admin">
+        </div>
+
+        <div class="bg-black/40 border border-gray-800 rounded-xl p-5 flex items-start gap-4 shadow-inner">
+          <div class="relative w-12 h-12 bg-black rounded-lg border border-gray-700 p-1 flex-shrink-0">
+             <img [src]="getLogoUrl(selectedTeam.logo_url)" class="w-full h-full object-contain">
+          </div>
+          <div>
+            <label class="flex items-center gap-3 cursor-pointer group">
+              <input type="checkbox" [(ngModel)]="removeLogo" class="w-5 h-5 rounded bg-black border-gray-600 text-red-500 focus:ring-red-500 focus:ring-offset-gray-900 transition-colors">
+              <span class="text-red-400 font-bold text-sm group-hover:text-red-300 transition-colors">Remover Logo Impróprio</span>
+            </label>
+            <p class="text-[10px] text-gray-500 mt-1.5 leading-relaxed font-bold">Marque para deletar imagens que violem as regras. A equipe voltará a usar o avatar padrão.</p>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="p-5 border-t border-gray-800 bg-black/50 flex justify-end gap-3">
+        <button (click)="showModal = false" class="px-5 py-3 rounded-xl bg-black border border-gray-700 text-gray-400 hover:text-white hover:border-gray-500 font-black text-[10px] uppercase tracking-widest transition-colors">Cancelar</button>
+        <button (click)="saveModeration()" class="px-6 py-3 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-black text-[10px] uppercase tracking-[0.2em] shadow-[0_0_15px_rgba(168,85,247,0.4)] transition-colors f1-clip-button">Salvar Ajustes</button>
       </div>
 
     </div>

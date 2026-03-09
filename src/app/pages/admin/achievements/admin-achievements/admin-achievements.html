@@ -1,89 +1,125 @@
-<div class="space-y-6 pb-20">
-  <div class="flex justify-between items-center animate-slide-down">
-    <h1 class="text-3xl md:text-4xl font-black text-white uppercase italic tracking-tighter">
-      Conquistas
-    </h1>
-    <button (click)="openModal()" class="bg-white text-black px-4 py-2 rounded-lg font-bold text-xs uppercase hover:bg-gray-200">
-      + Criar Medalha
+<div class="space-y-6 md:space-y-8 pb-20 relative z-10">
+  
+  <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 animate-slide-up">
+    <div class="relative">
+      <div class="absolute -top-10 -left-10 w-40 h-40 bg-purple-500/20 rounded-full blur-[50px] pointer-events-none -z-10"></div>
+      <h1 class="text-3xl md:text-5xl font-black text-white uppercase italic tracking-tighter drop-shadow-lg">
+        Sistema de <span class="text-purple-500 neon-text-pulse">Conquistas</span>
+      </h1>
+      <p class="text-gray-400 text-xs md:text-sm font-bold uppercase tracking-widest mt-1 flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-purple-500 animate-pulse shadow-[0_0_8px_#a855f7]"></span>
+        Gerencie as medalhas e troféus da temporada.
+      </p>
+    </div>
+    
+    <button (click)="openModal()" class="bg-gradient-to-r from-purple-600 to-purple-800 hover:from-purple-500 hover:to-purple-700 text-white px-5 py-3 rounded-xl font-black text-[10px] md:text-xs uppercase tracking-widest transition-all shadow-[0_0_15px_rgba(168,85,247,0.4)] flex items-center gap-2 f1-clip-button transform hover:-translate-y-1">
+      <span class="text-base">+</span> Criar Medalha
     </button>
   </div>
 
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 animate-slide-up">
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6 animate-slide-up" style="animation-delay: 0.1s;">
     @for (ach of achievements; track ach.id) {
-      <div class="glass-panel p-5 relative overflow-hidden group border hover:border-white/30 transition-colors flex flex-col items-center text-center">
+      <div class="glass-panel glass-shimmer f1-clip p-6 relative overflow-hidden group hover:border-purple-500/50 transition-colors flex flex-col items-center text-center shadow-lg">
         
-        <div class="absolute top-0 left-0 right-0 h-1" [style.background-color]="ach.color"></div>
+        <div class="absolute top-0 right-0 w-32 h-32 rounded-full blur-[40px] opacity-10 pointer-events-none transition-opacity group-hover:opacity-30" [style.background-color]="ach.color"></div>
         
-        <div class="w-16 h-16 rounded-full bg-black/40 border border-white/10 flex items-center justify-center text-4xl mb-3 group-hover:scale-110 transition-transform shadow-lg">
+        <div class="absolute top-0 left-0 right-0 h-1.5 transition-colors" [style.background-color]="ach.color"></div>
+        
+        <div class="w-20 h-20 rounded-full bg-black/60 border border-gray-700 flex items-center justify-center text-5xl mb-4 group-hover:scale-110 transition-transform shadow-[0_10px_20px_rgba(0,0,0,0.5)] group-hover:border-white/20">
           {{ ach.icon }}
         </div>
         
-        <h3 class="text-white font-bold text-sm uppercase">{{ ach.name }}</h3>
-        <p class="text-gray-500 text-xs mt-1 line-clamp-2">{{ ach.description }}</p>
+        <h3 class="text-white font-black text-sm md:text-base uppercase tracking-wider drop-shadow-md">{{ ach.name }}</h3>
+        <p class="text-gray-400 text-[10px] md:text-xs mt-2 line-clamp-2 font-bold leading-relaxed">{{ ach.description }}</p>
         
-        <div class="mt-4 flex gap-2 w-full pt-4 border-t border-gray-800/50">
-          <span class="flex-1 text-[9px] font-mono text-gray-400 bg-black/30 py-1 rounded">{{ ach.rule_type }}</span>
-          <span class="flex-1 text-[9px] font-mono text-white bg-black/30 py-1 rounded">Meta: {{ ach.threshold }}</span>
+        <div class="mt-5 flex gap-2 w-full pt-4 border-t border-gray-800">
+          <span class="flex-1 text-[8px] md:text-[9px] font-black uppercase tracking-widest text-gray-400 bg-black/50 py-1.5 rounded-md border border-gray-800 shadow-inner truncate px-1" title="{{ ach.rule_type }}">
+            {{ ach.rule_type.replace('_', ' ') }}
+          </span>
+          <span class="flex-1 text-[8px] md:text-[9px] font-black uppercase tracking-widest text-white bg-black/50 py-1.5 rounded-md border border-gray-800 shadow-inner px-1">
+            Meta: <span [style.color]="ach.color">{{ ach.threshold }}</span>
+          </span>
         </div>
 
-        <button (click)="deleteAchievement(ach)" class="absolute top-2 right-2 text-gray-600 hover:text-red-500 p-1 opacity-0 group-hover:opacity-100 transition-opacity">🗑️</button>
+        <button (click)="deleteAchievement(ach)" class="absolute top-3 right-3 text-gray-600 hover:text-red-500 bg-black/40 hover:bg-red-900/30 p-2 rounded-lg opacity-0 group-hover:opacity-100 transition-all border border-transparent hover:border-red-500/30 shadow-lg" title="Excluir Medalha">
+          🗑️
+        </button>
+      </div>
+    }
+    @if (achievements.length === 0) {
+      <div class="col-span-full py-20 text-center border border-dashed border-gray-800 rounded-2xl bg-black/20">
+        <span class="text-5xl grayscale opacity-30 block mb-4">🏆</span>
+        <p class="text-gray-500 font-black uppercase tracking-widest text-xs">Nenhuma medalha registrada na direção de prova.</p>
       </div>
     }
   </div>
 
   @if (showModal) {
     <div class="fixed inset-0 z-[100] flex items-center justify-center p-4">
-      <div class="absolute inset-0 bg-black/90 backdrop-blur-sm" (click)="showModal = false"></div>
-      <div class="bg-racing-dark border border-gray-700 rounded-xl w-full max-w-md relative z-10 shadow-2xl animate-slide-up p-6 max-h-[90vh] overflow-y-auto">
+      <div class="absolute inset-0 bg-black/90 backdrop-blur-md" (click)="showModal = false"></div>
+      <div class="glass-panel !bg-gray-900/95 border !border-purple-500 rounded-2xl w-full max-w-lg relative z-10 shadow-[0_0_50px_rgba(168,85,247,0.2)] animate-slide-up p-0 overflow-hidden max-h-[90vh] overflow-y-auto f1-clip">
         
-        <h3 class="text-white font-bold mb-4 uppercase italic">Nova Conquista</h3>
-        
-        <div class="space-y-4">
+        <div class="bg-gradient-to-r from-purple-900 to-black p-5 md:p-6 border-b border-purple-500/50 flex justify-between items-center sticky top-0 z-20">
           <div>
-            <label class="label-admin">Nome</label>
-            <input type="text" [(ngModel)]="form.name" class="input-admin">
+            <h3 class="text-white font-black uppercase italic tracking-tighter text-xl">Nova Conquista</h3>
+            <p class="text-gray-400 text-[9px] font-bold uppercase tracking-widest mt-0.5">Atribuição de Medalha</p>
+          </div>
+          <button (click)="showModal = false" class="text-gray-500 hover:text-white bg-black/50 w-8 h-8 rounded-full flex items-center justify-center transition-colors">&times;</button>
+        </div>
+        
+        <div class="p-6 md:p-8 space-y-5">
+          <div>
+            <label class="label-admin">Nome da Conquista</label>
+            <input type="text" [(ngModel)]="form.name" class="input-admin" placeholder="Ex: Sniper do Grid">
           </div>
           <div>
             <label class="label-admin">Descrição</label>
-            <input type="text" [(ngModel)]="form.description" class="input-admin">
+            <textarea [(ngModel)]="form.description" class="input-admin resize-none" rows="2" placeholder="Ex: Acerte 3 Pole Positions na temporada."></textarea>
           </div>
-          <div class="grid grid-cols-2 gap-4">
+          
+          <div class="grid grid-cols-2 gap-4 pt-2">
              <div>
                <label class="label-admin">Ícone (Emoji)</label>
-               <input type="text" [(ngModel)]="form.icon" class="input-admin text-center text-2xl">
+               <input type="text" [(ngModel)]="form.icon" class="input-admin text-center text-3xl h-[60px]" placeholder="🏆">
              </div>
              <div>
-               <label class="label-admin">Cor (CSS/Hex)</label>
-               <input type="text" [(ngModel)]="form.color" class="input-admin" placeholder="gold">
+               <label class="label-admin">Cor (Hex/Nome CSS)</label>
+               <div class="relative">
+                 <input type="text" [(ngModel)]="form.color" class="input-admin h-[60px]" placeholder="#eab308">
+                 <div class="absolute right-3 top-1/2 -translate-y-1/2 w-6 h-6 rounded border border-white/20 shadow-inner" [style.background-color]="form.color || 'transparent'"></div>
+               </div>
              </div>
           </div>
           
-          <div>
-            <label class="label-admin">Tipo de Regra</label>
-            <select [(ngModel)]="form.rule_type" class="input-admin">
-               <option value="TOTAL_POINTS">Pontos Totais</option>
-               <option value="RACE_POINTS">Pontos em 1 Corrida</option>
-               <option value="POLE_HITS">Acertos de Pole</option>
-               <option value="WINNER_HITS">Acertos de Vencedor</option>
-               <option value="DOTD_HITS">Acertos de DotD</option>
-               <option value="RACES_PARTICIPATED">Corridas Participadas</option>
-               <option value="PILOT_RANKING">Ranking Pilotos (Final)</option>
-               <option value="TEAM_RANKING">Ranking Equipes (Final)</option>
-            </select>
+          <div class="pt-2">
+            <label class="label-admin">Tipo de Regra (Gatilho)</label>
+            <div class="relative">
+              <select [(ngModel)]="form.rule_type" class="select-admin">
+                 <option value="TOTAL_POINTS">Soma de Pontos Totais</option>
+                 <option value="RACE_POINTS">Pontos em 1 Única Corrida</option>
+                 <option value="POLE_HITS">Acertos de Pole Position</option>
+                 <option value="WINNER_HITS">Acertos de Equipe Vencedora</option>
+                 <option value="DOTD_HITS">Acertos de Piloto do Dia</option>
+                 <option value="RACES_PARTICIPATED">Total de Corridas Participadas</option>
+                 <option value="PILOT_RANKING">Posição no Ranking Pilotos (Final)</option>
+                 <option value="TEAM_RANKING">Posição no Ranking Equipes (Final)</option>
+              </select>
+              <div class="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-purple-500 font-black text-xs">▼</div>
+            </div>
           </div>
 
           <div>
-            <label class="label-admin">Meta (Threshold)</label>
+            <label class="label-admin">Meta para Desbloqueio (Threshold)</label>
             <input type="number" [(ngModel)]="form.threshold" class="input-admin">
-            <p class="text-[10px] text-gray-500 mt-1">Ex: 100 (pontos), 1 (1º lugar), 5 (acertos)</p>
+            <p class="text-[9px] text-gray-500 mt-1.5 font-bold uppercase tracking-widest">Ex: 100 (pontos), 1 (1º lugar), 5 (acertos de pole)</p>
           </div>
 
-          <div class="flex justify-end gap-2 mt-6">
-            <button (click)="showModal = false" class="px-4 py-2 rounded bg-gray-800 text-white text-xs font-bold">Cancelar</button>
-            <button (click)="create()" class="px-6 py-2 rounded bg-racing-red text-white text-xs font-bold shadow-lg">Criar</button>
-          </div>
         </div>
-
+        
+        <div class="p-5 border-t border-gray-800 bg-black/50 flex justify-end gap-3 sticky bottom-0">
+          <button (click)="showModal = false" class="px-5 py-3.5 rounded-xl bg-black border border-gray-700 text-gray-400 hover:text-white hover:border-gray-500 font-black text-[10px] uppercase tracking-widest transition-colors">Cancelar</button>
+          <button (click)="create()" class="px-8 py-3.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-black text-[10px] uppercase tracking-[0.2em] shadow-[0_0_15px_rgba(168,85,247,0.4)] transition-colors f1-clip-button">Criar Modal</button>
+        </div>
       </div>
     </div>
   }

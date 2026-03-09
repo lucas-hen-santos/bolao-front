@@ -1,114 +1,172 @@
 <app-navbar></app-navbar>
 
-<div class="min-h-screen bg-pattern-dark p-4 pb-20 bg-fixed">
+<div class="min-h-screen bg-pattern-dark p-3 md:p-8 pb-24 overflow-x-hidden relative">
+  <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(255,255,255,0.03)_1px,_transparent_1px)] bg-[size:32px_32px] pointer-events-none opacity-60 z-0"></div>
   
   @if (isLoading) {
-    <div class="flex justify-center items-center h-[80vh]">
-      <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-racing-red"></div>
+    <div class="flex flex-col justify-center items-center py-40 animate-slide-up relative z-10">
+      <div class="relative group">
+        <div class="w-24 h-24 border-[5px] border-gray-800 rounded-full"></div>
+        <div class="w-24 h-24 border-[5px] border-racing-red rounded-full animate-engine border-t-transparent absolute top-0 left-0 shadow-[0_0_30px_rgba(239,68,68,0.4)]"></div>
+        <div class="absolute inset-0 flex items-center justify-center text-3xl animate-pulse">🔧</div>
+      </div>
+      <p class="text-gray-400 mt-8 font-black tracking-[0.3em] uppercase text-xs neon-text-pulse">Analisando Escuderia...</p>
     </div>
   } @else if (team) {
     
-    <div class="max-w-5xl mx-auto pt-10 space-y-8 animate-slide-up">
+    <div class="max-w-5xl mx-auto pt-4 md:pt-10 space-y-6 md:space-y-8 relative z-10">
       
-      <div class="relative rounded-3xl overflow-hidden shadow-2xl border border-gray-800">
-        <div class="absolute inset-0 opacity-20" 
+      <div class="glass-panel glass-shimmer f1-clip !p-0 shadow-[0_20px_50px_rgba(0,0,0,0.8)] relative group animate-slide-down">
+        
+        <div class="absolute inset-0 bg-gradient-to-b md:bg-gradient-to-r from-black/90 via-black/80 to-transparent opacity-90 z-0"></div>
+        
+        <div class="absolute inset-0 opacity-30 group-hover:opacity-50 transition-opacity duration-1000 z-0" 
              [style.background]="'linear-gradient(135deg, ' + team.primary_color + ', ' + team.secondary_color + ')'"></div>
         
-        <div class="relative z-10 p-10 flex flex-col md:flex-row items-center gap-10">
-          <div class="w-48 h-48 bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 p-6 shadow-2xl flex items-center justify-center shrink-0">
-            <img [src]="getLogoUrl(team.logo_url)" class="max-w-full max-h-full object-contain drop-shadow-lg">
+        <div class="h-1.5 w-full z-20 relative transition-colors duration-500" [style.background-color]="team.primary_color"></div>
+        
+        <div class="relative z-10 p-6 md:p-10 flex flex-col md:flex-row items-center gap-6 md:gap-10">
+          
+          <div class="w-32 h-32 md:w-48 md:h-48 bg-black/60 backdrop-blur-xl rounded-2xl border border-white/10 p-4 md:p-6 shadow-[0_10px_30px_rgba(0,0,0,0.5)] flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform duration-500 group-hover:border-white/30">
+            <img [src]="getLogoUrl(team.logo_url)" class="max-w-full max-h-full object-contain drop-shadow-2xl filter group-hover:brightness-110 transition-all">
           </div>
 
-          <div class="text-center md:text-left flex-1">
-            <h1 class="text-5xl md:text-7xl font-black text-white italic uppercase tracking-tighter leading-none mb-4">
+          <div class="text-center md:text-left flex-1 min-w-0 w-full">
+            
+            <h1 class="hidden md:block text-5xl md:text-6xl font-black text-white italic uppercase tracking-tighter leading-none mb-4 truncate drop-shadow-lg group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-gray-300 transition-all" [style.text-shadow]="'0 0 20px ' + team.primary_color + '40'">
               {{ team.name }}
             </h1>
-            <div class="flex flex-wrap justify-center md:justify-start gap-4">
-              <div class="bg-black/50 px-4 py-2 rounded-lg border border-gray-700 flex items-center gap-2">
-                <span class="text-xs text-gray-400 font-bold uppercase">Ranking</span>
-                <span class="text-white font-mono font-bold text-xl text-yellow-500">{{ team.rank }}</span>
+
+            <div class="md:hidden w-full relative mb-4">
+              @if (team.name?.length > 14) {
+                <div class="overflow-hidden whitespace-nowrap mask-right">
+                  <div class="inline-flex animate-marquee-fast text-4xl font-black text-white italic uppercase tracking-tighter leading-none">
+                    <span class="pr-8">{{ team.name }}</span>
+                    <span class="pr-8" aria-hidden="true">{{ team.name }}</span>
+                  </div>
+                </div>
+              } @else {
+                <h1 class="text-4xl font-black text-white italic uppercase tracking-tighter leading-none drop-shadow-lg truncate">
+                  {{ team.name }}
+                </h1>
+              }
+            </div>
+
+            <div class="flex flex-wrap justify-center md:justify-start gap-3 md:gap-4">
+              <div class="bg-black/60 px-4 py-2 rounded-lg border border-gray-700 shadow-inner flex items-center gap-2 backdrop-blur-sm">
+                <span class="text-[10px] text-gray-400 font-black uppercase tracking-widest">Ranking</span>
+                <span class="text-white font-black text-lg text-yellow-500 drop-shadow-[0_0_8px_rgba(234,179,8,0.4)]">#{{ team.rank }}</span>
               </div>
-              <!-- <div class="bg-black/50 px-4 py-2 rounded-lg border border-gray-700 flex items-center gap-2">
-                <span class="text-xs text-gray-400 font-bold uppercase">ID</span>
-                <span class="text-white font-mono font-bold">#{{ team.id }}</span>
-              </div> -->
+              <div class="bg-black/60 px-4 py-2 rounded-lg border border-gray-700 shadow-inner flex items-center gap-2 backdrop-blur-sm">
+                <span class="text-[10px] text-gray-400 font-black uppercase tracking-widest">Chassi</span>
+                <span class="text-white font-black text-xs md:text-sm uppercase flex items-center gap-1.5">
+                   <span class="w-2 h-2 rounded-full" [style.background-color]="team.primary_color"></span> Oficial
+                </span>
+              </div>
             </div>
           </div>
 
-          <div class="text-center">
-            <span class="block text-7xl font-black text-white leading-none tracking-tighter">{{ team.total_points }}</span>
-            <span class="text-xs text-gray-400 font-bold uppercase tracking-widest mt-1">Pontos Totais</span>
+          <div class="text-center shrink-0 mt-2 md:mt-0 glass-panel !bg-black/40 !border-white/10 !p-5 !rounded-2xl min-w-[150px]">
+            <span class="block text-6xl md:text-7xl font-black italic leading-none tracking-tighter drop-shadow-[0_0_15px_rgba(255,255,255,0.3)] transition-colors" [style.color]="team.primary_color || '#ffffff'">{{ team.total_points }}</span>
+            <span class="text-[10px] md:text-xs text-gray-400 font-black uppercase tracking-[0.2em] mt-2 block">Pontos Totais</span>
           </div>
+
         </div>
       </div>
 
       @if (team.history && team.history.length > 0) {
-        <div class="glass-panel p-6">
-          <h3 class="text-gray-400 text-xs font-bold uppercase tracking-widest mb-6 border-l-4 border-blue-500 pl-2">Performance por Etapa</h3>
-          <div class="flex items-end justify-between gap-2 h-32 w-full">
+        <div class="glass-panel p-6 md:p-8 relative overflow-hidden group animate-slide-up" style="animation-delay: 0.1s;">
+          <div class="absolute bottom-0 right-0 w-40 h-40 rounded-full blur-[60px] pointer-events-none -z-10 opacity-10 transition-opacity group-hover:opacity-30" [style.background-color]="team.primary_color || '#ef4444'"></div>
+          
+          <h3 class="text-gray-400 text-[10px] md:text-xs font-black uppercase tracking-[0.2em] mb-8 flex items-center gap-2 pl-1">
+            <span class="w-2 h-2 rounded-full animate-pulse shadow-lg" [style.background-color]="team.primary_color || '#3b82f6'" [style.box-shadow]="'0 0 10px ' + (team.primary_color || '#3b82f6')"></span> 
+            Performance por Etapa
+          </h3>
+          
+          <div class="flex items-end justify-between gap-2 h-32 md:h-40 w-full relative z-10">
+            <div class="absolute inset-0 border-b border-gray-800 flex flex-col justify-between z-0 pointer-events-none">
+               <div class="border-t border-gray-800/30 w-full h-0"></div>
+               <div class="border-t border-gray-800/30 w-full h-0"></div>
+               <div class="border-t border-gray-800/30 w-full h-0"></div>
+            </div>
+
             @for (race of team.history; track $index) {
-              <div class="flex-1 flex flex-col justify-end group">
-                <div class="w-full rounded-t hover:bg-blue-500 transition-all duration-300 relative"
-                     [style.background-color]="team.primary_color || '#444'"
-                     [style.height]="(race.points * 3) + '%'" 
-                     style="min-height: 4px; max-height: 100%;">
-                   <div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-white text-black text-xs font-bold px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-10">
-                     {{ race.points }} pts
-                   </div>
+              <div class="flex-1 flex flex-col justify-end group/bar relative z-10 h-full">
+                <div class="absolute -top-10 left-1/2 -translate-x-1/2 bg-black text-white text-[10px] md:text-xs font-black px-3 py-1.5 rounded-lg opacity-0 group-hover/bar:opacity-100 transition-all transform group-hover/bar:-translate-y-1 whitespace-nowrap z-20 border border-gray-700 shadow-[0_10px_20px_rgba(0,0,0,0.8)] pointer-events-none">
+                  <span [style.color]="team.primary_color || '#ffffff'">{{ race.points }} PTS</span>
                 </div>
-                <div class="text-[9px] text-gray-500 text-center mt-2 truncate w-full overflow-hidden">{{ race.race }}</div>
+                
+                <div class="w-full rounded-t-sm transition-all duration-500 relative bg-gray-700/50 group-hover/bar:shadow-[0_0_15px_currentColor]"
+                     [style.color]="team.primary_color || '#ffffff'"
+                     [style.background-color]="'currentColor'"
+                     [style.height]="(race.points * 3) + '%'" 
+                     style="min-height: 4px; max-height: 100%;"
+                     [class.group-hover/bar:opacity-100]="true"
+                     [class.opacity-60]="true">
+                   <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                </div>
+                <div class="text-[8px] md:text-[9px] text-gray-500 text-center mt-2 truncate w-full overflow-hidden font-bold uppercase tracking-widest">{{ race.race }}</div>
               </div>
             }
           </div>
         </div>
       }
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-        @if (team.captain) {
-          <a [routerLink]="['/u', team.captain.id]" class="glass-panel p-6 flex items-center gap-6 group hover:border-racing-red/50 transition-colors cursor-pointer">
-            <div class="w-20 h-20 rounded-full border-2 border-racing-red overflow-hidden bg-black shadow-lg">
-              @if (team.captain.photo) {
-                <img [src]="getPhotoUrl(team.captain.photo)" class="w-full h-full object-cover">
-              } @else {
-                <div class="w-full h-full flex items-center justify-center text-xl font-bold text-gray-500">{{ team.captain.name.charAt(0) }}</div>
-              }
-            </div>
-            <div>
-              <span class="text-[10px] text-racing-red font-bold uppercase tracking-widest mb-1 block">Team Principal</span>
-              <h3 class="text-2xl font-black text-white italic uppercase group-hover:text-racing-red transition-colors">{{ team.captain.name }}</h3>
-            </div>
-          </a>
-        }
+      <div class="space-y-4 animate-slide-up" style="animation-delay: 0.2s;">
+        <h2 class="text-white font-black uppercase italic text-xl md:text-2xl mb-6 flex items-center gap-3 pl-1">
+          <span class="text-2xl">🏎️</span> Line-up Oficial
+        </h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+          
+          @if (team.captain) {
+            <a [routerLink]="['/u', team.captain.id]" class="glass-panel glass-shimmer p-6 md:p-8 flex items-center gap-5 md:gap-6 group hover:scale-[1.02] transition-all cursor-pointer f1-clip border-l-4 shadow-lg hover:shadow-2xl" [style.border-color]="team.primary_color || '#ef4444'">
+              <div class="w-20 h-20 md:w-24 md:h-24 rounded-full border-[3px] overflow-hidden bg-black shadow-[0_10px_20px_rgba(0,0,0,0.6)] group-hover:shadow-[0_0_20px_currentColor] transition-all duration-500 group-hover:scale-105" [style.color]="team.primary_color || '#ef4444'" [style.border-color]="team.primary_color || '#ef4444'">
+                @if (team.captain.photo) {
+                  <img [src]="getPhotoUrl(team.captain.photo)" class="w-full h-full object-cover filter group-hover:brightness-110 transition-all">
+                } @else {
+                  <div class="w-full h-full flex items-center justify-center text-3xl font-black text-gray-500 bg-gray-900">{{ team.captain.name.charAt(0) }}</div>
+                }
+              </div>
+              <div class="min-w-0 flex-1">
+                <span class="text-[9px] md:text-[10px] font-black uppercase tracking-[0.2em] mb-1 block" [style.color]="team.primary_color || '#ef4444'">Team Principal</span>
+                <h3 class="text-2xl md:text-3xl font-black text-white italic uppercase group-hover:text-gray-300 transition-colors truncate">{{ team.captain.name }}</h3>
+              </div>
+            </a>
+          }
 
-        @if (team.partner) {
-          <a [routerLink]="['/u', team.partner.id]" class="glass-panel p-6 flex items-center gap-6 group hover:border-gray-500 transition-colors cursor-pointer">
-            <div class="w-20 h-20 rounded-full border-2 border-gray-600 overflow-hidden bg-black shadow-lg">
-              @if (team.partner.photo) {
-                <img [src]="getPhotoUrl(team.partner.photo)" class="w-full h-full object-cover">
-              } @else {
-                <div class="w-full h-full flex items-center justify-center text-xl font-bold text-gray-500">{{ team.partner.name.charAt(0) }}</div>
-              }
+          @if (team.partner) {
+            <a [routerLink]="['/u', team.partner.id]" class="glass-panel glass-shimmer p-6 md:p-8 flex items-center gap-5 md:gap-6 group hover:scale-[1.02] transition-all cursor-pointer f1-clip border-l-4 border-l-gray-600 hover:border-l-white shadow-lg hover:shadow-2xl">
+              <div class="w-20 h-20 md:w-24 md:h-24 rounded-full border-[3px] border-gray-600 group-hover:border-white overflow-hidden bg-black shadow-[0_10px_20px_rgba(0,0,0,0.6)] group-hover:shadow-[0_0_20px_rgba(255,255,255,0.4)] transition-all duration-500 group-hover:scale-105">
+                @if (team.partner.photo) {
+                  <img [src]="getPhotoUrl(team.partner.photo)" class="w-full h-full object-cover filter group-hover:brightness-110 transition-all">
+                } @else {
+                  <div class="w-full h-full flex items-center justify-center text-3xl font-black text-gray-500 bg-gray-900">{{ team.partner.name.charAt(0) }}</div>
+                }
+              </div>
+              <div class="min-w-0 flex-1">
+                <span class="text-[9px] md:text-[10px] text-gray-400 font-black uppercase tracking-[0.2em] mb-1 block group-hover:text-gray-300">2º Piloto</span>
+                <h3 class="text-2xl md:text-3xl font-black text-white italic uppercase transition-colors truncate">{{ team.partner.name }}</h3>
+              </div>
+            </a>
+          } @else {
+            <div class="glass-panel p-6 md:p-8 flex flex-col items-center justify-center border-dashed border-gray-700 opacity-50 hover:opacity-80 transition-opacity f1-clip min-h-[140px]">
+              <span class="text-3xl mb-2 grayscale">👤</span>
+              <p class="text-gray-500 font-black uppercase tracking-[0.2em] text-[10px] md:text-xs">Vaga Disponível</p>
             </div>
-            <div>
-              <span class="text-[10px] text-gray-500 font-bold uppercase tracking-widest mb-1 block">2º Piloto</span>
-              <h3 class="text-2xl font-black text-white italic uppercase group-hover:text-gray-300 transition-colors">{{ team.partner.name }}</h3>
-            </div>
-          </a>
-        } @else {
-          <div class="glass-panel p-6 flex items-center justify-center border-dashed border-gray-700 opacity-50">
-            <p class="text-gray-500 italic">Vaga Disponível</p>
-          </div>
-        }
+          }
+        </div>
       </div>
 
     </div>
 
   } @else {
-    <div class="flex justify-center items-center h-[80vh] text-white">
-      <div class="text-center">
-        <h1 class="text-4xl font-bold mb-2">404</h1>
-        <p class="text-gray-500">Equipe não encontrada.</p>
-        <a routerLink="/" class="mt-4 inline-block text-racing-red hover:underline">Voltar ao Paddock</a>
+    <div class="flex justify-center items-center h-[80vh] text-white relative z-10 animate-slide-up">
+      <div class="text-center bg-black/40 backdrop-blur-md p-12 rounded-3xl border border-white/10 shadow-2xl">
+        <span class="text-7xl grayscale opacity-30 drop-shadow-lg block mb-6">🔧</span>
+        <h1 class="text-3xl md:text-5xl font-black mb-2 uppercase italic tracking-tighter">Box Fechado</h1>
+        <p class="text-gray-500 text-xs md:text-sm font-bold uppercase tracking-widest mb-8">A escuderia solicitada não foi encontrada.</p>
+        <a routerLink="/" class="inline-block px-8 py-3.5 bg-white text-black font-black text-[10px] uppercase tracking-[0.2em] hover:bg-gray-200 transition-colors rounded-full shadow-lg">Voltar ao Paddock</a>
       </div>
     </div>
   }

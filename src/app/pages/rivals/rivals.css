@@ -1,19 +1,90 @@
-/* Animações */
-@keyframes slideDown {
-    from { opacity: 0; transform: translateY(-20px); }
+/* =========================================
+   TEMA PREMIUM F1 - RIVALIDADE (DUELOS)
+========================================= */
+
+/* Fundo Translúcido e Blur */
+.glass-panel {
+    background: rgba(10, 10, 12, 0.7);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.8);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Corte Diagonal Clássico da F1 */
+.f1-clip {
+    clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px);
+}
+
+/* Efeito de Varredura de Luz */
+.glass-shimmer::after {
+    content: '';
+    position: absolute;
+    top: 0; left: -200%;
+    width: 50%; height: 100%;
+    background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.04) 50%, rgba(255,255,255,0) 100%);
+    transform: skewX(-20deg);
+    animation: shimmer-sweep 7s infinite linear;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* =========================================
+   ANIMAÇÕES E KEYFRAMES
+========================================= */
+@keyframes shimmer-sweep {
+    0% { left: -100%; }
+    20% { left: 200%; }
+    100% { left: 200%; }
+}
+
+@keyframes slideInUpFade {
+    from { opacity: 0; transform: translateY(40px) scale(0.98); filter: blur(5px); }
+    to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+}
+
+@keyframes slideInDownFade {
+    from { opacity: 0; transform: translateY(-30px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
-@keyframes slideUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+@keyframes engineSpin {
+    0% { transform: rotate(0deg); border-top-color: #dc2626; }
+    50% { transform: rotate(180deg); border-top-color: #ef4444; }
+    100% { transform: rotate(360deg); border-top-color: #dc2626; }
 }
 
-.animate-slide-down {
-    animation: slideDown 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+@keyframes neon-pulse-red {
+    0% { text-shadow: 0 0 10px rgba(239, 68, 68, 0.4), 0 0 20px rgba(239, 68, 68, 0.2); }
+    100% { text-shadow: 0 0 20px rgba(239, 68, 68, 0.8), 0 0 40px rgba(239, 68, 68, 0.5); color: #fff; }
+}
+
+/* Pulso imenso para o fundo do Duelo */
+@keyframes vs-pulse {
+    0%, 100% { transform: scale(1); opacity: 0.05; }
+    50% { transform: scale(1.05); opacity: 0.15; color: #ef4444; }
 }
 
 .animate-slide-up {
-    animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    opacity: 0; /* Começa invisível */
+    opacity: 0;
+    animation: slideInUpFade 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-slide-down {
+    animation: slideInDownFade 0.8s ease-out forwards;
+}
+
+.animate-engine {
+    animation: engineSpin 1.2s cubic-bezier(0.6, 0.05, 0.28, 0.91) infinite;
+}
+
+.neon-text-pulse {
+    animation: neon-pulse-red 2.5s infinite alternate ease-in-out;
+}
+
+.animate-vs-bg {
+    animation: vs-pulse 4s infinite ease-in-out;
 }

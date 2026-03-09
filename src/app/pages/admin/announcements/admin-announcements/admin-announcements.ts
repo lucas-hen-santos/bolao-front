@@ -8,7 +8,8 @@ import { ToastService } from '../../../../services/toast';
   selector: 'app-admin-announcements',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: './admin-announcements.html'
+  templateUrl: './admin-announcements.html',
+  styleUrl: './admin-announcements.css'
 })
 export class AdminAnnouncements {
   private adminService = inject(AdminService);

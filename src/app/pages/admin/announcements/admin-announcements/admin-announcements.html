@@ -1,45 +1,35 @@
-<div class="space-y-8 pb-20">
-  
-  <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-gray-800 pb-6 animate-slide-down">
-    <div>
-      <h1 class="text-3xl md:text-4xl font-black text-white uppercase italic tracking-tighter">
-        Central de <span class="text-racing-red">Comunicados</span>
+<div class="space-y-6 md:space-y-8 pb-20 relative z-10">
+
+  <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 animate-slide-up">
+    <div class="relative">
+      <div class="absolute -top-10 -left-10 w-40 h-40 bg-purple-500/20 rounded-full blur-[50px] pointer-events-none -z-10"></div>
+      <h1 class="text-3xl md:text-5xl font-black text-white uppercase italic tracking-tighter drop-shadow-lg">
+        Rádio da <span class="text-purple-500 neon-text-pulse">Direção</span>
       </h1>
-      <p class="text-gray-400 text-sm mt-1 flex items-center gap-2">
-        <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+      <p class="text-gray-400 text-xs md:text-sm font-bold uppercase tracking-widest mt-1 flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-purple-500 animate-pulse shadow-[0_0_8px_#a855f7]"></span>
         Sistema de Broadcast (Email + Push)
       </p>
     </div>
   </div>
 
-  <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
     
-    <div class="lg:col-span-2 space-y-6 animate-slide-up">
-      
-      <div class="bg-gray-900/80 backdrop-blur-md border border-gray-800 rounded-2xl p-6 md:p-8 shadow-2xl relative overflow-hidden group">
-        <div class="absolute top-0 right-0 w-64 h-64 bg-racing-red/5 rounded-full blur-[80px] -mr-16 -mt-16 pointer-events-none transition-opacity group-hover:opacity-100 opacity-50"></div>
-
-        <div class="space-y-6 relative z-10">
+    <div class="lg:col-span-2">
+      <div class="glass-panel glass-shimmer f1-clip p-6 md:p-10 animate-slide-up border-l-4 border-l-purple-500 shadow-[0_15px_40px_rgba(0,0,0,0.6)]" style="animation-delay: 0.1s;">
+        
+        <div class="space-y-6 md:space-y-8 relative z-10">
           
-          <div class="group/input">
-            <label class="flex items-center gap-2 text-xs font-bold text-gray-500 uppercase mb-2 group-focus-within/input:text-white transition-colors">
-              <span class="text-lg">📢</span> Assunto / Título
-            </label>
-            <div class="relative">
-              <input type="text" [(ngModel)]="subject" 
-                     placeholder="Ex: Pista Liberada para o GP de Mônaco!" 
-                     class="w-full bg-black/50 text-white pl-4 pr-4 py-4 rounded-xl border border-gray-700 focus:border-racing-red focus:ring-1 focus:ring-racing-red outline-none transition-all font-bold text-lg placeholder-gray-700">
-            </div>
+          <div>
+            <label class="block text-gray-400 text-[10px] font-black uppercase tracking-[0.2em] mb-2 ml-1">Assunto / Título do Comunicado</label>
+            <input type="text" [(ngModel)]="subject" required placeholder="EX: PISTA LIBERADA PARA O GP DE MÔNACO" 
+                   class="w-full bg-black/60 text-white p-4 rounded-xl border border-gray-700 focus:border-purple-500 outline-none font-black text-sm uppercase tracking-widest transition-colors shadow-inner placeholder-gray-700">
           </div>
 
-          <div class="group/input">
-            <label class="flex items-center gap-2 text-xs font-bold text-gray-500 uppercase mb-2 group-focus-within/input:text-white transition-colors">
-              <span class="text-lg">📝</span> Mensagem do Corpo
-            </label>
-            <textarea [(ngModel)]="message" 
-                      rows="6"
-                      placeholder="Escreva aqui o conteúdo detalhado que será enviado por email..." 
-                      class="w-full bg-black/50 text-white p-4 rounded-xl border border-gray-700 focus:border-racing-red focus:ring-1 focus:ring-racing-red outline-none transition-all leading-relaxed placeholder-gray-700 resize-none"></textarea>
+          <div>
+            <label class="block text-gray-400 text-[10px] font-black uppercase tracking-[0.2em] mb-2 ml-1">Corpo da Mensagem (Rádio)</label>
+            <textarea [(ngModel)]="message" required rows="6" placeholder="Escreva a mensagem que será enviada aos pilotos..."
+                      class="w-full bg-black/60 text-white p-4 rounded-xl border border-gray-700 focus:border-purple-500 outline-none font-medium text-sm transition-colors shadow-inner placeholder-gray-700 resize-none"></textarea>
             <div class="flex justify-between mt-2">
               <span class="text-[10px] text-gray-600 uppercase font-bold">Suporta quebras de linha</span>
               <span class="text-[10px]" [ngClass]="message.length > 100 ? 'text-yellow-500' : 'text-gray-600'">
@@ -48,48 +38,41 @@
             </div>
           </div>
 
+          <div class="pt-4">
+            <button (click)="openConfirmation()" [disabled]="isSending || !subject || !message" 
+                    class="w-full bg-gradient-to-r from-purple-600 to-purple-800 hover:from-purple-500 hover:to-purple-700 text-white font-black py-5 px-6 shadow-[0_0_20px_rgba(168,85,247,0.4)] hover:shadow-[0_0_30px_rgba(168,85,247,0.6)] uppercase tracking-[0.2em] transition-all transform hover:-translate-y-1 disabled:opacity-50 disabled:grayscale disabled:transform-none f1-clip-button text-xs md:text-sm flex justify-center items-center gap-3">
+              <span class="text-xl leading-none">🎙️</span>
+              {{ isSending ? 'Transmitindo...' : 'Transmitir no Rádio da Equipe' }}
+            </button>
+          </div>
+
         </div>
       </div>
-
-      <div class="flex justify-end">
-        <button (click)="openConfirmation()" 
-                [disabled]="isSending || !subject || !message"
-                class="group relative overflow-hidden bg-racing-red hover:bg-red-600 text-white font-black py-4 px-10 rounded-xl shadow-[0_0_20px_rgba(220,38,38,0.3)] hover:shadow-[0_0_30px_rgba(220,38,38,0.5)] transition-all transform hover:-translate-y-1 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none flex items-center gap-3 uppercase tracking-widest text-sm">
-          @if (isSending) {
-            <div class="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent"></div>
-            <span>Enviando...</span>
-          } @else {
-            <span>Disparar Transmissão</span>
-            <span class="text-xl group-hover:translate-x-1 transition-transform">🚀</span>
-          }
-        </button>
-      </div>
-
     </div>
 
-    <div class="lg:col-span-1 space-y-6 animate-slide-up" style="animation-delay: 0.1s;">
+    <div class="lg:col-span-1 space-y-6 animate-slide-up" style="animation-delay: 0.2s;">
       
-      <div class="bg-blue-900/10 border border-blue-500/20 rounded-xl p-5">
-        <h3 class="text-blue-400 font-bold uppercase text-xs mb-3 flex items-center gap-2">
+      <div class="glass-panel p-6 bg-purple-900/10 border border-purple-500/20 rounded-xl">
+        <h3 class="text-purple-400 font-bold uppercase text-xs mb-3 flex items-center gap-2">
           <span>ℹ️</span> Como funciona
         </h3>
-        <ul class="space-y-2 text-xs text-gray-400 leading-relaxed">
+        <ul class="space-y-3 text-[10px] md:text-xs text-gray-400 leading-relaxed font-medium">
           <li class="flex gap-2">
-            <span class="text-blue-500">•</span>
+            <span class="text-purple-500">•</span>
             <span>O <strong>Email</strong> conterá o texto completo e formatação padrão.</span>
           </li>
           <li class="flex gap-2">
-            <span class="text-blue-500">•</span>
+            <span class="text-purple-500">•</span>
             <span>O <strong>Push (Celular)</strong> exibirá o título e as primeiras linhas da mensagem.</span>
           </li>
           <li class="flex gap-2">
-            <span class="text-blue-500">•</span>
-            <span>Todos os links redirecionam para o <strong>Dashboard</strong>.</span>
+            <span class="text-purple-500">•</span>
+            <span>Todos os links gerados automaticamente redirecionam o piloto para o <strong>Dashboard</strong>.</span>
           </li>
         </ul>
       </div>
 
-      <div class="bg-gray-800 border border-gray-700 rounded-xl p-4 relative overflow-hidden">
+      <div class="glass-panel p-5 relative overflow-hidden bg-black/40 border border-gray-800 rounded-xl">
         <p class="text-[10px] text-gray-500 uppercase font-bold mb-3 text-center">Simulação de Notificação</p>
         
         <div class="bg-[#1a1a1a] rounded-lg p-3 shadow-lg border border-gray-600 flex gap-3 items-start relative">
@@ -109,7 +92,6 @@
             </p>
           </div>
         </div>
-
       </div>
 
     </div>
@@ -121,23 +103,23 @@
   <div class="fixed inset-0 z-[200] flex items-center justify-center p-4">
     <div class="absolute inset-0 bg-black/90 backdrop-blur-md transition-opacity" (click)="showConfirmationModal = false"></div>
     
-    <div class="bg-gray-900 border border-racing-red rounded-2xl p-0 max-w-md w-full relative z-10 shadow-[0_0_50px_rgba(220,38,38,0.2)] animate-slide-up overflow-hidden">
+    <div class="glass-panel !bg-gray-900/95 border !border-purple-500 rounded-2xl p-0 max-w-md w-full relative z-10 shadow-[0_0_50px_rgba(168,85,247,0.3)] animate-slide-up overflow-hidden f1-clip">
       
-      <div class="bg-gradient-to-r from-red-900 to-racing-red p-6 text-center">
-        <div class="w-16 h-16 bg-black/30 text-white rounded-full flex items-center justify-center text-3xl mx-auto mb-2 border-2 border-white/20 shadow-inner">
+      <div class="bg-gradient-to-r from-purple-900 to-purple-600 p-6 text-center border-b border-purple-500">
+        <div class="w-16 h-16 bg-black/40 text-white rounded-full flex items-center justify-center text-3xl mx-auto mb-3 border-2 border-white/20 shadow-inner">
           📢
         </div>
-        <h3 class="text-2xl font-black text-white uppercase italic tracking-tighter">Confirmar Envio?</h3>
+        <h3 class="text-2xl font-black text-white uppercase italic tracking-tighter">Confirmar Transmissão?</h3>
       </div>
 
-      <div class="p-8">
+      <div class="p-6 md:p-8">
         <p class="text-center text-gray-300 mb-6 text-sm leading-relaxed">
           Você está prestes a enviar uma notificação para <strong class="text-white">TODOS</strong> os pilotos ativos.
-          <br><span class="text-red-400 text-xs mt-2 block">Esta ação não pode ser desfeita.</span>
+          <br><span class="text-red-400 text-xs mt-2 block font-bold">Esta ação não pode ser desfeita.</span>
         </p>
 
-        <div class="bg-black/50 p-4 rounded-xl text-left border border-gray-800 mb-8">
-          <p class="text-[10px] text-gray-500 uppercase font-bold mb-1">Resumo:</p>
+        <div class="bg-black/50 p-4 rounded-xl text-left border border-gray-800 mb-8 shadow-inner">
+          <p class="text-[10px] text-gray-500 uppercase font-bold mb-1">Resumo do Rádio:</p>
           <p class="text-white font-bold text-sm truncate"><span class="text-gray-500">Assunto:</span> {{ subject }}</p>
           <p class="text-gray-400 text-xs truncate mt-1"><span class="text-gray-500">Início:</span> {{ message }}</p>
         </div>
@@ -146,7 +128,7 @@
           <button (click)="showConfirmationModal = false" class="py-4 rounded-xl bg-gray-800 text-gray-300 hover:bg-gray-700 hover:text-white font-bold transition-colors text-xs uppercase tracking-wider">
             Cancelar
           </button>
-          <button (click)="confirmSend()" class="py-4 rounded-xl bg-racing-red hover:bg-red-600 text-white font-bold shadow-lg hover:shadow-racing-red/40 transition-all transform hover:scale-105 text-xs uppercase tracking-wider flex items-center justify-center gap-2">
+          <button (click)="confirmSend()" class="py-4 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-bold shadow-[0_0_15px_rgba(168,85,247,0.4)] transition-all transform hover:scale-105 text-xs uppercase tracking-wider flex items-center justify-center gap-2 f1-clip-button">
             <span>Confirmar</span>
             <span>📡</span>
           </button>

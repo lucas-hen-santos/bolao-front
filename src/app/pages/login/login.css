@@ -1,62 +1,69 @@
-/* Efeito de Grid no Fundo */
-.bg-pattern-grid {
-    background-image: linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
-    background-size: 40px 40px;
-    mask-image: radial-gradient(circle at center, black, transparent 80%);
+/* =========================================
+   LOGIN THEME - PREMIUM COCKPIT
+========================================= */
+
+.glass-panel {
+    background: rgba(10, 10, 12, 0.85);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 2rem;
+    position: relative;
+    overflow: hidden;
 }
 
-/* Animações Keyframes */
-@keyframes slideUp {
-    from { opacity: 0; transform: translateY(40px); }
-    to { opacity: 1; transform: translateY(0); }
+/* Corte F1 Oblíquo */
+.f1-clip {
+    clip-path: polygon(30px 0, 100% 0, 100% calc(100% - 30px), calc(100% - 30px) 100%, 0 100%, 0 30px);
+}
+.f1-clip-button {
+    clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
 }
 
-@keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
+/* Reflexo de Varredura (Shimmer) */
+.glass-shimmer::after {
+    content: '';
+    position: absolute;
+    top: 0; left: -200%;
+    width: 60%; height: 100%;
+    background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.03) 50%, rgba(255,255,255,0) 100%);
+    transform: skewX(-25deg);
+    animation: shimmer-sweep 10s infinite linear;
+    pointer-events: none;
+    z-index: 0;
 }
 
-@keyframes pulseSlow {
-    0%, 100% { opacity: 0.1; transform: translateX(-50%) scale(1); }
-    50% { opacity: 0.3; transform: translateX(-50%) scale(1.1); }
+@keyframes shimmer-sweep {
+    0% { left: -100%; }
+    20% { left: 200%; }
+    100% { left: 200%; }
 }
 
-@keyframes shine {
-    from { left: -100%; }
-    to { left: 200%; }
-}
-
-@keyframes shake {
-    0%, 100% { transform: translateX(0); }
-    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
-    20%, 40%, 60%, 80% { transform: translateX(5px); }
-}
-
-/* Classes Utilitárias Animadas */
+/* Animações de Entrada */
 .animate-slide-up {
+    opacity: 0;
     animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-.animate-float {
-    animation: float 6s ease-in-out infinite;
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(40px) scale(0.96); filter: blur(10px); }
+    to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
 }
 
 .animate-pulse-slow {
-    animation: pulseSlow 8s ease-in-out infinite;
+    animation: pulse-glow 6s infinite alternate ease-in-out;
 }
 
-.group:hover .group-hover\:animate-shine {
-    animation: shine 1s;
+@keyframes pulse-glow {
+    0% { opacity: 0.3; transform: scale(1); }
+    100% { opacity: 0.6; transform: scale(1.2); }
 }
 
-.animate-shake {
-    animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
-}
-
-/* Glassmorphism Refinado */
-.auth-card {
-    box-shadow: 
-        0 4px 30px rgba(0, 0, 0, 0.5),
-        inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+/* Chrome Autofill Fix */
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus {
+    -webkit-text-fill-color: white;
+    -webkit-box-shadow: 0 0 0px 1000px rgba(10, 10, 12, 1) inset;
+    transition: background-color 5000s ease-in-out 0s;
 }

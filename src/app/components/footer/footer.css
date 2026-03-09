@@ -1,0 +1,44 @@
+/* =========================================
+   TEMA PREMIUM F1 - FOOTER
+========================================= */
+
+/* Fundo Translúcido e Blur para a Base */
+.footer-glass {
+    background: rgba(5, 5, 8, 0.95);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.6);
+    position: relative;
+    z-index: 50;
+}
+
+/* Links com Efeito de Sublinhado Neon */
+.footer-link {
+    position: relative;
+    color: rgba(255, 255, 255, 0.5);
+    transition: color 0.3s ease;
+    padding-bottom: 4px;
+}
+
+.footer-link:hover {
+    color: #ffffff;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+.footer-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 2px;
+    background-color: #ef4444; /* Vermelho F1 */
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 0 8px #ef4444;
+}
+
+.footer-link:hover::after {
+    width: 100%;
+}

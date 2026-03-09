@@ -1,58 +1,71 @@
-<nav class="bg-racing-dark border-b border-racing-red/30 shadow-lg fixed w-full top-0 z-[100]">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="flex justify-between h-16">
+<nav class="nav-glass fixed w-full top-0 z-[100] transition-all duration-300">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+    
+    <div class="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-racing-red to-transparent opacity-50"></div>
+
+    <div class="flex justify-between h-16 md:h-20">
       
       <div class="flex items-center">
-        <a routerLink="/dashboard" class="flex-shrink-0 flex items-center cursor-pointer gap-2 group">
-          <span class="text-2xl md:text-3xl group-hover:scale-110 transition-transform">🏎️</span>
-          <span class="text-racing-red font-black text-lg md:text-xl italic tracking-tighter uppercase">
+        <a routerLink="/dashboard" class="flex-shrink-0 flex items-center cursor-pointer gap-2 md:gap-3 group">
+          <div class="w-8 h-8 md:w-10 md:h-10 rounded-lg bg-black/40 border border-white/10 flex items-center justify-center shadow-inner group-hover:bg-white/5 transition-colors group-hover:shadow-[0_0_15px_rgba(239,68,68,0.2)]">
+             <span class="text-xl md:text-2xl group-hover:scale-110 transition-transform duration-300 drop-shadow-md">🏎️</span>
+          </div>
+          <span class="text-white font-black text-lg md:text-xl italic tracking-tighter uppercase drop-shadow-lg flex flex-col justify-center leading-none">
+            <!-- <span class="hidden sm:block text-[10px] text-racing-red uppercase tracking-[0.3em] font-bold mb-0.5">Bem-Vindo</span> -->
             <span class="hidden sm:inline">Bolão Tá Potente</span>
-            <span class="sm:hidden">BTP</span>
+            <span class="sm:hidden text-racing-red text-2xl tracking-tighter">BTP</span>
           </span>
         </a>
       </div>
 
-      <div class="hidden md:flex items-center space-x-6">
+      <div class="hidden md:flex items-center space-x-1 lg:space-x-4">
+        
         @if (userService.currentUser()?.is_admin) {
-          <a routerLink="/admin/dashboard" routerLinkActive="text-racing-red" class="text-purple-400 hover:text-white text-xs font-bold uppercase tracking-wide transition flex items-center gap-1 border border-purple-500/30 bg-purple-500/10 px-3 py-1.5 rounded-full hover:bg-purple-500/20">
-            <span>🛡️</span> Admin
+          <a routerLink="/admin/dashboard" class="text-purple-400 hover:text-white text-[10px] lg:text-xs font-black uppercase tracking-widest transition-all flex items-center gap-2 border border-purple-500/30 bg-purple-900/20 px-3 py-1.5 rounded-full hover:bg-purple-600 hover:shadow-[0_0_15px_rgba(168,85,247,0.4)] mr-2 f1-clip-nav">
+            <span>🛡️</span> Direção
           </a>
         }
-        <a routerLink="/dashboard" routerLinkActive="text-racing-red" class="text-gray-300 hover:text-white text-xs font-bold uppercase tracking-wide transition">Início</a>
-        <a routerLink="/ranking" routerLinkActive="text-racing-red" class="text-gray-300 hover:text-white text-xs font-bold uppercase tracking-wide transition">Ranking</a>
         
-        <a routerLink="/grid" routerLinkActive="text-racing-red" class="text-gray-300 hover:text-white text-xs font-bold uppercase tracking-wide transition">Grid F1</a>
-        <a routerLink="/rivals" routerLinkActive="text-racing-red" class="text-gray-300 hover:text-white text-xs font-bold uppercase tracking-wide transition">Rivais</a>
-        <a routerLink="/my-team" routerLinkActive="text-racing-red" class="text-gray-300 hover:text-white text-xs font-bold uppercase tracking-wide transition">Equipe</a>
+        <a routerLink="/dashboard" routerLinkActive="nav-link-active" class="nav-link px-3 py-2 text-[10px] lg:text-xs font-black uppercase tracking-widest">Paddock</a>
+        <a routerLink="/ranking" routerLinkActive="nav-link-active" class="nav-link px-3 py-2 text-[10px] lg:text-xs font-black uppercase tracking-widest">Ranking</a>
+        <a routerLink="/grid" routerLinkActive="nav-link-active" class="nav-link px-3 py-2 text-[10px] lg:text-xs font-black uppercase tracking-widest">Grid F1</a>
+        <a routerLink="/rivals" routerLinkActive="nav-link-active" class="nav-link px-3 py-2 text-[10px] lg:text-xs font-black uppercase tracking-widest">Rivais</a>
+        <a routerLink="/my-team" routerLinkActive="nav-link-active" class="nav-link px-3 py-2 text-[10px] lg:text-xs font-black uppercase tracking-widest">Equipe</a>
         
-        <div class="flex items-center gap-4 ml-4 pl-4 border-l border-gray-700">
-          <a routerLink="/profile" class="flex items-center gap-3 group cursor-pointer">
-            <div class="relative w-8 h-8 rounded-full border border-gray-600 group-hover:border-racing-red transition-colors overflow-hidden bg-gray-800">
+        <div class="flex items-center gap-4 ml-4 pl-6 border-l border-white/10 h-8">
+          <a routerLink="/profile" class="flex items-center gap-3 cursor-pointer avatar-container relative group/prof">
+            <div class="absolute -inset-1 rounded-full border-2 border-transparent avatar-ring"></div>
+            <div class="relative w-9 h-9 rounded-full border-2 border-gray-700 group-hover/prof:border-white transition-colors overflow-hidden bg-black shadow-lg z-10">
               @if (userService.currentUser()?.profile_image_url) {
                 <img [src]="getPhotoUrl(userService.currentUser()?.profile_image_url)" class="w-full h-full object-cover">
               } @else {
-                <div class="w-full h-full flex items-center justify-center text-white font-bold text-xs">{{ getInitials(userService.currentUser()?.full_name) }}</div>
+                <div class="w-full h-full flex items-center justify-center text-white font-black text-sm">{{ getInitials(userService.currentUser()?.full_name) }}</div>
               }
             </div>
           </a>
-          <button (click)="logout()" class="text-gray-500 hover:text-white transition" title="Sair">
-            <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>
+          <button (click)="logout()" class="text-gray-500 hover:text-racing-red transition-all transform hover:scale-110" title="Abandonar Sessão">
+            <svg class="h-5 w-5 drop-shadow-md" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>
           </button>
         </div>
       </div>
 
-      <div class="flex items-center md:hidden gap-3">
-        <a routerLink="/profile" class="w-8 h-8 rounded-full border border-gray-600 overflow-hidden bg-gray-800">
-          @if (userService.currentUser()?.profile_image_url) {
-            <img [src]="getPhotoUrl(userService.currentUser()?.profile_image_url)" class="w-full h-full object-cover">
-          } @else {
-            <div class="w-full h-full flex items-center justify-center text-white font-bold text-xs">{{ getInitials(userService.currentUser()?.full_name) }}</div>
-          }
+      <div class="flex items-center md:hidden gap-4">
+        
+        <a routerLink="/profile" class="relative avatar-container w-9 h-9">
+          <div class="absolute -inset-1 rounded-full border border-transparent avatar-ring opacity-50"></div>
+          <div class="w-full h-full rounded-full border border-gray-600 overflow-hidden bg-black relative z-10 shadow-lg">
+            @if (userService.currentUser()?.profile_image_url) {
+              <img [src]="getPhotoUrl(userService.currentUser()?.profile_image_url)" class="w-full h-full object-cover">
+            } @else {
+              <div class="w-full h-full flex items-center justify-center text-white font-black text-sm">{{ getInitials(userService.currentUser()?.full_name) }}</div>
+            }
+          </div>
         </a>
-        <button (click)="toggleMenu()" class="text-gray-300 hover:text-white p-1 focus:outline-none">
-          <svg class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            @if (!isOpen()) { <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /> } 
-            @else { <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /> }
+
+        <button (click)="toggleMenu()" class="text-gray-400 hover:text-white p-2 focus:outline-none bg-black/40 rounded-xl border border-white/5 transition-colors">
+          <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            @if (!isOpen()) { <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 6h16M4 12h16M4 18h16" /> } 
+            @else { <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12" /> }
           </svg>
         </button>
       </div>
@@ -61,21 +74,37 @@
   </div>
 
   @if (isOpen()) {
-    <div class="md:hidden bg-racing-black border-t border-gray-800 animate-slide-down shadow-2xl">
-      <div class="px-2 pt-2 pb-3 space-y-1">
+    <div class="md:hidden mobile-menu-glass animate-[slideInDownFade_0.3s_ease-out_forwards] shadow-[0_20px_40px_rgba(0,0,0,0.9)] border-b border-racing-red/20 absolute w-full left-0 top-full">
+      <div class="px-4 py-6 space-y-2">
+        
         @if (userService.currentUser()?.is_admin) {
-          <a routerLink="/admin/dashboard" (click)="closeMenu()" class="text-purple-400 block px-3 py-3 rounded-md text-sm font-bold uppercase tracking-wider border border-purple-900/30 bg-purple-900/10 mb-2">🛡️ Painel Admin</a>
+          <a routerLink="/admin/dashboard" (click)="closeMenu()" class="text-purple-400 flex items-center gap-3 px-4 py-3.5 rounded-xl text-[10px] font-black uppercase tracking-[0.2em] border border-purple-500/30 bg-purple-900/10 mb-4 shadow-inner f1-clip-nav">
+            <span class="text-lg">🛡️</span> Direção de Prova
+          </a>
         }
-        <a routerLink="/dashboard" (click)="closeMenu()" routerLinkActive="bg-racing-red text-white" class="text-gray-300 hover:bg-gray-800 hover:text-white block px-3 py-3 rounded-md text-sm font-bold uppercase tracking-wider">🏠 Início</a>
-        <a routerLink="/ranking" (click)="closeMenu()" routerLinkActive="bg-racing-red text-white" class="text-gray-300 hover:bg-gray-800 hover:text-white block px-3 py-3 rounded-md text-sm font-bold uppercase tracking-wider">🏆 Ranking</a>
         
-        <a routerLink="/grid" (click)="closeMenu()" routerLinkActive="bg-racing-red text-white" class="text-gray-300 hover:bg-gray-800 hover:text-white block px-3 py-3 rounded-md text-sm font-bold uppercase tracking-wider">🏁 Grid F1</a>
-        <a routerLink="/rivals" (click)="closeMenu()" routerLinkActive="bg-racing-red text-white" class="text-gray-300 hover:bg-gray-800 hover:text-white block px-3 py-3 rounded-md text-sm font-bold uppercase tracking-wider">⚔️ Rivais</a>
-        <a routerLink="/my-team" (click)="closeMenu()" routerLinkActive="bg-racing-red text-white" class="text-gray-300 hover:bg-gray-800 hover:text-white block px-3 py-3 rounded-md text-sm font-bold uppercase tracking-wider">🏎️ Equipe</a>
+        <a routerLink="/dashboard" (click)="closeMenu()" routerLinkActive="bg-white/10 text-white border-l-4 border-l-racing-red" class="text-gray-400 flex items-center gap-3 hover:bg-white/5 hover:text-white px-4 py-3.5 rounded-r-xl text-[10px] font-black uppercase tracking-[0.2em] transition-all">
+          <span class="text-lg opacity-50">🏠</span> Paddock
+        </a>
+        <a routerLink="/ranking" (click)="closeMenu()" routerLinkActive="bg-white/10 text-white border-l-4 border-l-racing-red" class="text-gray-400 flex items-center gap-3 hover:bg-white/5 hover:text-white px-4 py-3.5 rounded-r-xl text-[10px] font-black uppercase tracking-[0.2em] transition-all">
+          <span class="text-lg opacity-50">🏆</span> Ranking Global
+        </a>
+        <a routerLink="/grid" (click)="closeMenu()" routerLinkActive="bg-white/10 text-white border-l-4 border-l-racing-red" class="text-gray-400 flex items-center gap-3 hover:bg-white/5 hover:text-white px-4 py-3.5 rounded-r-xl text-[10px] font-black uppercase tracking-[0.2em] transition-all">
+          <span class="text-lg opacity-50">🏁</span> Grid Oficial F1
+        </a>
+        <a routerLink="/rivals" (click)="closeMenu()" routerLinkActive="bg-white/10 text-white border-l-4 border-l-racing-red" class="text-gray-400 flex items-center gap-3 hover:bg-white/5 hover:text-white px-4 py-3.5 rounded-r-xl text-[10px] font-black uppercase tracking-[0.2em] transition-all">
+          <span class="text-lg opacity-50">⚔️</span> Radar de Rivais
+        </a>
+        <a routerLink="/my-team" (click)="closeMenu()" routerLinkActive="bg-white/10 text-white border-l-4 border-l-racing-red" class="text-gray-400 flex items-center gap-3 hover:bg-white/5 hover:text-white px-4 py-3.5 rounded-r-xl text-[10px] font-black uppercase tracking-[0.2em] transition-all">
+          <span class="text-lg opacity-50">🏎️</span> Minha Escuderia
+        </a>
         
-        <button (click)="logout()" class="w-full text-left text-red-500 hover:bg-red-900/10 block px-3 py-3 rounded-md text-sm font-bold uppercase tracking-wider mt-4 border-t border-gray-800">🚪 Sair</button>
+        <button (click)="logout()" class="w-full flex items-center justify-center gap-2 text-red-500 hover:text-white hover:bg-red-600 bg-red-900/10 px-4 py-4 rounded-xl text-[10px] font-black uppercase tracking-[0.2em] mt-6 border border-red-900/50 transition-all f1-clip-nav shadow-lg">
+          <span>🚪</span> Abandonar Sessão
+        </button>
       </div>
     </div>
   }
 </nav>
-<div class="h-16"></div>
+
+<div class="h-16 md:h-20"></div>

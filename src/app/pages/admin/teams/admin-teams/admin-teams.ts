@@ -10,16 +10,7 @@ import { environment } from '../../../../../environments/environment';
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './admin-teams.html',
-  styles: [`
-    .glass-panel {
-      background: rgba(20, 20, 20, 0.6);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      border-radius: 1rem;
-    }
-    .animate-slide-up { animation: slideUp 0.5s ease-out forwards; }
-    @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-  `]
+  styleUrl: './admin-teams.css'
 })
 export class AdminTeams implements OnInit {
   private adminService = inject(AdminService);

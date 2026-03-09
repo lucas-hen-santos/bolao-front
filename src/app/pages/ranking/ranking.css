@@ -1,85 +1,143 @@
-/* Animações de Entrada */
+/* =========================================
+   TEMA COCKPIT F1 - RANKING GLOBAL
+========================================= */
+
+/* Painel de Vidro Base */
+.glass-panel {
+    background: rgba(15, 15, 20, 0.6);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 1rem;
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
+}
+
+.glass-panel:hover {
+    transform: translateY(-4px) scale(1.01);
+    box-shadow: 0 20px 40px -5px rgba(0, 0, 0, 0.5);
+}
+
+/* Efeito de luz varrendo (Shimmer) */
+.glass-shimmer::after {
+    content: '';
+    position: absolute;
+    top: 0; left: -200%;
+    width: 50%; height: 100%;
+    background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.03) 50%, rgba(255,255,255,0) 100%);
+    transform: skewX(-20deg);
+    animation: shimmer-sweep 6s infinite linear;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* =========================================
+   DESTAQUES DO PÓDIO (TOP 3)
+========================================= */
+.podium-1 {
+    background: linear-gradient(to right, rgba(234, 179, 8, 0.15), rgba(15, 15, 20, 0.7));
+    border: 1px solid rgba(234, 179, 8, 0.4);
+    box-shadow: 0 0 25px rgba(234, 179, 8, 0.15);
+}
+.podium-1:hover {
+    border-color: rgba(234, 179, 8, 0.8);
+    box-shadow: 0 0 40px rgba(234, 179, 8, 0.3);
+}
+
+.podium-2 {
+    background: linear-gradient(to right, rgba(156, 163, 175, 0.15), rgba(15, 15, 20, 0.7));
+    border: 1px solid rgba(156, 163, 175, 0.3);
+}
+.podium-2:hover {
+    border-color: rgba(156, 163, 175, 0.6);
+    box-shadow: 0 0 30px rgba(156, 163, 175, 0.2);
+}
+
+.podium-3 {
+    background: linear-gradient(to right, rgba(194, 65, 12, 0.15), rgba(15, 15, 20, 0.7));
+    border: 1px solid rgba(194, 65, 12, 0.3);
+}
+.podium-3:hover {
+    border-color: rgba(194, 65, 12, 0.6);
+    box-shadow: 0 0 30px rgba(194, 65, 12, 0.2);
+}
+
+/* =========================================
+   KEYFRAMES CONTÍNUOS E ENTRADA
+========================================= */
+@keyframes shimmer-sweep {
+    0% { left: -100%; }
+    20% { left: 200%; }
+    100% { left: 200%; }
+}
+
 @keyframes slideInUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes slideInLeft {
-    from {
-        opacity: 0;
-        transform: translateX(-30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
+    from { opacity: 0; transform: translateX(-30px); }
+    to { opacity: 1; transform: translateX(0); }
 }
 
-@keyframes pulse-gold {
-    0%, 100% { box-shadow: 0 0 15px rgba(234, 179, 8, 0.2); }
-    50% { box-shadow: 0 0 25px rgba(234, 179, 8, 0.5); }
+@keyframes engineSpin {
+    0% { transform: rotate(0deg); border-top-color: #dc2626; }
+    50% { transform: rotate(180deg); border-top-color: #ef4444; }
+    100% { transform: rotate(360deg); border-top-color: #dc2626; }
 }
 
-/* Classes utilitárias usadas no HTML */
+@keyframes text-glow-pulse {
+    0% { text-shadow: 0 0 10px rgba(239, 68, 68, 0.3), 0 0 20px rgba(239, 68, 68, 0.1); }
+    100% { text-shadow: 0 0 20px rgba(239, 68, 68, 0.8), 0 0 40px rgba(239, 68, 68, 0.4); color: #fff; }
+}
+
 .animate-slide-up {
-    opacity: 0; /* Começa invisível para o delay funcionar */
+    opacity: 0;
     animation: slideInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 .animate-slide-left {
+    opacity: 0;
     animation: slideInLeft 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-/* Estilização dos Cards de Ranking */
-.ranking-card {
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+.animate-engine {
+    animation: engineSpin 1.2s cubic-bezier(0.6, 0.05, 0.28, 0.91) infinite;
 }
 
-.ranking-card:hover {
-    transform: translateY(-2px) scale(1.01);
-    background-color: rgba(255, 255, 255, 0.08);
-    border-color: rgba(255, 255, 255, 0.2);
-    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+.neon-text-pulse {
+    animation: text-glow-pulse 3s infinite alternate ease-in-out;
 }
 
-/* Destaques do Podium (Aplicar dinamicamente se quiser reforçar via CSS puro) */
-/* P1 - Ouro */
-.pos-1 {
-    border-color: rgba(234, 179, 8, 0.5) !important;
-    background: linear-gradient(90deg, rgba(234, 179, 8, 0.1), transparent) !important;
-    animation: pulse-gold 3s infinite;
+/* Scrollbar Refinada */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(239,68,68,0.5); }
+
+/* =========================================
+   LETREIRO MOBILE (MARQUEE INTELIGENTE)
+========================================= */
+.mask-right {
+    mask-image: linear-gradient(to right, black 75%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, black 75%, transparent 100%);
 }
 
-/* P2 - Prata */
-.pos-2 {
-    border-color: rgba(156, 163, 175, 0.5) !important;
-    background: linear-gradient(90deg, rgba(156, 163, 175, 0.1), transparent) !important;
+@keyframes marquee-loop {
+    /* Fica parado em 0% até dar 15% do tempo total da animação (Pausa de ~1.2s) */
+    0%, 15% { transform: translateX(0%); }
+    100% { transform: translateX(-50%); }
 }
 
-/* P3 - Bronze */
-.pos-3 {
-    border-color: rgba(194, 65, 12, 0.5) !important;
-    background: linear-gradient(90deg, rgba(194, 65, 12, 0.1), transparent) !important;
+.animate-marquee-fast {
+    animation: marquee-loop 8s linear infinite;
+    will-change: transform;
 }
 
-/* Ajuste fino na barra de scroll se a lista for longa */
-::-webkit-scrollbar {
-    width: 8px;
-}
-::-webkit-scrollbar-track {
-    background: #111; 
-}
-::-webkit-scrollbar-thumb {
-    background: #333; 
-    border-radius: 4px;
-}
-::-webkit-scrollbar-thumb:hover {
-    background: #ef4444; 
+.animate-marquee-slow {
+    animation: marquee-loop 12s linear infinite;
+    will-change: transform;
 }

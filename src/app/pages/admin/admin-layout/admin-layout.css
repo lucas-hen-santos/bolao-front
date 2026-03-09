@@ -1,0 +1,78 @@
+/* =========================================
+   TEMA PREMIUM F1 - LAYOUT DA DIREÇÃO (FULLSCREEN)
+========================================= */
+
+/* Sidebar Estilo Vidro Full Height */
+.admin-sidebar {
+    background: rgba(10, 10, 12, 0.9);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border-right: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 10px 0 30px rgba(0, 0, 0, 0.5);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    height: 100vh; /* Ocupa a tela toda */
+}
+
+/* Links de Navegação */
+.admin-nav-link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.85rem 1.25rem;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.75rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    border-radius: 0.75rem;
+    transition: all 0.3s ease;
+    margin-bottom: 0.4rem;
+    border: 1px solid transparent;
+}
+
+.admin-nav-link:hover {
+    color: white;
+    background: rgba(168, 85, 247, 0.1);
+    border-color: rgba(168, 85, 247, 0.2);
+    transform: translateX(5px);
+}
+
+/* Link Ativo com Neon Roxo */
+.admin-nav-link-active {
+    color: white;
+    background: linear-gradient(90deg, rgba(168, 85, 247, 0.25), transparent);
+    border-left: 4px solid #a855f7;
+    box-shadow: inset 5px 0 15px rgba(168, 85, 247, 0.15);
+    text-shadow: 0 0 10px rgba(168, 85, 247, 0.5);
+}
+
+/* Botão Sair Premium */
+.f1-clip-admin {
+    clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+}
+
+/* Scroll Customizado para a Main Content */
+.main-content {
+    height: 100vh;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #a855f7 #0a0a0c;
+}
+
+.main-content::-webkit-scrollbar { width: 6px; }
+.main-content::-webkit-scrollbar-track { background: #0a0a0c; }
+.main-content::-webkit-scrollbar-thumb { 
+    background: #374151; 
+    border-radius: 10px; 
+}
+.main-content::-webkit-scrollbar-thumb:hover { background: #a855f7; }
+
+/* Animação de Entrada */
+@keyframes slideInLeft {
+    from { opacity: 0; transform: translateX(-30px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+.animate-sidebar {
+    animation: slideInLeft 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}

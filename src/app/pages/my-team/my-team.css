@@ -1,40 +1,104 @@
-/* Efeitos de Vidro */
+/* =========================================
+   TEMA PREMIUM F1 - MINHA ESCUDERIA
+========================================= */
+
+/* Fundo Translúcido e Blur */
 .glass-panel {
-    background: rgba(17, 24, 39, 0.7);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 1rem;
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, border-color 0.3s ease;
+    background: rgba(10, 10, 12, 0.7);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.8);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
 }
 
 .glass-panel:hover {
     transform: translateY(-2px);
-    border-color: rgba(220, 38, 38, 0.3);
+    box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.6);
 }
 
-/* Animações */
-@keyframes slideUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+/* Corte Diagonal Clássico da F1 */
+.f1-clip {
+    clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px);
+}
+.f1-clip-button {
+    clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
 }
 
-.animate-slide-up {
-    animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+/* Efeito de Varredura de Luz */
+.glass-shimmer::after {
+    content: '';
+    position: absolute;
+    top: 0; left: -200%;
+    width: 50%; height: 100%;
+    background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.04) 50%, rgba(255,255,255,0) 100%);
+    transform: skewX(-20deg);
+    animation: shimmer-sweep 7s infinite linear;
+    pointer-events: none;
+    z-index: 0;
 }
 
-/* Barra de Progresso */
+/* Barra de Progresso - Estilo Telemetria/RPM */
 .progress-bar-container {
-    background: #333;
-    border-radius: 9999px;
-    height: 8px;
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    height: 12px;
     overflow: hidden;
     position: relative;
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.8);
 }
 
 .progress-fill {
     height: 100%;
-    border-radius: 9999px;
     transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+    background-image: linear-gradient(45deg, rgba(255,255,255,0.15) 25%, transparent 25%, transparent 50%, rgba(255,255,255,0.15) 50%, rgba(255,255,255,0.15) 75%, transparent 75%, transparent);
+    background-size: 1rem 1rem;
+    animation: stripe-roll 1s linear infinite;
+    box-shadow: 0 0 10px currentColor;
+}
+
+/* =========================================
+   ANIMAÇÕES E KEYFRAMES
+========================================= */
+@keyframes shimmer-sweep {
+    0% { left: -100%; }
+    20% { left: 200%; }
+    100% { left: 200%; }
+}
+
+@keyframes stripe-roll {
+    from { background-position: 1rem 0; }
+    to { background-position: 0 0; }
+}
+
+@keyframes slideInUpFade {
+    from { opacity: 0; transform: translateY(40px); filter: blur(5px); }
+    to { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+
+@keyframes engineSpin {
+    0% { transform: rotate(0deg); border-top-color: #dc2626; }
+    50% { transform: rotate(180deg); border-top-color: #ef4444; }
+    100% { transform: rotate(360deg); border-top-color: #dc2626; }
+}
+
+@keyframes neon-pulse {
+    0% { text-shadow: 0 0 10px rgba(239, 68, 68, 0.4), 0 0 20px rgba(239, 68, 68, 0.2); }
+    100% { text-shadow: 0 0 20px rgba(239, 68, 68, 0.8), 0 0 40px rgba(239, 68, 68, 0.5); color: #fff; }
+}
+
+.animate-slide-up {
+    opacity: 0;
+    animation: slideInUpFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-engine {
+    animation: engineSpin 1.2s cubic-bezier(0.6, 0.05, 0.28, 0.91) infinite;
+}
+
+.neon-text-pulse {
+    animation: neon-pulse 2.5s infinite alternate ease-in-out;
 }
