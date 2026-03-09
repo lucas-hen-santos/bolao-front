@@ -1,6 +1,6 @@
 {
-  "name": "bolao-ta-potente",
-  "short_name": "bolao-ta-potente",
+  "name": "Bolão Tá Potente F1",
+  "short_name": "Bolão TPT",
   "display": "standalone",
   "scope": "./",
   "start_url": "./",
