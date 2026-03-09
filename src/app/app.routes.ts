@@ -45,7 +45,7 @@ export const routes: Routes = [
     path: '',
     canActivate: [authGuard],
     children: [
-      { path: 'dashboard', component: Dashboard, title: 'Dashboard' },
+      { path: 'dashboard', component: Dashboard, title: 'Paddock' },
       { path: 'bet-maker', component: BetMaker, title: 'Fazer Palpite' },
       { path: 'ranking', component: Ranking, title: 'Ranking Oficial' },
       { path: 'my-team', component: MyTeam, title: 'Minha Equipe' },
