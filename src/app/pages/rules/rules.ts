@@ -29,7 +29,7 @@ export class Rules {
     },
     {
       q: "Se eu sair da equipe, levo meus pontos?",
-      a: "Não. Os pontos conquistados ficam com a equipe (Campeonato de Construtores). Ao sair, eles são debitados do total da equipe, mas não são transferidos para uma nova."
+      a: "Sim, os pontos serão somados ao total de sua nova equipe. Se ficar sozinho, seus pontos continuam contando normalmente."
     }
   ];
 
