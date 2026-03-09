@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output, inject, OnInit } from '@angular
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { BetService } from '../../services/bet';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-result-viewer',
@@ -114,7 +115,8 @@ export class ResultViewerComponent implements OnInit {
   }
 
   loadResult() {
-    this.http.get<any>(`/api/v1/races/${this.raceId}/result`).subscribe({
+    // Adicionado o ${environment.apiUrl} na URL
+    this.http.get<any>(`${environment.apiUrl}/races/${this.raceId}/result`).subscribe({
       next: (data) => {
         this.raceData = data;
         this.isLoading = false;
