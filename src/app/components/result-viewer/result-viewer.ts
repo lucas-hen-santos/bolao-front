@@ -9,82 +9,150 @@ import { environment } from '../../../environments/environment';
   standalone: true,
   imports: [CommonModule],
   template: `
-    <div class="fixed inset-0 z-[200] flex items-center justify-center p-4">
-      <div class="absolute inset-0 bg-black/90 backdrop-blur-sm" (click)="close.emit()"></div>
+    <div class="fixed inset-0 z-[200] flex items-center justify-center p-2 md:p-4">
+      <div class="absolute inset-0 bg-black/80 backdrop-blur-sm animate-fade-in" (click)="close.emit()"></div>
       
-      <div class="bg-racing-dark border border-gray-700 rounded-xl w-full max-w-2xl relative z-10 shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+      <div class="bg-gradient-to-br from-gray-900 via-black to-[#0a0a0a] border border-gray-700 rounded-2xl w-full max-w-3xl relative z-10 shadow-2xl overflow-hidden flex flex-col max-h-[95vh] md:max-h-[90vh] animate-slide-up">
         
-        <div class="bg-black p-4 flex justify-between items-center border-b border-gray-800">
-          <h3 class="text-white font-bold uppercase italic flex items-center gap-2">
-            <span class="text-2xl">🏁</span> Resultado Oficial
-          </h3>
-          <button (click)="close.emit()" class="text-gray-500 hover:text-white text-2xl">&times;</button>
+        <div class="bg-white/5 p-4 md:p-6 flex justify-between items-center border-b border-white/10 backdrop-blur-md">
+          <div class="flex items-center gap-3">
+             <div class="w-10 h-10 rounded-full bg-racing-red/20 flex items-center justify-center border border-racing-red/30 shadow-[0_0_15px_rgba(239,68,68,0.2)]">
+                <span class="text-xl">🏁</span>
+             </div>
+             <div>
+               <h3 class="text-white font-black uppercase tracking-widest leading-none">Resultado Oficial</h3>
+               <p class="text-gray-400 text-[10px] md:text-xs font-mono uppercase mt-1">Gabarito da Etapa</p>
+             </div>
+          </div>
+          <button (click)="close.emit()" class="text-gray-500 hover:text-white bg-black/50 hover:bg-racing-red/80 rounded-full w-10 h-10 flex items-center justify-center transition-all border border-gray-800 hover:border-racing-red group">
+            <span class="text-2xl font-bold group-hover:scale-110 transition-transform">&times;</span>
+          </button>
         </div>
 
-        <div class="overflow-y-auto p-6 space-y-6" *ngIf="!isLoading; else loading">
+        <div class="overflow-y-auto p-4 md:p-8 space-y-8 scrollbar-hide" *ngIf="!isLoading; else loading">
           
-          <div class="text-center mb-6">
-            <h2 class="text-2xl font-black text-white uppercase">{{ raceData?.race?.name }}</h2>
-            <p class="text-gray-500">{{ raceData?.race?.country }}</p>
+          <div class="text-center relative animate-slide-up" style="animation-delay: 0.1s;">
+            <div class="absolute inset-0 bg-racing-red/5 blur-3xl rounded-full"></div>
+            <h2 class="text-3xl md:text-5xl font-black text-white italic uppercase tracking-tighter drop-shadow-lg relative z-10 leading-none">
+              {{ raceData?.race?.name }}
+            </h2>
+            <p class="text-gray-400 font-bold uppercase tracking-widest text-xs md:text-sm mt-3 flex items-center justify-center gap-2 relative z-10">
+              <span class="text-racing-red">📍</span> {{ raceData?.race?.country }}
+            </p>
           </div>
 
           @if (raceData?.result) {
-            <div class="flex justify-center items-end gap-4 mb-8">
-              <div class="text-center">
-                <div class="text-gray-400 text-xs mb-1">2º Lugar</div>
-                <div class="w-16 h-24 bg-gray-800 border-t-4 border-gray-400 rounded-t-lg flex items-center justify-center">
-                  <div class="font-bold text-white">{{ getDriverName(raceData.result.p2_driver_id) }}</div>
+            <div class="flex justify-center items-end gap-2 md:gap-6 mt-8 mb-12">
+              
+              <div class="flex flex-col items-center w-28 md:w-32 animate-slide-up" style="animation-delay: 0.2s;">
+                <div class="text-gray-300 font-bold text-center mb-2 flex flex-col items-center">
+                  <span class="text-[10px] md:text-xs uppercase tracking-widest text-gray-500">P2</span>
+                  <span class="text-xs md:text-sm truncate w-full px-1">{{ getDriverName(raceData.result.p2_driver_id) }}</span>
+                </div>
+                <div class="w-full h-24 md:h-32 bg-gradient-to-t from-gray-900 to-gray-800 border-t-4 border-gray-400 rounded-t-xl shadow-[0_-5px_15px_rgba(156,163,175,0.1)] flex items-end justify-center pb-2 md:pb-4 relative overflow-hidden group">
+                  <div class="absolute inset-0 bg-white/0 group-hover:bg-white/5 transition-colors"></div>
+                  <span class="text-4xl font-black text-white/10 italic">2</span>
                 </div>
               </div>
-              <div class="text-center">
-                <div class="text-yellow-500 text-xs mb-1 font-bold">VENCEDOR</div>
-                <div class="w-20 h-32 bg-gray-800 border-t-4 border-yellow-500 rounded-t-lg flex items-center justify-center relative shadow-[0_0_15px_rgba(234,179,8,0.3)]">
-                  <div class="font-bold text-white text-lg">{{ getDriverName(raceData.result.p1_driver_id) }}</div>
+
+              <div class="flex flex-col items-center w-32 md:w-40 z-10 animate-slide-up relative" style="animation-delay: 0.3s;">
+                <div class="absolute -top-8 md:-top-10 text-xl md:text-3xl animate-bounce drop-shadow-[0_0_10px_rgba(250,204,21,0.5)]">👑</div>
+                <div class="text-yellow-400 font-bold text-center mb-2 flex flex-col items-center">
+                  <span class="text-[10px] md:text-xs uppercase tracking-widest text-yellow-600 font-black">Vencedor</span>
+                  <span class="text-sm md:text-base truncate w-full px-1 drop-shadow-md">{{ getDriverName(raceData.result.p1_driver_id) }}</span>
+                </div>
+                <div class="w-full h-32 md:h-40 bg-gradient-to-t from-yellow-900/30 to-yellow-600/30 border-t-4 border-yellow-400 rounded-t-xl shadow-[0_-10px_25px_rgba(250,204,21,0.2)] flex items-end justify-center pb-2 md:pb-4 backdrop-blur-sm relative overflow-hidden group">
+                  <div class="absolute inset-0 bg-white/0 group-hover:bg-white/10 transition-colors"></div>
+                  <span class="text-5xl font-black text-yellow-400/20 italic">1</span>
                 </div>
               </div>
-              <div class="text-center">
-                <div class="text-orange-700 text-xs mb-1">3º Lugar</div>
-                <div class="w-16 h-20 bg-gray-800 border-t-4 border-orange-700 rounded-t-lg flex items-center justify-center">
-                  <div class="font-bold text-white">{{ getDriverName(raceData.result.p3_driver_id) }}</div>
+
+              <div class="flex flex-col items-center w-28 md:w-32 animate-slide-up" style="animation-delay: 0.4s;">
+                <div class="text-orange-400 font-bold text-center mb-2 flex flex-col items-center">
+                  <span class="text-[10px] md:text-xs uppercase tracking-widest text-orange-700">P3</span>
+                  <span class="text-xs md:text-sm truncate w-full px-1">{{ getDriverName(raceData.result.p3_driver_id) }}</span>
+                </div>
+                <div class="w-full h-20 md:h-28 bg-gradient-to-t from-orange-900/30 to-orange-800/30 border-t-4 border-orange-500 rounded-t-xl shadow-[0_-5px_15px_rgba(249,115,22,0.1)] flex items-end justify-center pb-2 md:pb-4 backdrop-blur-sm relative overflow-hidden group">
+                  <div class="absolute inset-0 bg-white/0 group-hover:bg-white/5 transition-colors"></div>
+                  <span class="text-4xl font-black text-orange-500/20 italic">3</span>
                 </div>
               </div>
+
             </div>
 
-            <div class="grid grid-cols-3 gap-4 mb-6">
-              <div class="bg-black/30 p-3 rounded border border-gray-800 text-center">
-                <div class="text-[10px] text-gray-500 uppercase">Pole Position</div>
-                <div class="text-racing-red font-bold">{{ getDriverName(raceData.result.pole_driver_id) }}</div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4 mb-8">
+              
+              <div class="bg-black/40 border border-gray-800 p-4 rounded-xl flex items-center gap-4 hover:border-racing-red/50 hover:bg-black/60 transition-all group animate-slide-up" style="animation-delay: 0.5s;">
+                <div class="w-10 h-10 rounded-full bg-purple-500/10 flex items-center justify-center border border-purple-500/30 group-hover:scale-110 transition-transform shadow-[0_0_10px_rgba(168,85,247,0.2)]">
+                  <span class="text-purple-400 text-lg">⏱️</span>
+                </div>
+                <div class="overflow-hidden">
+                  <div class="text-[9px] text-gray-500 uppercase font-bold tracking-widest mb-0.5">Pole Position</div>
+                  <div class="text-white font-black truncate text-sm">{{ getDriverName(raceData.result.pole_driver_id) }}</div>
+                </div>
               </div>
-              <div class="bg-black/30 p-3 rounded border border-gray-800 text-center">
-                <div class="text-[10px] text-gray-500 uppercase">Piloto do Dia</div>
-                <div class="text-racing-red font-bold">{{ getDriverName(raceData.result.dotd_driver_id) }}</div>
+
+              <div class="bg-black/40 border border-gray-800 p-4 rounded-xl flex items-center gap-4 hover:border-racing-red/50 hover:bg-black/60 transition-all group animate-slide-up" style="animation-delay: 0.6s;">
+                <div class="w-10 h-10 rounded-full bg-blue-500/10 flex items-center justify-center border border-blue-500/30 group-hover:scale-110 transition-transform shadow-[0_0_10px_rgba(59,130,246,0.2)]">
+                  <span class="text-blue-400 text-lg">🌟</span>
+                </div>
+                <div class="overflow-hidden">
+                  <div class="text-[9px] text-gray-500 uppercase font-bold tracking-widest mb-0.5">Piloto do Dia</div>
+                  <div class="text-white font-black truncate text-sm">{{ getDriverName(raceData.result.dotd_driver_id) }}</div>
+                </div>
               </div>
-              <div class="bg-black/30 p-3 rounded border border-gray-800 text-center">
-                <div class="text-[10px] text-gray-500 uppercase">Equipe Vencedora</div>
-                <div class="text-racing-red font-bold">{{ getTeamName(raceData.result.winning_team_id) }}</div>
+
+              <div class="bg-black/40 border border-gray-800 p-4 rounded-xl flex items-center gap-4 hover:border-racing-red/50 hover:bg-black/60 transition-all group animate-slide-up" style="animation-delay: 0.7s;">
+                <div class="w-10 h-10 rounded-full bg-green-500/10 flex items-center justify-center border border-green-500/30 group-hover:scale-110 transition-transform shadow-[0_0_10px_rgba(34,197,94,0.2)]">
+                  <span class="text-green-400 text-lg">🛡️</span>
+                </div>
+                <div class="overflow-hidden">
+                  <div class="text-[9px] text-gray-500 uppercase font-bold tracking-widest mb-0.5">Equipe Vencedora</div>
+                  <div class="text-white font-black truncate text-sm">{{ getTeamName(raceData.result.winning_team_id) }}</div>
+                </div>
               </div>
+
             </div>
 
-            <div class="bg-black/20 rounded border border-gray-800">
-              @for (pos of [4,5,6,7,8,9,10]; track pos) {
-                <div class="flex items-center p-2 border-b border-gray-800 last:border-0 text-sm">
-                  <span class="w-8 text-center text-gray-500 font-mono">P{{pos}}</span>
-                  <span class="text-white ml-2">{{ getDriverByPos(pos) }}</span>
-                </div>
-              }
+            <div class="bg-white/5 border border-white/10 rounded-2xl overflow-hidden backdrop-blur-md animate-slide-up" style="animation-delay: 0.8s;">
+              <div class="bg-black/40 p-3 md:p-4 border-b border-white/5">
+                <h4 class="text-gray-400 text-[10px] md:text-xs font-bold uppercase tracking-widest text-center flex items-center justify-center gap-2">
+                  <span class="w-8 h-[1px] bg-gray-600"></span>
+                  Restante do Top 10
+                  <span class="w-8 h-[1px] bg-gray-600"></span>
+                </h4>
+              </div>
+              
+              <div class="divide-y divide-white/5">
+                @for (pos of [4,5,6,7,8,9,10]; track pos; let i = $index) {
+                  <div class="flex items-center p-3 md:p-4 hover:bg-white/5 transition-colors group">
+                    <div class="w-10 md:w-14 text-center">
+                      <span class="text-gray-500 font-black italic text-base md:text-lg group-hover:text-racing-red transition-colors">P{{pos}}</span>
+                    </div>
+                    <div class="w-1 h-5 md:h-6 bg-gray-800 rounded-full mx-2 md:mx-4 group-hover:bg-racing-red transition-colors"></div>
+                    <span class="text-gray-300 font-bold text-sm md:text-base group-hover:text-white transition-colors truncate">{{ getDriverByPos(pos) }}</span>
+                  </div>
+                }
+              </div>
             </div>
 
           } @else {
-            <div class="text-center py-10 text-gray-500">
-              Resultado ainda não disponível.
+            <div class="flex flex-col items-center justify-center py-16 md:py-24 text-center">
+              <span class="text-6xl md:text-7xl mb-6 grayscale opacity-20 filter drop-shadow-lg">🏁</span>
+              <h3 class="text-2xl font-black text-white uppercase italic tracking-tight">Gabarito Pendente</h3>
+              <p class="text-gray-500 text-sm mt-2 max-w-xs mx-auto">A FIA ainda não liberou os resultados oficiais desta corrida. Volte mais tarde.</p>
             </div>
           }
 
         </div>
 
         <ng-template #loading>
-          <div class="flex justify-center items-center h-64">
-            <div class="animate-spin rounded-full h-10 w-10 border-t-2 border-racing-red"></div>
+          <div class="flex flex-col justify-center items-center h-[50vh] md:h-[60vh]">
+            <div class="relative">
+              <div class="w-16 md:w-20 h-16 md:h-20 border-4 border-gray-800 rounded-full"></div>
+              <div class="w-16 md:w-20 h-16 md:h-20 border-4 border-racing-red rounded-full animate-spin border-t-transparent absolute top-0 left-0"></div>
+            </div>
+            <p class="text-gray-500 mt-6 font-bold tracking-widest uppercase text-[10px] md:text-xs animate-pulse">Processando Telemetria...</p>
           </div>
         </ng-template>
 
@@ -115,7 +183,7 @@ export class ResultViewerComponent implements OnInit {
   }
 
   loadResult() {
-    // Adicionado o ${environment.apiUrl} na URL
+    // URL corrigida apontando para a API real
     this.http.get<any>(`${environment.apiUrl}/races/${this.raceId}/result`).subscribe({
       next: (data) => {
         this.raceData = data;
