@@ -10,7 +10,8 @@ import { ToastService } from '../../../services/toast';
   selector: 'app-reset-password',
   standalone: true,
   imports: [CommonModule, FormsModule, RouterModule],
-  templateUrl: './reset-password.html'
+  templateUrl: './reset-password.html',
+  styleUrl: './reset-password.css'
 })
 export class ResetPassword implements OnInit {
   private authService = inject(AuthService);
