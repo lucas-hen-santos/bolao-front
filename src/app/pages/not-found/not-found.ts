@@ -7,7 +7,7 @@ import { Footer } from '../../components/footer/footer';
 @Component({
   selector: 'app-not-found',
   standalone: true,
-  imports: [CommonModule, RouterModule, Navbar, Footer],
+  imports: [CommonModule, RouterModule],
   templateUrl: './not-found.html',
   styleUrl: './not-found.css'
 })
