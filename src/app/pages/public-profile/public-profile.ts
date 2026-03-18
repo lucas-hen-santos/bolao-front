@@ -23,8 +23,8 @@ export class PublicProfile implements OnInit {
   private achievementService = inject(AchievementService);
   private rivalryService = inject(RivalryService);
   private toast = inject(ToastService);
-
-  readonly API_URL = environment.imageBaseUrl;
+  
+  readonly API_URL = environment.imageBaseUrl; 
 
   user: any = null;
   currentUser: any = null;
@@ -57,40 +57,45 @@ export class PublicProfile implements OnInit {
       error: () => this.isLoading = false
     });
   }
-  loadRivalryHistory(userId: number) {
-    this.rivalryService.getUserRivalryHistory(userId).subscribe(history => {
-      this.rivalryHistory = history;
+loadRivalryHistory(userId: number) {
+  this.rivalryService.getUserHistory(userId).subscribe(history => {
+    this.rivalryHistory = history;
+    
+    // 1. Resetando os contadores incluindo o campo 'total' para evitar erro de tipo
+    this.rivalryStats = { wins: 0, losses: 0, draws: 0, total: 0 };
 
-      // Resetando os contadores antes de calcular
-      this.rivalryStats = { wins: 0, losses: 0, draws: 0 };
+    // 2. Adicionando tipo 'any' ao parâmetro para satisfazer o compilador
+    history.forEach((rivalry: any) => {
+      // Identificar se o dono do perfil é o desafiante ou o desafiado
+      const isChallenger = rivalry.challenger_id === userId;
+      
+      // Pegar os pontos de cada um com base nisso
+      const userPoints = isChallenger ? rivalry.challenger_points : rivalry.opponent_points;
+      const opponentPoints = isChallenger ? rivalry.opponent_points : rivalry.challenger_points;
 
-      history.forEach(rivalry => {
-        // 1. Identificar se o dono do perfil é o desafiante ou o desafiado
-        const isChallenger = rivalry.challenger_id === userId;
+      // Incrementar o total de duelos
+      this.rivalryStats.total++;
 
-        // 2. Pegar os pontos de cada um com base nisso
-        const userPoints = isChallenger ? rivalry.challenger_points : rivalry.opponent_points;
-        const opponentPoints = isChallenger ? rivalry.opponent_points : rivalry.challenger_points;
-
-        // 3. Comparar corretamente
-        if (userPoints > opponentPoints) {
-          this.rivalryStats.wins++;
-        } else if (userPoints < opponentPoints) {
-          this.rivalryStats.losses++;
-        } else {
-          this.rivalryStats.draws++;
-        }
-      });
+      // Comparar corretamente
+      if (userPoints > opponentPoints) {
+        this.rivalryStats.wins++;
+      } else if (userPoints < opponentPoints) {
+        this.rivalryStats.losses++;
+      } else {
+        this.rivalryStats.draws++;
+      }
     });
-  }
+  });
+}
+
   challengeUser() {
     if (!this.user || !this.currentUser) return;
     if (this.user.id === this.currentUser.id) { this.toast.show("Você não pode desafiar a si mesmo.", 'error'); return; }
     if (!this.confirmChallenge) { this.confirmChallenge = true; setTimeout(() => this.confirmChallenge = false, 3000); return; }
     this.isChallenging = true; this.confirmChallenge = false;
     this.rivalryService.createChallenge(this.user.id).subscribe({
-      next: () => { this.toast.show(`Desafio enviado para ${this.user.name}! ⚔️`, 'success'); this.isChallenging = false; },
-      error: (e) => { this.toast.show(e.error?.detail || "Erro ao desafiar.", 'error'); this.isChallenging = false; }
+        next: () => { this.toast.show(`Desafio enviado para ${this.user.name}! ⚔️`, 'success'); this.isChallenging = false; },
+        error: (e) => { this.toast.show(e.error?.detail || "Erro ao desafiar.", 'error'); this.isChallenging = false; }
     });
   }
 
@@ -98,7 +103,7 @@ export class PublicProfile implements OnInit {
   get displayedBadges() { const locked = this.getLockedBadges(); const allItems = [...this.userBadges, ...locked]; return this.isBadgesExpanded ? allItems : allItems.slice(0, this.badgesLimit); }
   get hasMoreBadges() { return (this.userBadges.length + this.getLockedBadges().length) > this.badgesLimit; }
   toggleBadgesView() { this.isBadgesExpanded = !this.isBadgesExpanded; }
-
+  
   getPhotoUrl(url: string | null): string {
     if (!url) return '';
     if (url.startsWith('http')) return url;
@@ -118,7 +123,7 @@ export class PublicProfile implements OnInit {
     };
     return colors[color] || colors['gold'];
   }
-
+  
   getRivalName(rivalry: any): string { const opponent = rivalry.challenger_id === this.user.id ? rivalry.opponent : rivalry.challenger; return opponent ? opponent.full_name : 'Desconhecido'; }
   getRivalResultClass(rivalry: any): string { if (rivalry.winner_id === this.user.id) return 'text-green-500'; if (rivalry.winner_id === null) return 'text-gray-400'; return 'text-red-500'; }
   getRivalResultLabel(rivalry: any): string { if (rivalry.winner_id === this.user.id) return 'VIT'; if (rivalry.winner_id === null) return 'EMP'; return 'DER'; }
